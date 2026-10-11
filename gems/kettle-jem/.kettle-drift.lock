@@ -129,24 +129,6 @@
       ]
     }
   ],
-  "id: bundleAppraisalAttempt2\nif: ${{ !env.ACT && steps.bundleAppraisalAttempt1.outcome == 'failure' }}": [
-    {
-      "file": ".github/workflows/heads.yml",
-      "lines": [
-        132,
-        190
-      ]
-    }
-  ],
-  "run: bundle exec appraisal ${{ matrix.appraisal }} install\ncontinue-on-error: true": [
-    {
-      "file": ".github/workflows/heads.yml",
-      "lines": [
-        128,
-        186
-      ]
-    }
-  ],
   "scope = \"global\"\nvalue = \"true\"": [
     {
       "file": ".structuredmerge/git-drivers.toml",

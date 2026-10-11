@@ -87,8 +87,8 @@ Please file a bug if you notice a violation of semantic versioning.
   - github/codeql-action/init v4.38.2 (2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2) -> v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d)
   - ruby/setup-ruby v1.327.0 (14594264cd68ce8a2345dd349bc3d138a4ef85c8) -> v1.328.0 (e81a8fa391b11a595c1b7ed84177cc0fe02faf83)
 
-- [kc] kettle-jem/prepare: updated 13 project files:
-  - dependencies (13)
+- [kc] kettle-jem/prepare: updated 14 project files:
+  - dependencies (14)
 
 - [kc] kettle-jem/template: updated 12 project files:
   - code and tests (1)
