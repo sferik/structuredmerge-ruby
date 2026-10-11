@@ -3,8 +3,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        89,
-        608
+        90,
+        609
       ]
     }
   ],
@@ -12,31 +12,12 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        462,
-        611
+        463,
+        612
       ]
     }
   ],
   "- [kc] kettle-jem/template: updated 398 project files:\n- code and tests (20)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        480,
-        548
-      ]
-    }
-  ],
-  "- code and tests (1)\n- dependencies (1)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        463,
-        612,
-        702
-      ]
-    }
-  ],
-  "- code and tests (20)\n- configuration (12)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -45,7 +26,17 @@
       ]
     }
   ],
-  "- configuration (12)\n- dependencies (147)": [
+  "- code and tests (1)\n- dependencies (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        464,
+        613,
+        703
+      ]
+    }
+  ],
+  "- code and tests (20)\n- configuration (12)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -54,16 +45,7 @@
       ]
     }
   ],
-  "- dependencies (1)\n- other (1)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        464,
-        613
-      ]
-    }
-  ],
-  "- dependencies (147)\n- documentation (9)": [
+  "- configuration (12)\n- dependencies (147)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -72,7 +54,16 @@
       ]
     }
   ],
-  "- documentation (9)\n- other (123)": [
+  "- dependencies (1)\n- other (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        465,
+        614
+      ]
+    }
+  ],
+  "- dependencies (147)\n- documentation (9)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -81,12 +72,21 @@
       ]
     }
   ],
-  "- other (123)\n- workflows (87)": [
+  "- documentation (9)\n- other (123)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
         485,
         553
+      ]
+    }
+  ],
+  "- other (123)\n- workflows (87)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        486,
+        554
       ]
     }
   ],
