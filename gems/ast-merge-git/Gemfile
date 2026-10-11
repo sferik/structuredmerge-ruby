@@ -136,6 +136,37 @@ unless direct_sibling_local || direct_sibling_templating
   end
 end
 
+# Provider gems must also be present in templating-mode bundles. The typed
+# core CI (ci_core.gemfile) and kettle-jem templating run with
+# K_JEM_TEMPLATING=true, and spec/real_git_integration_spec.rb requires every
+# provider at load time; without this branch those bundles omit the providers
+# and the suite dies with `cannot load such file -- commonmarker/merge`.
+# (This branch is what the 2026-10-04 templating re-lock silently dropped
+# from Gemfile.lock and templating_local.gemfile.) Providers resolve as
+# sibling paths under STRUCTUREDMERGE_DEV, so partial family releases cannot
+# break resolution. Matches both templating flavors: STRUCTUREDMERGE_DEV set
+# (CI / local dev) or unset (the templating bootstrap self-derives it).
+if direct_sibling_templating
+  provider_dev_was_set = ENV.key?('STRUCTUREDMERGE_DEV')
+  provider_dev_original = ENV.fetch('STRUCTUREDMERGE_DEV', nil)
+  begin
+    ENV['STRUCTUREDMERGE_DEV'] = File.expand_path('..', __dir__) unless provider_dev_was_set
+
+    eval_nomono_gems(
+      gems: provider_gems,
+      prefix: 'STRUCTUREDMERGE',
+      path_env: 'STRUCTUREDMERGE_DEV',
+      root: %w[src my structuredmerge ruby gems]
+    )
+  ensure
+    if provider_dev_was_set
+      ENV['STRUCTUREDMERGE_DEV'] = provider_dev_original
+    else
+      ENV.delete('STRUCTUREDMERGE_DEV')
+    end
+  end
+end
+
 # Templating and the StructuredMerge family share this modular Gemfile.
 # kettle-jem needs StructuredMerge to template, and kettle-changelog needs it at
 # runtime (ast-crispr-markdown-markly -> markdown-merge -> tree_haver), so the
