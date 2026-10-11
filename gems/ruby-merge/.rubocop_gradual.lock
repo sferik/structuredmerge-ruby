@@ -1,9 +1,9 @@
 {
-  "Rakefile:230559864": [
+  "Rakefile:3005928567": [
     [18, 121, 17, "Layout/LineLength: Line is too long. [137/120]", 174264873],
-    [81, 3, 1023, "Metrics/BlockLength: Block has too many lines. [32/25]", 54868638],
-    [165, 121, 22, "Layout/LineLength: Line is too long. [142/120]", 1367093088],
-    [168, 121, 18, "Layout/LineLength: Line is too long. [138/120]", 3881946477]
+    [87, 3, 1023, "Metrics/BlockLength: Block has too many lines. [32/25]", 54868638],
+    [171, 121, 22, "Layout/LineLength: Line is too long. [142/120]", 1367093088],
+    [174, 121, 18, "Layout/LineLength: Line is too long. [138/120]", 3881946477]
   ],
   "lib/ruby/merge.rb:612213589": [
     [151, 5, 73, "Lint/ShadowedException: Do not shadow rescued Exceptions.", 2046499071]
