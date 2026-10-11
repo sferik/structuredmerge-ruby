@@ -470,7 +470,7 @@ files:
     recipe: template_source_application_simplecov
     action: write
     dest_sha256: f70c7e365789684e5272e4268fbcd62914661e2c53d2f2dccb61eee0c9f04c79
-    input_fingerprint: 3a48bc08b7b2324d8dda4ac21e6ec8067dc36241a53d83681fb3f90aae253ece
+    input_fingerprint: 1a6e1f61a4f020343605e9245f39cda0afcaf548a46a7e270eec5ddbea0188ea
     template_sources:
     - ".simplecov.example"
   ".structuredmerge/git-drivers.toml":
@@ -519,7 +519,7 @@ files:
     recipe: template_source_application_AGPL_3_0_only_md
     action: write
     dest_sha256: d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee
-    input_fingerprint: 8d8d38b698a2a4e17ec393ebc9b7c2b025da01ba1ef7f0c67c22ec56b9fa93d8
+    input_fingerprint: 8c2e747865123fb786ea05d2b9fd782f07f463ca10789f2e43fe00a6eb7242f9
     template_sources:
     - AGPL-3.0-only.md.example
   Appraisal.root.gemfile:
@@ -589,21 +589,21 @@ files:
     recipe: template_source_application_LICENSE_md
     action: write
     dest_sha256: f6188bfd474a636d2a526420ebb411250faa447d94c9b9ccee097128ce4101b5
-    input_fingerprint: 2140f22548662d928871c61cfd50dcf51756a1def370ecd857c0528d9248b8ab
+    input_fingerprint: a2f6b6592f12af9985ca958f1bd7c1d71cf20aa9da9d335f9b2e0539b4211f7e
     template_sources:
     - LICENSE.md.example
   PolyForm-Small-Business-1.0.0.md:
     recipe: template_source_application_PolyForm_Small_Business_1_0_0_md
     action: write
     dest_sha256: 2f81e317d36f83a199c9fa10bcb250775fd90510303eaeb15aac2d8f0c1fc2d6
-    input_fingerprint: f110150ff8c66646bd453ce8e5a9b322a9add0a3761ac9d2d2e066700a70d422
+    input_fingerprint: 7f67826a7191c0a75d35a5092a5aaa8e1b7e2d106fa3375e53afa6b039625388
     template_sources:
     - PolyForm-Small-Business-1.0.0.md.example
   README.md:
     recipe: template_source_application_README_md
     action: write
     dest_sha256: c970833766d94ed6e4ae5628f79b9b07104583397e66c6fd9eb0c9546b55cc47
-    input_fingerprint: 55cc3399cbab80358fac30d9bcd4522e540dfb6fe477050875861abfc297e347
+    input_fingerprint: 7f4124d86fdb1d08b08b05244e5f679d8268ffee2ea470096c7f92eb415bf17a
     template_sources:
     - README.md.example
   REEK:
@@ -624,7 +624,7 @@ files:
     recipe: template_source_application_Rakefile
     action: write
     dest_sha256: 2cbd92bfc3cae8276a9824740cd1c094ab9786f58c348cad40a487944b81bd21
-    input_fingerprint: 3b0c181de4ee552c4a3428b26cf182b27b2be6b3525ef000081ae688921b1fbe
+    input_fingerprint: b6248b51e6cba8d9c4b466c21eda93b498ed81e16625f5761493952779af9735
     template_sources:
     - Rakefile.example
   SECURITY.md:
@@ -645,7 +645,7 @@ files:
     recipe: template_source_application_certs_pboling_pem
     action: write
     dest_sha256: 18956f60643666cc181e2743b3b3691bec08c5326f514f60af54d0cdb9ebc554
-    input_fingerprint: 1bd9361e91da868171ad842e6b64426917e25fb8edf4b73ae64b5f0c16d974dc
+    input_fingerprint: 4bfe0b997116696ae6b3a42fb79e9501bcf05a238a585b87e7452b4dfa13ff69
     template_sources:
     - certs/pboling.pem.example
   gemfiles/modular/benchmark/r4/v0.5.gemfile:
@@ -938,7 +938,7 @@ files:
   kettle-jem.gemspec:
     recipe: template_source_application_kettle_jem_gemspec
     action: write
-    dest_sha256: 1e9bb3c89acd8e3fe00fe1c51518a4877a5a8ff9d4d8740189995a312441f82c
+    dest_sha256: 41b9fa7cf7eb1032e0c892172aaa59a641a0238d7cfa9a75d651f51d5ea2d585
     input_fingerprint: 8247a55fdbf0d05ff82f20aa533669bea28af7e03c84e744c35d230d4b3f7aed
     template_sources:
     - gem.gemspec.example
@@ -946,14 +946,14 @@ files:
     recipe: template_source_application_lib_kettle_jem_version_rb
     action: write
     dest_sha256: b240a49db8aec536abd2d5db1ba45b17a8123f7380764dedb18f248c28d1b896
-    input_fingerprint: febd54bc29cdeaadb165fcad0c9ebc0e1f28d295b6067479f3cfe8dfed5277bf
+    input_fingerprint: 1f0aea298855ebdf2e14a4b572b655ce3740b3a945a982ae86b634654cd12d73
     template_sources:
     - lib/gem/version.rb.example
   lib/kettle/jem/version_gem.rb:
     recipe: template_source_application_lib_kettle_jem_version_gem_rb
     action: write
     dest_sha256: 8735ec432abf3233f1636dcc7c198a3f90725bf921612246ad031c7b1c0a8bf7
-    input_fingerprint: a8c2c759938e0164bceced324ef160a2a5981c6c22fb42196b254c114201c389
+    input_fingerprint: c09fd86f62dcaad2cbdf81017b1f5ddb7402d8b0e397ba48c61e7e57b5a760bb
     template_sources:
     - lib/gem/version_gem.rb.example
   mise.toml:
@@ -974,7 +974,7 @@ files:
     recipe: template_source_application_sig_kettle_jem_rbs
     action: write
     dest_sha256: 2cfaba5a844e5b5b4b889126d646b88edbce9de48e192409f4ae50fb3fbc1dc3
-    input_fingerprint: f07e88a72d77b40577b155b12ec709a0a3f2428d70dc7ec6362926edff46e05f
+    input_fingerprint: 37aac45f3e5a817d14a38e1df6549d482ad9b26843b53f26af85d7dda7b16a5a
     template_sources:
     - sig/gem.rbs.example
   spec/README.md:
@@ -988,6 +988,6 @@ files:
     recipe: template_source_application_spec_spec_helper_rb
     action: write
     dest_sha256: 7046c34e71ad161660bfb12be257d9e1faf1577858882529f64b98f6bb593c85
-    input_fingerprint: b5f65cd411b922d36fbaa1a259c34f94c84610174236153d5c6ec4b90888b8ba
+    input_fingerprint: 701f4f47cd30eb02b2ea1f3d161eb2a174a4e222e632c0e3268875b059bb10ed
     template_sources:
     - spec/spec_helper.rb.example
