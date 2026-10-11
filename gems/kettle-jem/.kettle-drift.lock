@@ -3,8 +3,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        80,
-        595
+        84,
+        603
       ]
     }
   ],
@@ -12,8 +12,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        449,
-        598
+        457,
+        606
       ]
     }
   ],
@@ -21,8 +21,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        467,
-        535
+        475,
+        543
       ]
     }
   ],
@@ -30,9 +30,9 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        450,
-        599,
-        689
+        458,
+        607,
+        697
       ]
     }
   ],
@@ -40,8 +40,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        468,
-        536
+        476,
+        544
       ]
     }
   ],
@@ -49,8 +49,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        469,
-        537
+        477,
+        545
       ]
     }
   ],
@@ -58,8 +58,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        451,
-        600
+        459,
+        608
       ]
     }
   ],
@@ -67,8 +67,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        470,
-        538
+        478,
+        546
       ]
     }
   ],
@@ -76,8 +76,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        471,
-        539
+        479,
+        547
       ]
     }
   ],
@@ -85,8 +85,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        472,
-        540
+        480,
+        548
       ]
     }
   ],
@@ -126,6 +126,24 @@
         69,
         126,
         184
+      ]
+    }
+  ],
+  "id: bundleAppraisalAttempt2\nif: ${{ !env.ACT && steps.bundleAppraisalAttempt1.outcome == 'failure' }}": [
+    {
+      "file": ".github/workflows/heads.yml",
+      "lines": [
+        132,
+        190
+      ]
+    }
+  ],
+  "run: bundle exec appraisal ${{ matrix.appraisal }} install\ncontinue-on-error: true": [
+    {
+      "file": ".github/workflows/heads.yml",
+      "lines": [
+        128,
+        186
       ]
     }
   ],

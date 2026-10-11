@@ -98,6 +98,22 @@ Merge analysis must enter parsing through `tree_haver`. Parser-specific gems reg
 [sm-family-rust]: https://github.com/structuredmerge/structuredmerge
 [sm-family-typescript]: https://github.com/structuredmerge/structuredmerge-typescript
 
+### Runtime and Platform Support
+
+Support tiers describe what this project's CI actually exercises, not what may
+work in an untested environment:
+
+- **Parallel support**: CI runs the test suite with multiple workers available.
+- **Unsupported**: the engine/platform combination is not covered by CI and is
+ not a project compatibility claim.
+
+| Ruby engine/version | Linux | macOS | Windows | Notes |
+|---------------------|-------|-------|---------|-------|
+| MRI 4.0-4.0 | Parallel support | Unsupported | Unsupported | Versioned Ruby workflows run on Linux. |
+| MRI current | Parallel support | Parallel support | Unsupported | Current Ruby workflow covers the declared OS platforms. |
+| MRI head | Parallel support | Unsupported | Unsupported | CI is allowed to fail while Ruby is in development. |
+| JRuby (all CI lanes) | Parallel support | Unsupported | Unsupported | Engine workflows run on Linux; macOS and Windows are not exercised by CI. |
+
 ### Federated DVCS
 
 <details markdown="1">
