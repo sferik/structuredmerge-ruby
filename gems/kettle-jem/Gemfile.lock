@@ -774,7 +774,7 @@ DEPENDENCIES
   markdown-merge!
   markly-merge!
   mutex_m (~> 0.2)
-  nomono (~> 1.1, >= 1.1.6)
+  nomono (~> 1.1, >= 1.1.7)
   ostruct (~> 0.6)
   parslet-toml-merge!
   plain-merge!
