@@ -571,13 +571,13 @@
       <pre class="lines">
 
 
-212
-213
-214
-215</pre>
+322
+323
+324
+325</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 322</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>source:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>lines:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>language:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>source:</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>lines:</span> <span class='id identifier rubyid_lines'>lines</span><span class='rparen'>)</span>
@@ -620,12 +620,12 @@
       <pre class="lines">
 
 
-210
-211
-212</pre>
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_language'>language</span>
   <span class='ivar'>@language</span>
@@ -657,13 +657,13 @@
       <pre class="lines">
 
 
-250
-251
-252
-253</pre>
+360
+361
+362
+363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 360</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_child_by_field_name'>child_by_field_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_child'>child</span> <span class='op'>=</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_child_by_field_name'>child_by_field_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:child_by_field_name</span><span class='rparen'>)</span>
@@ -689,15 +689,15 @@
       <pre class="lines">
 
 
-243
-244
-245
-246
-247
-248</pre>
+353
+354
+355
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 353</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_children'>children</span>
   <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_child_count'>child_count</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
@@ -725,12 +725,12 @@
       <pre class="lines">
 
 
-229
-230
-231</pre>
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 339</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_end_byte'>end_byte</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_end_byte'>end_byte</span>
@@ -755,13 +755,13 @@
       <pre class="lines">
 
 
-238
-239
-240
-241</pre>
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 348</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_end_point'>end_point</span>
   <span class='id identifier rubyid_point'>point</span> <span class='op'>=</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_end_position'>end_position</span>
@@ -810,12 +810,12 @@
       <pre class="lines">
 
 
-268
-269
-270</pre>
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_error?'>error?</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_is_error'>is_error</span>
@@ -863,12 +863,12 @@
       <pre class="lines">
 
 
-276
-277
-278</pre>
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 386</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_extra?'>extra?</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_is_extra'>is_extra</span>
@@ -916,12 +916,12 @@
       <pre class="lines">
 
 
-264
-265
-266</pre>
+374
+375
+376</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 374</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_error?'>has_error?</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_has_error'>has_error</span>
@@ -969,12 +969,12 @@
       <pre class="lines">
 
 
-272
-273
-274</pre>
+382
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 272</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 382</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_missing?'>missing?</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_is_missing'>is_missing</span>
@@ -1022,12 +1022,12 @@
       <pre class="lines">
 
 
-260
-261
-262</pre>
+370
+371
+372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 370</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_named?'>named?</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_is_named'>is_named</span>
@@ -1052,12 +1052,12 @@
       <pre class="lines">
 
 
-221
-222
-223</pre>
+331
+332
+333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 331</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_native_type'>native_type</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span>
@@ -1082,13 +1082,13 @@
       <pre class="lines">
 
 
-255
-256
-257
-258</pre>
+365
+366
+367
+368</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 365</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
   <span class='id identifier rubyid_parent'>parent</span> <span class='op'>=</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span> <span class='kw'>if</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:parent</span><span class='rparen'>)</span>
@@ -1114,12 +1114,12 @@
       <pre class="lines">
 
 
-225
-226
-227</pre>
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_byte'>start_byte</span>
   <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_start_byte'>start_byte</span>
@@ -1144,13 +1144,13 @@
       <pre class="lines">
 
 
-233
-234
-235
-236</pre>
+343
+344
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start_point'>start_point</span>
   <span class='id identifier rubyid_point'>point</span> <span class='op'>=</span> <span class='id identifier rubyid_inner_node'>inner_node</span><span class='period'>.</span><span class='id identifier rubyid_start_position'>start_position</span>
@@ -1176,12 +1176,12 @@
       <pre class="lines">
 
 
-217
-218
-219</pre>
+327
+328
+329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 327</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='const'><span class='object_link'><a href="#NODE_TYPE_ALIASES-constant" title="TreeHaver::Backends::Tslp::Node::NODE_TYPE_ALIASES (constant)">NODE_TYPE_ALIASES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_language'>language</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_native_type'>native_type</span><span class='comma'>,</span> <span class='id identifier rubyid_native_type'>native_type</span><span class='rparen'>)</span>
@@ -1196,9 +1196,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 10 21:40:27 2026 by
+  Generated on Sun Oct 11 00:30:29 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.45 (ruby-4.0.6).
+  0.9.45 (ruby-4.0.7).
 </div>
 
     </div>

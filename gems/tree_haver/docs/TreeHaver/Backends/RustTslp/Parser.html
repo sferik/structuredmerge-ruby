@@ -203,6 +203,19 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../NotAvailable.html" title="TreeHaver::NotAvailable (class)">TreeHaver::NotAvailable</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -210,41 +223,65 @@
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99</pre>
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../../TreeHaver.html" title="TreeHaver (module)">TreeHaver</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../NotAvailable.html" title="TreeHaver::NotAvailable (class)">NotAvailable</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_unavailable_message'>unavailable_message</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../RustTslp.html" title="TreeHaver::Backends::RustTslp (module)">RustTslp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_available?'><span class='object_link'><a href="../RustTslp.html#available%3F-class_method" title="TreeHaver::Backends::RustTslp.available? (method)">available?</a></span></span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../../TreeHaver.html" title="TreeHaver (module)">TreeHaver</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../NotAvailable.html" title="TreeHaver::NotAvailable (class)">NotAvailable</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Rust TSLP language is not set</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_language'>language</span>
 
   <span class='id identifier rubyid_normalized_source'>normalized_source</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_source_encoding'>normalize_source_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span>
-    <span class='op'>::</span><span class='const'>StructuredmergeHostPrototype</span><span class='period'>.</span><span class='id identifier rubyid_parse_normalized_with_tslp'>parse_normalized_with_tslp</span><span class='lparen'>(</span>
-      <span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
-      <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='comma'>,</span>
-      <span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='rparen'>)</span>
+  <span class='id identifier rubyid_core'>core</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>StructuredmergeCore</span>
+  <span class='id identifier rubyid_provider_id'>provider_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RustTslp.html" title="TreeHaver::Backends::RustTslp (module)">RustTslp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_language_parser'><span class='object_link'><a href="../RustTslp.html#register_language_parser-class_method" title="TreeHaver::Backends::RustTslp.register_language_parser (method)">register_language_parser</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_crlf'>crlf</span> <span class='op'>=</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\r\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+  <span class='id identifier rubyid_descriptor'>descriptor</span> <span class='op'>=</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>SourceDescriptor</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>source_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_haver.source</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>role:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>source</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>byte_length:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span><span class='comma'>,</span>
+    <span class='label'>sha256:</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>SHA256</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>encoding:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>utf8</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>bom:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\uFEFF</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>final_newline:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>line_endings:</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>LineEndings</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>lf:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_crlf'>crlf</span><span class='comma'>,</span>
+                                        <span class='label'>crlf:</span> <span class='id identifier rubyid_crlf'>crlf</span><span class='comma'>,</span> <span class='label'>bare_cr:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\r</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_crlf'>crlf</span><span class='rparen'>)</span>
   <span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>ParseRequest</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>schema:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>structuredmerge.parse-request/v1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>request_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_haver.parse</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>source:</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>SourceInput</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>descriptor:</span> <span class='id identifier rubyid_descriptor'>descriptor</span><span class='comma'>,</span> <span class='label'>bytes:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>language:</span> <span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='label'>dialect:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+    <span class='label'>selection:</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>ParserSelection</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>backend_id:</span> <span class='id identifier rubyid_provider_id'>provider_id</span><span class='comma'>,</span> <span class='label'>preference:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>required_capabilities:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>options:</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>ParseOptions</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>comments:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>diagnostics:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>tokens:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>native_extensions:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>metadata:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>extra:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_limits'>limits</span> <span class='op'>=</span> <span class='id identifier rubyid_core'>core</span><span class='op'>::</span><span class='const'>ParseLimits</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>max_batch_items:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>max_input_bytes:</span> <span class='int'>64</span> <span class='op'>*</span> <span class='int'>1024</span> <span class='op'>*</span> <span class='int'>1024</span><span class='comma'>,</span>
+                                 <span class='label'>max_nodes:</span> <span class='int'>1_000_000</span><span class='comma'>,</span> <span class='label'>max_diagnostics:</span> <span class='int'>1000</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_core'>core</span><span class='period'>.</span><span class='id identifier rubyid_parse_sources'>parse_sources</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_request'>request</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_limits'>limits</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Tree.html" title="TreeHaver::Backends::RustTslp::Tree (class)">Tree</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Tree.html#initialize-instance_method" title="TreeHaver::Backends::RustTslp::Tree#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='comma'>,</span> <span class='label'>source:</span> <span class='id identifier rubyid_normalized_source'>normalized_source</span><span class='comma'>,</span> <span class='label'>language:</span> <span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-<span class='kw'>rescue</span> <span class='const'>JSON</span><span class='op'>::</span><span class='const'>ParserError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../../TreeHaver.html" title="TreeHaver (module)">TreeHaver</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Error.html" title="TreeHaver::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Rust TreeHaver returned invalid normalized JSON: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -256,9 +293,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 10 21:40:28 2026 by
+  Generated on Sun Oct 11 00:30:30 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.45 (ruby-4.0.6).
+  0.9.45 (ruby-4.0.7).
 </div>
 
     </div>

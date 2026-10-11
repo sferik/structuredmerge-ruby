@@ -379,7 +379,7 @@ For backward compatibility and backend tests, also handles Language wrapper.</p>
 </span>  <span class='id identifier rubyid_lang_name'>lang_name</span> <span class='op'>=</span> <span class='id identifier rubyid_lang'>lang</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_lang'>lang</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>:</span> <span class='id identifier rubyid_lang'>lang</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='comment'># tree_stump uses set_language with a string name
 </span>  <span class='ivar'>@parser</span><span class='period'>.</span><span class='id identifier rubyid_set_language'>set_language</span><span class='lparen'>(</span><span class='id identifier rubyid_lang_name'>lang_name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_lang'>lang</span> <span class='comment'># rubocop:disable Lint/Void (intentional return value)
+  <span class='id identifier rubyid_lang'>lang</span> <span class='comment'># (intentional return value)
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -567,9 +567,9 @@ The parse method always does a full parse, ignoring old_tree.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 10 21:40:27 2026 by
+  Generated on Sun Oct 11 00:30:29 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.45 (ruby-4.0.6).
+  0.9.45 (ruby-4.0.7).
 </div>
 
     </div>

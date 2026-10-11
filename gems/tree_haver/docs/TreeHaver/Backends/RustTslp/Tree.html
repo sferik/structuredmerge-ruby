@@ -338,27 +338,35 @@
       <pre class="lines">
 
 
-124
-125
-126
-127
-128
-129
-130
-131
-132</pre>
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='comma'>,</span> <span class='label'>source:</span><span class='comma'>,</span> <span class='label'>language:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_result!'>validate_result!</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='comma'>,</span> <span class='label'>source:</span> <span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='ivar'>@language</span> <span class='op'>=</span> <span class='id identifier rubyid_language'>language</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='ivar'>@nodes_by_id</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nodes</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_node'>node</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
-  <span class='ivar'>@root_id</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>root_id</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='ivar'>@diagnostics</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>diagnostics</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='ivar'>@provenance</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>backend_capability</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@nodes_by_id</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_parsed'>parsed</span><span class='period'>.</span><span class='id identifier rubyid_nodes'>nodes</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_node'>node</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='id identifier rubyid_node'>node</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@root_id</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_parsed'>parsed</span><span class='period'>.</span><span class='id identifier rubyid_root_id'>root_id</span>
+  <span class='ivar'>@diagnostics</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_parsed'>parsed</span><span class='period'>.</span><span class='id identifier rubyid_diagnostics'>diagnostics</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:message</span><span class='rparen'>)</span>
+  <span class='ivar'>@provenance</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>backend_ref</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_backend'>backend</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>language</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='ivar'>@language</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>runtime</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_backend'>backend</span><span class='period'>.</span><span class='id identifier rubyid_runtime'>runtime</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>parser</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_backend'>backend</span><span class='period'>.</span><span class='id identifier rubyid_parser'>parser</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>parser_version</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_backend'>backend</span><span class='period'>.</span><span class='id identifier rubyid_parser_version'>parser_version</span>
+  <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -397,12 +405,12 @@
       <pre class="lines">
 
 
-122
-123
-124</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_diagnostics'>diagnostics</span>
   <span class='ivar'>@diagnostics</span>
@@ -439,12 +447,12 @@
       <pre class="lines">
 
 
-122
-123
-124</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_language'>language</span>
   <span class='ivar'>@language</span>
@@ -481,12 +489,12 @@
       <pre class="lines">
 
 
-122
-123
-124</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_provenance'>provenance</span>
   <span class='ivar'>@provenance</span>
@@ -518,12 +526,12 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_errors'>errors</span>
   <span class='id identifier rubyid_diagnostics'>diagnostics</span>
@@ -548,18 +556,18 @@
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
-142</pre>
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/rust_tslp.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_root_node'>root_node</span>
   <span class='const'><span class='object_link'><a href="Node.html" title="TreeHaver::Backends::RustTslp::Node (class)">Node</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Node.html#initialize-instance_method" title="TreeHaver::Backends::RustTslp::Node#initialize (method)">new</a></span></span><span class='lparen'>(</span>
@@ -580,9 +588,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 10 21:40:28 2026 by
+  Generated on Sun Oct 11 00:30:30 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.45 (ruby-4.0.6).
+  0.9.45 (ruby-4.0.7).
 </div>
 
     </div>

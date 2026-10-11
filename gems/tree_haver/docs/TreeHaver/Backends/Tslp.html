@@ -119,6 +119,25 @@ merge-gem integration surface.</p>
 
     <dl class="constants">
       
+        <dt id="TRANSIENT_FAILURE_RETRY_LIMIT-constant" class="">TRANSIENT_FAILURE_RETRY_LIMIT =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Transient grammar hot-load failures (for example a failed on-demand<br />
+download of the tree-sitter-language-pack bundle) are retried on later<br />
+availability probes instead of latching for the whole process. After<br />
+this many consecutive transient failures the backend latches as<br />
+unavailable so a dead network cannot slow every later parse attempt.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>3</span></pre></dd>
+      
         <dt id="PARSER_SMOKE_SOURCES-constant" class="">PARSER_SMOKE_SOURCES =
           
         </dt>
@@ -140,6 +159,33 @@ merge-gem integration surface.</p>
           
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="TRANSIENT_FAILURE_PATTERN-constant" class="">TRANSIENT_FAILURE_PATTERN =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Grammar hot-load failures caused by the on-demand bundle download<br />
+(network flake, transient GitHub release fetch failure, cache lock<br />
+contention) must not latch the backend for the whole process.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>
+  Download\ error
+  | Download\ cache\ lock\ error
+  | Failed\ to\ fetch\ manifest
+  | Failed\ to\ download
+  | Failed\ to\ read\ (cached|download)
+  | connection\ (refused|reset)
+  | timed?\ out
+  | timeout
+  | temporarily
+</span><span class='regexp_end'>/xi</span></span></pre></dd>
       
     </dl>
   
@@ -240,6 +286,29 @@ merge-gem integration surface.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#language_unavailable_reason-class_method" title="language_unavailable_reason (class method)">.<strong>language_unavailable_reason</strong>(language_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reason the last per-language probe failed, when known.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#parser_available_for%3F-class_method" title="parser_available_for? (class method)">.<strong>parser_available_for?</strong>(language_name)  &#x21d2; Boolean </a>
     
 
@@ -263,7 +332,53 @@ merge-gem integration surface.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#prefetch-class_method" title="prefetch (class method)">.<strong>prefetch</strong>(languages)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Pre-download and pre-load grammars through the language pack’s hot-load API before any parse/smoke probing happens.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#reset!-class_method" title="reset! (class method)">.<strong>reset!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transient_reason%3F-class_method" title="transient_reason? (class method)">.<strong>transient_reason?</strong>(reason)  &#x21d2; Boolean </a>
     
 
     
@@ -318,12 +433,12 @@ merge-gem integration surface.</p>
       <pre class="lines">
 
 
-32
-33
-34</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unavailable_reason'>unavailable_reason</span>
   <span class='ivar'>@unavailable_reason</span>
@@ -378,47 +493,45 @@ merge-gem integration surface.</p>
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available?'>available?</span>
-  <span class='kw'>return</span> <span class='ivar'>@loaded</span> <span class='kw'>if</span> <span class='ivar'>@load_attempted</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@loaded</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@permanently_unavailable</span>
 
-  <span class='ivar'>@load_attempted</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='kw'>begin</span>
-    <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_sitter_language_pack</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>TreeSitterLanguagePack</span><span class='rparen'>)</span>
-    <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='id identifier rubyid_parser_api_available?'>parser_api_available?</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@loaded</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@unavailable_reason</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-      <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_sitter_language_pack parser API is not exposed</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>rescue</span> <span class='const'>LoadError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='kw'>false</span>
-    <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
-  <span class='kw'>rescue</span> <span class='const'>StandardError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='kw'>false</span>
-    <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='id identifier rubyid_probe_availability'>probe_availability</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@loaded</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_transient_reason?'>transient_reason?</span><span class='lparen'>(</span><span class='ivar'>@unavailable_reason</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@transient_failures</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="#TRANSIENT_FAILURE_RETRY_LIMIT-constant" title="TreeHaver::Backends::Tslp::TRANSIENT_FAILURE_RETRY_LIMIT (constant)">TRANSIENT_FAILURE_RETRY_LIMIT</a></span></span>
+    <span class='comment'># Leave the backend probeable so a later availability check retries
+</span>    <span class='comment'># the on-demand grammar download instead of failing every parse for
+</span>    <span class='comment'># the rest of the process.
+</span>    <span class='ivar'>@transient_failures</span> <span class='op'>+=</span> <span class='int'>1</span>
+    <span class='kw'>return</span> <span class='kw'>false</span>
   <span class='kw'>end</span>
-  <span class='ivar'>@loaded</span>
+
+  <span class='ivar'>@permanently_unavailable</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -440,21 +553,21 @@ merge-gem integration surface.</p>
       <pre class="lines">
 
 
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</pre>
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_capabilities'>capabilities</span>
   <span class='kw'>return</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='id identifier rubyid_available?'>available?</span>
@@ -467,6 +580,46 @@ merge-gem integration surface.</p>
     <span class='label'>comment_support:</span> <span class='symbol'>:nodes_only</span><span class='comma'>,</span>
     <span class='label'>language_pack:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="language_unavailable_reason-class_method">
+  
+    .<strong>language_unavailable_reason</strong>(language_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Reason the last per-language probe failed, when known.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_language_unavailable_reason'>language_unavailable_reason</span><span class='lparen'>(</span><span class='id identifier rubyid_language_name'>language_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@language_unavailable_reasons</span><span class='lbracket'>[</span><span class='id identifier rubyid_language_name'>language_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -511,23 +664,41 @@ merge-gem integration surface.</p>
       <pre class="lines">
 
 
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88</pre>
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parser_available_for?'>parser_available_for?</span><span class='lparen'>(</span><span class='id identifier rubyid_language_name'>language_name</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_available?'>available?</span>
@@ -535,13 +706,149 @@ merge-gem integration surface.</p>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_language_name'>language_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>return</span> <span class='ivar'>@language_availability</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@language_availability</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
 
-  <span class='ivar'>@language_availability</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_smoke_parse_language'>smoke_parse_language</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='ivar'>@language_unavailable_reasons</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@unavailable_reason</span> <span class='kw'>unless</span> <span class='ivar'>@language_availability</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='ivar'>@language_availability</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-<span class='kw'>rescue</span> <span class='const'>StandardError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-  <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
-  <span class='ivar'>@language_unavailable_reasons</span><span class='lbracket'>[</span><span class='id identifier rubyid_language_name'>language_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='id identifier rubyid_available'>available</span> <span class='op'>=</span> <span class='id identifier rubyid_smoke_parse_language'>smoke_parse_language</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_available'>available</span>
+    <span class='ivar'>@language_availability</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='ivar'>@language_unavailable_reasons</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_reason'>reason</span> <span class='op'>=</span> <span class='ivar'>@language_unavailable_reasons</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@unavailable_reason</span>
+  <span class='id identifier rubyid_attempts'>attempts</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@language_attempts</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@language_attempts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_transient_reason?'>transient_reason?</span><span class='lparen'>(</span><span class='id identifier rubyid_reason'>reason</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_attempts'>attempts</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="#TRANSIENT_FAILURE_RETRY_LIMIT-constant" title="TreeHaver::Backends::Tslp::TRANSIENT_FAILURE_RETRY_LIMIT (constant)">TRANSIENT_FAILURE_RETRY_LIMIT</a></span></span>
+    <span class='comment'># Do not memoize: a later probe retries the on-demand hot load.
+</span>    <span class='kw'>return</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@language_availability</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='kw'>false</span>
+<span class='kw'>rescue</span> <span class='const'>StandardError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_language_name'>language_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='ivar'>@language_unavailable_reasons</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+  <span class='id identifier rubyid_attempts'>attempts</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@language_attempts</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@language_attempts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='comment'># Memoize only after exhausting the transient retry budget; raising
+</span>  <span class='comment'># here is how the on-demand grammar download reports failures.
+</span>  <span class='ivar'>@language_availability</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_attempts'>attempts</span> <span class='op'>&gt;=</span> <span class='const'><span class='object_link'><a href="#TRANSIENT_FAILURE_RETRY_LIMIT-constant" title="TreeHaver::Backends::Tslp::TRANSIENT_FAILURE_RETRY_LIMIT (constant)">TRANSIENT_FAILURE_RETRY_LIMIT</a></span></span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prefetch-class_method">
+  
+    .<strong>prefetch</strong>(languages)  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Pre-download and pre-load grammars through the language pack’s<br />
+hot-load API before any parse/smoke probing happens. This turns the<br />
+on-demand download (which otherwise fires inside the first<br />
+availability probe and can transiently fail) into an explicit,<br />
+attributable warm-up step.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>languages</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;String, Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>grammar names to prefetch</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>prefetched:, failures: {name =&gt; reason}</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 90</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prefetch'>prefetch</span><span class='lparen'>(</span><span class='id identifier rubyid_languages'>languages</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_names'>names</span> <span class='op'>=</span> <span class='id identifier rubyid_languages'>languages</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_sitter_language_pack</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>TreeSitterLanguagePack</span><span class='rparen'>)</span>
+  <span class='kw'>rescue</span> <span class='const'>LoadError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_prefetch_skip_report'>prefetch_skip_report</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_sitter_language_pack is not installed</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_names'>names</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>TreeSitterLanguagePack</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:prefetch</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_prefetch_skip_report'>prefetch_skip_report</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tree_sitter_language_pack does not expose prefetch</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_names'>names</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_failures'>failures</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_prefetched'>prefetched</span> <span class='op'>=</span> <span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span>
+    <span class='op'>::</span><span class='const'>TreeSitterLanguagePack</span><span class='period'>.</span><span class='id identifier rubyid_prefetch'>prefetch</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>true</span>
+  <span class='kw'>rescue</span> <span class='const'>StandardError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_failures'>failures</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span>
+    <span class='kw'>false</span>
+  <span class='kw'>end</span>
+  <span class='lbrace'>{</span> <span class='label'>attempted:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>prefetched:</span> <span class='id identifier rubyid_prefetched'>prefetched</span><span class='comma'>,</span> <span class='label'>failures:</span> <span class='id identifier rubyid_failures'>failures</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -563,23 +870,80 @@ merge-gem integration surface.</p>
       <pre class="lines">
 
 
-54
-55
-56
-57
-58
-59
-60</pre>
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset!'>reset!</span>
-  <span class='ivar'>@load_attempted</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@loaded</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@permanently_unavailable</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@transient_failures</span> <span class='op'>=</span> <span class='int'>0</span>
   <span class='ivar'>@unavailable_reason</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@language_availability</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@language_unavailable_reasons</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@language_attempts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transient_reason?-class_method">
+  
+    .<strong>transient_reason?</strong>(reason)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/tree_haver/backends/tslp.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transient_reason?'>transient_reason?</span><span class='lparen'>(</span><span class='id identifier rubyid_reason'>reason</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='id identifier rubyid_reason'>reason</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='const'><span class='object_link'><a href="#TRANSIENT_FAILURE_PATTERN-constant" title="TreeHaver::Backends::Tslp::TRANSIENT_FAILURE_PATTERN (constant)">TRANSIENT_FAILURE_PATTERN</a></span></span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='id identifier rubyid_reason'>reason</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -591,9 +955,9 @@ merge-gem integration surface.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 10 21:40:25 2026 by
+  Generated on Sun Oct 11 00:30:27 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.45 (ruby-4.0.6).
+  0.9.45 (ruby-4.0.7).
 </div>
 
     </div>

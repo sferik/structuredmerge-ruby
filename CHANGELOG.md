@@ -20,6 +20,25 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.10] - 2026-10-11
+
+- TAG: [v7.1.10][7.1.10t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Added
+
 - Add opt-in Rust host provider adapters for Go and Rust merge operations.
 
 - Add an opt-in RustHostProvider for TypeScript analyze, merge2, and merge3 operations.
@@ -82,10 +101,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Align typed Git integration coverage with source-backed absent-owner conflict review: write review markers with conflict status while preserving leave-ours and invalid-input behavior.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Preserve native RBS semantics when the Rust TSLP fallback is selected.
@@ -144,8 +159,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - Fix structural removal inventing blank lines. Deleting a line range no longer stacks the separators on either side of the removed owner into a double blank run, and no longer re-emits the removed owner's trailing separator as a leading blank when the removed range starts the file.
 
 - kettle-jem: `rake docs` silently did nothing in standalone gems and monorepo subgems. A generated `docs/` directory makes Rake resolve the bare name `docs` as an implicit file task that is already up to date, so the command exited 0 without regenerating anything, and the only real task was `family:docs`, which loads solely at a monorepo root. Templated Rakefiles now declare a top-level `docs` task delegating to `yard` for those profiles.
-
-### Security
 
 ## [7.1.9] - 2026-09-10
 
@@ -834,7 +847,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.9...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.10...HEAD
+[7.1.10]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.9...v7.1.10
+[7.1.10t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.10
 [7.1.9]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.8...v7.1.9
 [7.1.9t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.9
 [7.1.8]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.7...v7.1.8
