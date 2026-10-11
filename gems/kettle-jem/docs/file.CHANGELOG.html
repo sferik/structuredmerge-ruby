@@ -70,7 +70,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 and <a href="https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html">yes</a>, platform and engine support are part of the <a href="https://github.com/semver/semver/issues/716#issuecomment-869336139">public API</a>.<br>
 Please file a bug if you notice a violation of semantic versioning.</p>
 
-<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.28...HEAD">Unreleased</a></h2>
+<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.29...HEAD">Unreleased</a></h2>
 
 <h3 id="added">Added</h3>
 
@@ -84,6 +84,255 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 
 <h3 id="security">Security</h3>
 
+<h2 id="7129---2026-10-11">
+<a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.28...v7.1.29">7.1.29</a> - 2026-10-11</h2>
+
+<ul>
+  <li>TAG: <a href="https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.29">v7.1.29</a>
+</li>
+  <li>COVERAGE: 93.49% – 11342/12132 lines in 17 files</li>
+  <li>BRANCH COVERAGE: 77.26% – 4907/6351 branches in 17 files</li>
+  <li>19.68% documented</li>
+</ul>
+
+<h3 id="added-1">Added</h3>
+
+<ul>
+  <li>Engine-incompatible dev-dependency detection (case 3 of the dev-dependency<br>
+conflict policy, GEMSPEC_DEV_DEPENDENCY_PLAN.md Phase 4): a direct<br>
+development dependency with a <code>KNOWN_GEM_CONFLICT_RESOLUTIONS</code><br>
+<code>:engine_incompatible</code> entry now surfaces a <code>dependency_conflicts.resolve</code><br>
+review entry when it doesn’t support one or more of the project’s declared<br>
+<code>engines:</code> and has no template-managed modular home. Pilot registry entry:<br>
+<code>sqlite3</code> (no <code>jruby</code>-platform release ever published). Shares the same<br>
+<code>dependency_conflicts.resolve</code> list, decision-matching, and review gate as<br>
+the existing template-managed (case 1) conflicts, and the same<br>
+auto-resolution path for any future entry in this category with<br>
+<code>force_review: false</code>.</li>
+  <li>
+    <p><code>workflows.framework_matrix</code> gemfiles for gems tracked by kettle-rb’s<br>
+<code>Kettle::Rb::GemFloors</code> (activemodel, activerecord, activesupport, sqlite3)<br>
+require the minor series’ security floor when the version’s requirement<br>
+still admits the series’ first release (e.g.<br>
+<code>gem "activerecord", "~&gt; 7.1.0", "&gt;= 7.1.6"</code>), and carry a <code># kettle-rb:</code><br>
+warning comment when no release in the series fixes an advisory.</p>
+  </li>
+  <li>
+    <p>kettle-jem-template-20260913-001 - Templating now also surfaces a review<br>
+entry in <code>dependency_conflicts.resolve</code> when a direct development<br>
+dependency doesn’t support one or more of this project’s declared<br>
+<code>engines:</code> and has no template-managed modular home (e.g. <code>sqlite3</code> on<br>
+<code>jruby</code>). Review each entry and pick a resolution per the project’s own<br>
+engine support needs.</p>
+  </li>
+  <li>
+    <p>Templating plan phases now prefetch the tree-sitter-language-pack grammars used by template merges (bash, go, html, json, json5, markdown, rbs, ruby, rust, toml, tsx, typescript, yaml) through the language pack’s hot-load API before recipes run, so on-demand grammar downloads happen up front with attributable diagnostics instead of failing inside a merge. Configure via KJ_TSLP_PREFETCH_LANGUAGES (space/comma list, or false to disable).</p>
+  </li>
+  <li>
+    <p>kettle-jem-deps-floor: add FLOOR_HOLDS registry to exclude a dependency floor from automatic raising when a newer release would produce an unresolvable dependency set in generated projects. Held floors are skipped during planning and reported separately (held_floors in JSON, a ‘held’ line in text output) so the exclusion is auditable rather than silent. First entry: rubocop-minitest (0.41.0 needs rubocop &gt;= 1.89, but standard ~&gt; 1.56 caps rubocop at ~&gt; 1.88).</p>
+  </li>
+  <li>
+    <p>Add Kettle::Rb::PlatformSupport: generated OS-platform support evidence for CI matrix generation. Introduces the CI OS-family vocabulary (linux, macos, windows) as a fourth, explicitly distinct platform vocabulary, with runner-label mapping and per-engine support claims that each carry a citation. TruffleRuby Windows support (zero Windows assets across all releases) and the RubyInstaller series (including ARM64 from 3.4) are derived from live APIs on regeneration; every other claim is documentation-sourced. Regenerate with rake kettle:rb:platform_support:generate.</p>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>kettle-jem: first-class OS-platform support for the CI matrix (spec slice 1038). A new documented <code>platforms:</code> config key (CI OS families linux/macos/windows; default linux+macos, Windows opt-in only) drives generation of the current.yml OS matrix from facts via new KJ</td>
+          <td>CI:OS_MATRIX_ENTRIES and KJ</td>
+          <td>CI:OS_TEST_STEPS tokens, and a generated KJ</td>
+          <td>README:PLATFORM_SUPPORT_TABLE tier table under Runtime and Platform Support. Re-templating a repo with existing Windows CI detects and preserves windows via workflow evidence, both in the injected config key and in the facts themselves, so first-run templating cannot silently drop Windows coverage. Platform evidence lives in Kettle::Rb::PlatformSupport (kettle-rb 0.1.17+), with per-claim citations.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h3 id="changed-1">Changed</h3>
+
+<ul>
+  <li>Require kettle-rb <code>&gt;= 0.1.14</code> (security floor data).</li>
+  <li>
+    <p>The <code>sqlite3</code> <code>KNOWN_GEM_CONFLICT_RESOLUTIONS</code> reason now points at a<br>
+<code>platforms: [:ruby]</code> modular gemfile (kettle-jem-appraisals generates<br>
+<code>gemfiles/modular/activerecord_support/*.gemfile</code>) instead of saying sqlite3<br>
+has no modular home.</p>
+  </li>
+  <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+    <ul>
+      <li>gitmoji-regex (&gt;= 2.0.13 -&gt; &gt;= 2.0.15)</li>
+      <li>kettle-changelog (&gt;= 1.0.8 -&gt; &gt;= 1.0.9)</li>
+      <li>kettle-dev (&gt;= 3.1.5 -&gt; &gt;= 3.1.10)</li>
+      <li>kettle-drift (&gt;= 1.0.15 -&gt; &gt;= 1.0.16)</li>
+      <li>kettle-family (&gt;= 1.3.3 -&gt; &gt;= 1.3.10)</li>
+      <li>kettle-soup-cover (&gt;= 3.0.11 -&gt; &gt;= 3.0.12)</li>
+      <li>kettle-test (&gt;= 2.0.23 -&gt; &gt;= 2.0.24)</li>
+      <li>nomono (&gt;= 1.1.6 -&gt; &gt;= 1.1.7)</li>
+      <li>reek (&gt;= 6.5.0 -&gt; &gt;= 6.6.0)</li>
+      <li>rubocop-lts-rspec (&gt;= 1.0.6 -&gt; &gt;= 1.0.7)</li>
+      <li>rubocop-minitest (&gt;= 0.40.0 -&gt; &gt;= 0.41.0)</li>
+      <li>standard (&gt;= 1.56.0 -&gt; &gt;= 1.57.0)</li>
+      <li>turbo_tests2 (&gt;= 3.2.12 -&gt; &gt;= 3.2.14)</li>
+      <li>yaml-converter (&gt;= 0.2.6 -&gt; &gt;= 0.2.7)</li>
+      <li>yard-fence (&gt;= 0.9.9 -&gt; &gt;= 0.9.10)</li>
+      <li>yard-timekeeper (&gt;= 0.2.7 -&gt; &gt;= 0.2.9)</li>
+    </ul>
+  </li>
+  <li>[kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+    <ul>
+      <li>actions/upload-artifact v7.0.1 (043fb46d1a93c77aae656e7c1c64a875d1fc6a0a) -&gt; v7.0.2 (cf430e030ddbb5b0abf93d22962f4752f3646cd9)</li>
+      <li>appraisal-rb/setup-ruby-flash v2.7 (b7ed1caf57f7986cedd2acca8624960b0820bc9a) -&gt; v2.14 (6f8ad36ba7488db591541483afb5464d01e8861b)</li>
+      <li>github/codeql-action/analyze v4.38.2 (2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2) -&gt; v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d)</li>
+      <li>github/codeql-action/autobuild v4.38.2 (2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2) -&gt; v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d)</li>
+      <li>github/codeql-action/init v4.38.2 (2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2) -&gt; v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d)</li>
+      <li>ruby/setup-ruby v1.327.0 (14594264cd68ce8a2345dd349bc3d138a4ef85c8) -&gt; v1.328.0 (e81a8fa391b11a595c1b7ed84177cc0fe02faf83)</li>
+    </ul>
+  </li>
+  <li>[kc] kettle-jem/prepare: updated 14 project files:
+    <ul>
+      <li>dependencies (14)</li>
+    </ul>
+  </li>
+  <li>[kc] kettle-jem/template: updated 12 project files:
+    <ul>
+      <li>code and tests (1)</li>
+      <li>other (1)</li>
+      <li>workflows (10)</li>
+    </ul>
+  </li>
+  <li>
+    <p>The templating workflow template now restores tree-sitter-language-pack grammar downloads from actions/cache keyed by the templating lockfiles, keeping the self-test off the network in the common case; a cache miss falls back to the in-run tslp_prefetch phase.</p>
+  </li>
+  <li>
+    <p>[kc] license-eye-workflow-retry: The generated <code>.github/workflows/license-eye.yml</code> retries the license check once before failing. The pinned <code>apache/skywalking-eyes/dependency</code> action is a composite that builds license-eye from source on every run, and its own dependency cache is broken upstream: <code>dependency/action.yml</code> passes <code>cache-dependency-path: ${{ github.action_path }}/go.sum</code>, but <code>go.sum</code> lives at the action’s repository root rather than in <code>dependency/</code> (404 versus 200). setup-go therefore logs “Restore cache failed: Some specified paths were not resolved”, the module cache never restores, and each run re-downloads roughly 35 Go modules and re-runs <code>make</code>. Every templated repository is consequently exposed to a transient <code>proxy.golang.org</code> error on every push; one such run failed with <code>stream error: stream ID 133; INTERNAL_ERROR; received from peer</code> after eleven consecutive successes. The retry uses the same <code>[Attempt 1]</code>/<code>[Attempt 2]</code> idiom as the generated Ruby matrix workflows, and the action pin is unchanged.</p>
+  </li>
+  <li>Drop TruffleRuby 23.0 and TruffleRuby HEAD from generated CI. Both deadlocked in the parallel test worker pool during the turbo_tests2 v3.2.14 release: 23.0 was cancelled after hitting its own 30-minute cap with orphan ruby processes terminated, and HEAD ran to GitHub’s 6-hour ceiling before being cancelled. 23.0 already carried the serial-worker mitigation (TURBO_TESTS2_MAX_PROCESSES=1), and its log shows ‘1 processes for 13 specs’ followed by 29 minutes of silence, so forcing a single worker did not resolve the deadlock. Removes the truffleruby-23.0 workflow and json gemfile templates, the truffleruby job from the heads workflow template, and the matching README compatibility badges and reference definitions. TruffleRuby 23.1, 24.2, 25.0, 33.0 and current all pass and remain generated; the heads workflow keeps its ruby-head and jruby-head jobs, which both succeed.</li>
+</ul>
+
+<h3 id="removed-1">Removed</h3>
+
+<ul>
+  <li>The <code>commonmarker-merge</code> and <code>kramdown-merge</code> runtime dependencies, and their<br>
+entries in the local sibling and <code>templating_local.gemfile</code> path lists.<br>
+kettle-jem merges Markdown with markly (via <code>ast-crispr-markdown-markly</code> and<br>
+<code>markly-merge</code>); other Markdown backends are still used when a project installs<br>
+them, but are no longer forced on every bundle. This also stops <code>commonmarker</code>’s<br>
+native extension from being compiled, which fails on ruby-head.</li>
+</ul>
+
+<h3 id="fixed-1">Fixed</h3>
+
+<ul>
+  <li>
+    <p>The packaged <code>Gemfile</code> no longer overrides <code>git_source(:github)</code> with an SSH<br>
+URL. The override was recorded in <code>Gemfile.lock</code> as <code>git@github.com</code> remotes,<br>
+which CI runners cannot clone; Bundler’s built-in HTTPS source is used again.<br>
+Templating now also removes existing overrides of Bundler’s built-in git<br>
+sources (<code>git_source(:github)</code>, <code>:gist</code>, <code>:bitbucket</code>) from destination<br>
+Gemfiles, including the managed monorepo root Gemfile.</p>
+  </li>
+  <li>Generated Ruby 4 extracted-stdlib Gemfiles now include <code>ostruct</code> so suites<br>
+that require it can run on Rubies where it is no longer bundled by default.</li>
+  <li>Regenerate <code>sig/*.rbs</code> signature stubs from the template instead of merging them, preventing a duplicate top-level declaration when the detected namespace kind (module vs. class) changes between runs.</li>
+  <li>
+    <p>Gemspec <code>spec.files</code> merging now preserves a destination-only <code>enumerate_package_files.call("...")</code> splat for any project-specific directory, matching how <code>enumerate_package_glob.call(...)</code> splats were already preserved regardless of the glob pattern, instead of raising an unsupported-assignment error.</p>
+  </li>
+  <li>
+    <p>Generated current-MRI workflows now use setup-ruby-flash v2.7, which validates rv-installed bundles before Appraisal and repairs incomplete native-extension installs through Bundler.</p>
+  </li>
+  <li>
+    <p>Local template runs retain the released kettle-jem floor in remote templating Gemfiles.</p>
+  </li>
+  <li>
+    <p>Run duplicate drift detection after all template orchestration mutations, and generate shared nomono resolver options only once in local Gemfiles.</p>
+  </li>
+  <li>
+    <p>Template the bin/turbo_tests2 launcher required by Windows current-workflow tests.</p>
+  </li>
+  <li>
+    <p>Refresh locked StructuredMerge sibling gems during local template preparation so Bundler cannot retain stale registry versions.</p>
+  </li>
+  <li>
+    <p>Local template runs now preserve the released kettle-jem floor in gemspecs as well as remote Gemfiles.</p>
+  </li>
+  <li>
+    <p>Local Gemfile bootstraps now load nomono’s Bundler DSL from the path source recorded in Gemfile.lock, avoiding activation of an older installed release during local templating.</p>
+  </li>
+  <li>
+    <p>Root and Kettle Changelog Gemfile bootstraps now load Nomono’s Bundler DSL from a path-locked checkout instead of activating an installed Nomono release.</p>
+  </li>
+  <li>
+    <p>Nomono bootstrap normalization is now idempotent and removes duplicate generated loader blocks after repeated template preparation.</p>
+  </li>
+  <li>
+    <p>Kettle Changelog local Gemfile bootstraps now preserve their conditional block indentation when loading Nomono from a path-locked checkout.</p>
+  </li>
+  <li>
+    <p>Kettle Changelog’s modular bootstrap now reads the project-root Gemfile.lock, so path-locked Nomono is not mistaken for an installed release.</p>
+  </li>
+  <li>
+    <p>Prevent commit hooks from resolving repository-local Bundler binstubs when checking commit messages.</p>
+  </li>
+  <li>
+    <p>Keep local template dependencies out of generated Appraisal bundles.</p>
+  </li>
+  <li>
+    <p>Use Kettle Dev’s shared path identity logic when reconciling template and project paths.</p>
+  </li>
+  <li>
+    <p>Update the generated appraisal style-toolchain gate to Ruby 3.3 so Ruby 3.2 builds do not resolve unsupported lint dependencies.</p>
+  </li>
+  <li>
+    <p>Normalize local nomono bootstrap blocks as a single AST-bounded region, including Gemfiles whose local_gems assignment uses an array literal; keep appraisal style-gate comments attached to their Ruby-version condition.</p>
+  </li>
+  <li>
+    <p>Preserve destination Markdown link definitions referenced by README sections retained during templating.</p>
+  </li>
+  <li>
+    <p>Include files created by template orchestration steps in change accounting and maintenance changelog entries.</p>
+  </li>
+  <li>
+    <p>Local style Gemfiles now include the configured rubocop-packaging plugin, matching the generated RuboCop configuration.</p>
+  </li>
+  <li>
+    <p>Generated Gemfiles now include extracted standard-library dependencies on Windows, and only include rubocop-on-rbs on Ruby 3.3 and newer.</p>
+  </li>
+  <li>
+    <p>Generated GitHub Actions workflows now pin setup-ruby-flash v2.13 so Windows native gems receive the MSYS2 dependency prefixes required by Psych and OpenSSL.</p>
+  </li>
+  <li>
+    <p>Generated GitHub Actions workflows now pin setup-ruby-flash v2.14, which passes Windows-native MSYS2 prefixes and installs the CA trust bundle for OpenSSL.</p>
+  </li>
+  <li>
+    <p>Avoid duplicate rubocop-packaging declarations when local style Gemfiles are evaluated.</p>
+  </li>
+  <li>
+    <p>The StructuredMerge family link in generated READMEs now points to the consolidated StructuredMerge repository.</p>
+  </li>
+  <li>
+    <p>Hold template style.gemfile rubocop-minitest floor at 0.40: version 0.41.0 requires rubocop &gt;= 1.89.0 while standard (~&gt; 1.56) caps rubocop at ~&gt; 1.88.0, making the generated style bundle unsatisfiable and breaking family re-templating (kettle-family template –execute).</p>
+  </li>
+  <li>
+    <p>Include modular dependency conflict decisions in template checksums so corrected Gemfile policies are reapplied.</p>
+  </li>
+  <li>
+    <p>[kc] deps-floor-changelog-carry-forward: kettle-jem-deps-floor dropped changelog records for dependency floors raised earlier in the same Unreleased cycle that the current run did not touch, because its consolidated [kc] entry was rebuilt from only the current run’s changes while the keyed upserter replaces the prior entry wholesale. Existing ranges are now parsed and carried forward, so each floor keeps its earliest baseline and its newest target.</p>
+  </li>
+  <li>
+    <p>[kc] workflow-pins-changelog-carry-forward: kettle-jem-workflow-pins dropped changelog records for GitHub Actions re-pinned earlier in the same Unreleased cycle that the current run did not touch, for the same reason as kettle-jem-deps-floor. Existing pin ranges are now parsed and carried forward, keeping each action’s earliest baseline ref and newest target ref.</p>
+  </li>
+  <li>
+    <p>[kc] git-add-path-escaping-symlinked-home: kettle-jem-deps-floor and kettle-jem-workflow-pins could pass a parent-directory escaping path to git add – when the project root and the git worktree root were two valid spellings of the same directory, as on hosts where /home is a symlink to /var/home and TMPDIR reports the symlink spelling while git rev-parse –show-toplevel reports the realpath spelling. Both tools now relativize through Kettle::Jem::RelativePaths, which canonicalizes both sides before comparing and refuses to return an escaping path.</p>
+  </li>
+  <li>
+    <p>Always load the StructuredMerge sibling closure when <code>STRUCTUREDMERGE_DEV</code> is set, not only when <code>K_JEM_TEMPLATING</code> is set. StructuredMerge is no longer a templating-only concern: <code>kettle-changelog</code> reaches it at runtime through <code>ast-crispr-markdown-markly</code> -&gt; <code>markdown-merge</code> -&gt; <code>tree_haver</code>, so the test, lint, and release bundles resolve the family too. While the family is only partially released, the registry copies pin the last published version with an exact requirement, which cannot be satisfied next to a local lockstep version, and version solving failed for every command in the member bundle rather than only for lint. The generated main <code>Gemfile</code> and shim <code>Gemfile</code> now evaluate <code>gemfiles/modular/templating.gemfile</code> when either flag is set; neither flag set still skips it, so CI and released-mode resolution are unchanged.</p>
+  </li>
+  <li>
+    <p>The templated <code>gemfiles/modular/style_local.gemfile</code> passed <code>root: ["src", "rubocop-lts"]</code> to <code>eval_nomono_gems</code>, which nomono resolves through <code>join_home</code> to <code>$HOME/src/rubocop-lts</code>. The rubocop-lts family actually lives at <code>$HOME/src/my/rubocop-lts</code>, so <code>RUBOCOP_LTS_DEV=true</code> silently selected a stale sibling checkout when one existed and a missing tree otherwise. Now <code>["src", "my", "rubocop-lts"]</code>, matching the other sibling templates and nomono’s own default root. Already-templated projects keep the stale root until re-templated.</p>
+  </li>
+  <li>kettle-jem: the packaged current.yml Windows test step hardcoded <code>bin/turbo_tests2</code>, correct for exactly one destination (and inconsistent even there, since its exec_cmd is kettle-test). The generated step now invokes the destination’s own configured test command, resolved to its binstub from ci.exec_cmd. Also: the kettle-dev family local-gems wiring now includes kettle-rb, so destinations can develop against unreleased kettle-rb with KETTLE_DEV_DEV.</li>
+</ul>
+
 <h2 id="7128---2026-09-10">
 <a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.27...v7.1.28">7.1.28</a> - 2026-09-10</h2>
 
@@ -95,7 +344,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="changed-1">Changed</h3>
+<h3 id="changed-2">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -123,7 +372,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="changed-2">Changed</h3>
+<h3 id="changed-3">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -145,13 +394,13 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 
 <ul>
   <li>Curated Bundler binstub generation now includes <code>rubocop-gradual</code>.</li>
 </ul>
 
-<h3 id="changed-3">Changed</h3>
+<h3 id="changed-4">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -174,7 +423,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 
 <ul>
   <li>
@@ -205,7 +454,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.14% documented</li>
 </ul>
 
-<h3 id="changed-4">Changed</h3>
+<h3 id="changed-5">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -226,7 +475,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.14% documented</li>
 </ul>
 
-<h3 id="changed-5">Changed</h3>
+<h3 id="changed-6">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -236,7 +485,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 
 <ul>
   <li>
@@ -261,7 +510,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.13% documented</li>
 </ul>
 
-<h3 id="changed-6">Changed</h3>
+<h3 id="changed-7">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -271,7 +520,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-4">Fixed</h3>
 
 <ul>
   <li>
@@ -299,7 +548,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="fixed-4">Fixed</h3>
+<h3 id="fixed-5">Fixed</h3>
 
 <ul>
   <li>
@@ -321,7 +570,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-7">Changed</h3>
+<h3 id="changed-8">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -343,7 +592,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-8">Changed</h3>
+<h3 id="changed-9">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -365,7 +614,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-9">Changed</h3>
+<h3 id="changed-10">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -387,7 +636,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-10">Changed</h3>
+<h3 id="changed-11">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -408,7 +657,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-5">Fixed</h3>
+<h3 id="fixed-6">Fixed</h3>
 
 <ul>
   <li>
@@ -430,7 +679,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-11">Changed</h3>
+<h3 id="changed-12">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -447,7 +696,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-6">Fixed</h3>
+<h3 id="fixed-7">Fixed</h3>
 
 <ul>
   <li>Apply StructuredMerge local template dependencies on the active development platform.</li>
@@ -464,7 +713,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-12">Changed</h3>
+<h3 id="changed-13">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -485,7 +734,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-7">Fixed</h3>
+<h3 id="fixed-8">Fixed</h3>
 
 <ul>
   <li>
@@ -516,7 +765,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-13">Changed</h3>
+<h3 id="changed-14">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -550,7 +799,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-14">Changed</h3>
+<h3 id="changed-15">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -576,7 +825,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-8">Fixed</h3>
+<h3 id="fixed-9">Fixed</h3>
 
 <ul>
   <li>
@@ -598,7 +847,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.96% documented</li>
 </ul>
 
-<h3 id="changed-15">Changed</h3>
+<h3 id="changed-16">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem/template: updated 796 project files:
@@ -618,7 +867,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-9">Fixed</h3>
+<h3 id="fixed-10">Fixed</h3>
 
 <ul>
   <li>
@@ -646,7 +895,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-16">Changed</h3>
+<h3 id="changed-17">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -667,7 +916,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-17">Changed</h3>
+<h3 id="changed-18">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem/template: updated 398 project files:
@@ -690,7 +939,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>Raise first-party dependency minimums to their latest released versions.</li>
 </ul>
 
-<h3 id="fixed-10">Fixed</h3>
+<h3 id="fixed-11">Fixed</h3>
 
 <ul>
   <li>
@@ -712,7 +961,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-18">Changed</h3>
+<h3 id="changed-19">Changed</h3>
 
 <ul>
   <li>
@@ -768,7 +1017,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-11">Fixed</h3>
+<h3 id="fixed-12">Fixed</h3>
 
 <ul>
   <li>
@@ -790,13 +1039,13 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.93% documented</li>
 </ul>
 
-<h3 id="added-2">Added</h3>
+<h3 id="added-3">Added</h3>
 
 <ul>
   <li>Gemspec author metadata now expands existing authors with Git-derived copyright holders and consolidates configured author aliases, while applying the documented default machine-account filter.</li>
 </ul>
 
-<h3 id="changed-19">Changed</h3>
+<h3 id="changed-20">Changed</h3>
 
 <ul>
   <li>
@@ -822,7 +1071,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-20">Changed</h3>
+<h3 id="changed-21">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -844,7 +1093,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-21">Changed</h3>
+<h3 id="changed-22">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -879,7 +1128,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-22">Changed</h3>
+<h3 id="changed-23">Changed</h3>
 
 <ul>
   <li>
@@ -920,7 +1169,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>Make the repository-local kettle-jem-deps-floor executable bootstrap the consistent StructuredMerge development bundle before loading parser dependencies.</li>
 </ul>
 
-<h3 id="fixed-12">Fixed</h3>
+<h3 id="fixed-13">Fixed</h3>
 
 <ul>
   <li>
@@ -945,7 +1194,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.00% documented</li>
 </ul>
 
-<h3 id="changed-23">Changed</h3>
+<h3 id="changed-24">Changed</h3>
 
 <ul>
   <li>
@@ -972,7 +1221,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>Main templating commands now record an aggregate Changed entry through kettle-changelog only when template files change, while transfer replay uses kettle-changelog’s structural merger.</li>
 </ul>
 
-<h3 id="fixed-13">Fixed</h3>
+<h3 id="fixed-14">Fixed</h3>
 
 <ul>
   <li>Restore source-checkout loading for the repository-local dependency-floor and workflow-pin maintenance tools.</li>
@@ -989,7 +1238,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-24">Changed</h3>
+<h3 id="changed-25">Changed</h3>
 
 <ul>
   <li>
@@ -1000,7 +1249,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-14">Fixed</h3>
+<h3 id="fixed-15">Fixed</h3>
 
 <ul>
   <li>
@@ -1046,7 +1295,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="added-3">Added</h3>
+<h3 id="added-4">Added</h3>
 
 <ul>
   <li>
@@ -1057,7 +1306,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="changed-25">Changed</h3>
+<h3 id="changed-26">Changed</h3>
 
 <ul>
   <li>
@@ -1077,7 +1326,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-15">Fixed</h3>
+<h3 id="fixed-16">Fixed</h3>
 
 <ul>
   <li>
@@ -1114,7 +1363,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="added-4">Added</h3>
+<h3 id="added-5">Added</h3>
 
 <ul>
   <li>Template NDJSON summaries now distinguish checksum write bypasses, planned<br>
@@ -1173,7 +1422,7 @@ RSpec helpers provided by <code>kettle-test</code>.</p>
   <li>Transfer changelog replay now supports destination applicability filters and filter-aware status reporting.</li>
 </ul>
 
-<h3 id="changed-26">Changed</h3>
+<h3 id="changed-27">Changed</h3>
 
 <ul>
   <li>Runtime dependency metadata now requires <code>kettle-ndjson</code> 0.1.3 or newer and<br>
@@ -1389,7 +1638,7 @@ use ClickGems instead of BestGems.</p>
   <li>Record explicit modular dependency removals and compatible keep_both decisions so repeated templating remains deterministic.</li>
 </ul>
 
-<h3 id="fixed-16">Fixed</h3>
+<h3 id="fixed-17">Fixed</h3>
 
 <ul>
   <li>Templating now removes the obsolete <code>tree_sitter_language_pack</code> entry from<br>
@@ -2648,7 +2897,7 @@ preserving comments and trailing commas during template updates.</p>
 </li>
 </ul>
 
-<h3 id="added-5">Added</h3>
+<h3 id="added-6">Added</h3>
 
 <ul>
   <li>Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.</li>

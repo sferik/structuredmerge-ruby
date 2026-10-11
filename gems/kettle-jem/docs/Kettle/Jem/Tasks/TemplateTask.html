@@ -347,18 +347,18 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-86
-87
-88
-89
-90
-91
-92
-93
-94</pre>
+101
+102
+103
+104
+105
+106
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_thread_worker_count'>default_thread_worker_count</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_cpu_count'>cpu_count</span> <span class='op'>=</span> <span class='const'>Etc</span><span class='period'>.</span><span class='id identifier rubyid_nprocessors'>nprocessors</span>
@@ -367,7 +367,7 @@ authoritative and bypass this default.</p>
   <span class='kw'>return</span> <span class='id identifier rubyid_standalone_limit'>standalone_limit</span> <span class='kw'>unless</span> <span class='id identifier rubyid_wave_jobs'>wave_jobs</span>
 
   <span class='id identifier rubyid_available_per_member'>available_per_member</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_cpu_count'>cpu_count</span> <span class='op'>-</span> <span class='id identifier rubyid_wave_jobs'>wave_jobs</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='id identifier rubyid_wave_jobs'>wave_jobs</span>
-  <span class='lbracket'>[</span><span class='id identifier rubyid_standalone_limit'>standalone_limit</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_available_per_member'>available_per_member</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
+  <span class='id identifier rubyid_available_per_member'>available_per_member</span><span class='period'>.</span><span class='id identifier rubyid_clamp'>clamp</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_standalone_limit'>standalone_limit</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -389,21 +389,6 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
@@ -415,10 +400,25 @@ authoritative and bypass this default.</p>
 76
 77
 78
-79</pre>
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_env_run_options'>env_run_options</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span>
@@ -490,12 +490,12 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-137
-138
-139</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_falsey?'>falsey?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../DecisionPolicy.html" title="Kettle::Jem::DecisionPolicy (class)">DecisionPolicy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_falsey?'><span class='object_link'><a href="../DecisionPolicy.html#falsey%3F-class_method" title="Kettle::Jem::DecisionPolicy.falsey? (method)">falsey?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
@@ -520,20 +520,20 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106</pre>
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_family_wave_jobs'>family_wave_jobs</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>KETTLE_FAMILY_WAVE_JOBS</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
@@ -589,14 +589,14 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-141
-142
-143
-144
-145</pre>
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_monorepo_root_profile?'>monorepo_root_profile?</span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_run_options'>run_options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_profile'>profile</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_run_options'>run_options</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:template_profile</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_run_options'>run_options</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template_profile</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>KETTLE_JEM_TEMPLATE_PROFILE</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
@@ -651,7 +651,22 @@ authoritative and bypass this default.</p>
 36
 37
 38
-39</pre>
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 11</span>
@@ -666,7 +681,7 @@ authoritative and bypass this default.</p>
       <span class='label'>recipe_reports:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='rbrace'>}</span>
   <span class='kw'>else</span>
-    <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_apply_project'><span class='object_link'><a href="../../Jem.html#apply_project-class_method" title="Kettle::Jem.apply_project (method)">apply_project</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span> <span class='label'>env:</span> <span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='label'>run_options:</span> <span class='id identifier rubyid_effective_run_options'>effective_run_options</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_apply_project'><span class='object_link'><a href="../../Jem.html#apply_project-class_method" title="Kettle::Jem.apply_project (method)">apply_project</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span> <span class='label'>env:</span> <span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='label'>run_options:</span> <span class='id identifier rubyid_effective_run_options'>effective_run_options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>defer_drift_check:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_setup_env'>setup_env</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Tasks.html" title="Kettle::Jem::Tasks (module)">Tasks</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InstallTask.html" title="Kettle::Jem::Tasks::InstallTask (module)">InstallTask</a></span></span><span class='period'>.</span><span class='id identifier rubyid_setup_command_env'><span class='object_link'><a href="InstallTask.html#setup_command_env-class_method" title="Kettle::Jem::Tasks::InstallTask.setup_command_env (method)">setup_command_env</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span> <span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hook_step'>hook_step</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Tasks.html" title="Kettle::Jem::Tasks (module)">Tasks</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InstallTask.html" title="Kettle::Jem::Tasks::InstallTask (module)">InstallTask</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hook_templates_step'><span class='object_link'><a href="InstallTask.html#hook_templates_step-class_method" title="Kettle::Jem::Tasks::InstallTask.hook_templates_step (method)">hook_templates_step</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span> <span class='id identifier rubyid_effective_run_options'>effective_run_options</span><span class='rparen'>)</span>
@@ -681,7 +696,22 @@ authoritative and bypass this default.</p>
     <span class='label'>command_runner:</span> <span class='id identifier rubyid_command_runner'>command_runner</span><span class='comma'>,</span>
     <span class='label'>event_phase:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template</span><span class='tstring_end'>&quot;</span></span>
   <span class='rparen'>)</span>
-  <span class='id identifier rubyid_final_report'>final_report</span> <span class='op'>=</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>mode:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>template_steps:</span> <span class='id identifier rubyid_template_steps'>template_steps</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_orchestration_changed_files'>orchestration_changed_files</span> <span class='op'>=</span> <span class='id identifier rubyid_template_steps'>template_steps</span><span class='period'>.</span><span class='id identifier rubyid_flat_map'>flat_map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_step'>step</span><span class='op'>|</span>
+    <span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_step'>step</span><span class='lbracket'>[</span><span class='symbol'>:changed_files</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_step'>step</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>changed_files</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_changed_files'>changed_files</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Array</span><span class='lparen'>(</span><span class='id identifier rubyid_report'>report</span><span class='lbracket'>[</span><span class='symbol'>:changed_files</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_orchestration_changed_files'>orchestration_changed_files</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
+  <span class='id identifier rubyid_final_report'>final_report</span> <span class='op'>=</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+    <span class='label'>mode:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>template</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>template_steps:</span> <span class='id identifier rubyid_template_steps'>template_steps</span><span class='comma'>,</span>
+    <span class='label'>changed_files:</span> <span class='id identifier rubyid_changed_files'>changed_files</span>
+  <span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_report'>report</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:duplicate_drift</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_final_report'>final_report</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_finalize_duplicate_drift'><span class='object_link'><a href="../../Jem.html#finalize_duplicate_drift-class_method" title="Kettle::Jem.finalize_duplicate_drift (method)">finalize_duplicate_drift</a></span></span><span class='lparen'>(</span>
+      <span class='label'>project_root:</span> <span class='id identifier rubyid_project_root'>project_root</span><span class='comma'>,</span>
+      <span class='label'>report:</span> <span class='id identifier rubyid_final_report'>final_report</span><span class='comma'>,</span>
+      <span class='label'>run_options:</span> <span class='id identifier rubyid_effective_run_options'>effective_run_options</span>
+    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_emit_summary_event'><span class='object_link'><a href="../../Jem.html#emit_summary_event-class_method" title="Kettle::Jem.emit_summary_event (method)">emit_summary_event</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_event_stream_from_options'><span class='object_link'><a href="../../Jem.html#event_stream_from_options-class_method" title="Kettle::Jem.event_stream_from_options (method)">event_stream_from_options</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_effective_run_options'>effective_run_options</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_final_report'>final_report</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_final_report'>final_report</span>
 <span class='kw'>end</span></pre>
@@ -705,20 +735,20 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51</pre>
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_templating_run_options'>templating_run_options</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_run_options'>run_options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_env_run_options'>env_run_options</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_run_options'>run_options</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -774,12 +804,12 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-133
-134
-135</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_truthy?'>truthy?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../../../Kettle.html" title="Kettle (module)">Kettle</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Jem.html" title="Kettle::Jem (module)">Jem</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../DecisionPolicy.html" title="Kettle::Jem::DecisionPolicy (class)">DecisionPolicy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_truthy?'><span class='object_link'><a href="../DecisionPolicy.html#truthy%3F-class_method" title="Kettle::Jem::DecisionPolicy.truthy? (method)">truthy?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
@@ -827,21 +857,6 @@ authoritative and bypass this default.</p>
       <pre class="lines">
 
 
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
 123
 124
 125
@@ -850,10 +865,25 @@ authoritative and bypass this default.</p>
 128
 129
 130
-131</pre>
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem/tasks/template_task.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_worker_or_strategy_option_provided?'>worker_or_strategy_option_provided?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_run_options'>run_options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_option_keys'>option_keys</span> <span class='op'>=</span> <span class='qsymbols_beg'>%i[</span><span class='words_sep'>

@@ -20,6 +20,25 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.29] - 2026-10-11
+
+- TAG: [v7.1.29][7.1.29t]
+- COVERAGE: 93.49% -- 11342/12132 lines in 17 files
+- BRANCH COVERAGE: 77.26% -- 4907/6351 branches in 17 files
+- 19.68% documented
+
+### Added
+
 - Engine-incompatible dev-dependency detection (case 3 of the dev-dependency
   conflict policy, GEMSPEC_DEV_DEPENDENCY_PLAN.md Phase 4): a direct
   development dependency with a `KNOWN_GEM_CONFLICT_RESOLUTIONS`
@@ -100,8 +119,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - [kc] license-eye-workflow-retry: The generated `.github/workflows/license-eye.yml` retries the license check once before failing. The pinned `apache/skywalking-eyes/dependency` action is a composite that builds license-eye from source on every run, and its own dependency cache is broken upstream: `dependency/action.yml` passes `cache-dependency-path: ${{ github.action_path }}/go.sum`, but `go.sum` lives at the action's repository root rather than in `dependency/` (404 versus 200). setup-go therefore logs "Restore cache failed: Some specified paths were not resolved", the module cache never restores, and each run re-downloads roughly 35 Go modules and re-runs `make`. Every templated repository is consequently exposed to a transient `proxy.golang.org` error on every push; one such run failed with `stream error: stream ID 133; INTERNAL_ERROR; received from peer` after eleven consecutive successes. The retry uses the same `[Attempt 1]`/`[Attempt 2]` idiom as the generated Ruby matrix workflows, and the action pin is unchanged.
 
 - Drop TruffleRuby 23.0 and TruffleRuby HEAD from generated CI. Both deadlocked in the parallel test worker pool during the turbo_tests2 v3.2.14 release: 23.0 was cancelled after hitting its own 30-minute cap with orphan ruby processes terminated, and HEAD ran to GitHub's 6-hour ceiling before being cancelled. 23.0 already carried the serial-worker mitigation (TURBO_TESTS2_MAX_PROCESSES=1), and its log shows '1 processes for 13 specs' followed by 29 minutes of silence, so forcing a single worker did not resolve the deadlock. Removes the truffleruby-23.0 workflow and json gemfile templates, the truffleruby job from the heads workflow template, and the matching README compatibility badges and reference definitions. TruffleRuby 23.1, 24.2, 25.0, 33.0 and current all pass and remain generated; the heads workflow keeps its ruby-head and jruby-head jobs, which both succeed.
-
-### Deprecated
 
 ### Removed
 
@@ -189,8 +206,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - The templated `gemfiles/modular/style_local.gemfile` passed `root: ["src", "rubocop-lts"]` to `eval_nomono_gems`, which nomono resolves through `join_home` to `$HOME/src/rubocop-lts`. The rubocop-lts family actually lives at `$HOME/src/my/rubocop-lts`, so `RUBOCOP_LTS_DEV=true` silently selected a stale sibling checkout when one existed and a missing tree otherwise. Now `["src", "my", "rubocop-lts"]`, matching the other sibling templates and nomono's own default root. Already-templated projects keep the stale root until re-templated.
 
 - kettle-jem: the packaged current.yml Windows test step hardcoded `bin/turbo_tests2`, correct for exactly one destination (and inconsistent even there, since its exec_cmd is kettle-test). The generated step now invokes the destination's own configured test command, resolved to its binstub from ci.exec_cmd. Also: the kettle-dev family local-gems wiring now includes kettle-rb, so destinations can develop against unreleased kettle-rb with KETTLE_DEV_DEV.
-
-### Security
 
 ## [7.1.28] - 2026-09-10
 
@@ -2211,7 +2226,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.28...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.29...HEAD
+[7.1.29]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.28...v7.1.29
+[7.1.29t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.29
 [7.1.28]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.27...v7.1.28
 [7.1.28t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.28
 [7.1.27]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.26...v7.1.27
