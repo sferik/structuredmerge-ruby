@@ -1,13 +1,4 @@
 {
-  "- [kc] kettle-jem/prepare: updated 13 project files:\n- dependencies (13)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        90,
-        609
-      ]
-    }
-  ],
   "- [kc] kettle-jem/template: updated 3 project files:\n- code and tests (1)": [
     {
       "file": "CHANGELOG.md",
@@ -126,6 +117,24 @@
         69,
         126,
         184
+      ]
+    }
+  ],
+  "id: bundleAppraisalAttempt2\nif: ${{ !env.ACT && steps.bundleAppraisalAttempt1.outcome == 'failure' }}": [
+    {
+      "file": ".github/workflows/heads.yml",
+      "lines": [
+        132,
+        190
+      ]
+    }
+  ],
+  "run: bundle exec appraisal ${{ matrix.appraisal }} install\ncontinue-on-error: true": [
+    {
+      "file": ".github/workflows/heads.yml",
+      "lines": [
+        128,
+        186
       ]
     }
   ],
