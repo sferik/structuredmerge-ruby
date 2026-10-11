@@ -67,7 +67,7 @@ RSpec.describe Kettle::Jem::Tasks::PrepareTask do
       expect(step.fetch(:status)).to eq("applied")
       expect(step.fetch(:changed_files)).to eq(["gemfiles/modular/coverage_local.gemfile"])
       content = File.read(path)
-      expect(content).to include('nomono_activation_requirements = ["~> 1.1", ">= 1.1.6"]')
+      expect(content).to include('nomono_activation_requirements = ["~> 1.1", ">= 1.1.7"]')
       expect(content).to include('Gem::Specification.find_all_by_name("nomono")')
       expect(content.scan(/^[ \t]*require "nomono\/bundler"$/).size).to eq(1)
     end
@@ -297,7 +297,7 @@ RSpec.describe Kettle::Jem::Tasks::PrepareTask do
       requirements = kettle_dev.fetch(:requirements)
       expect(step.fetch(:changed_files)).to contain_exactly("Gemfile", "gemfiles/modular/templating_local.gemfile")
       expect(File.read(gemfile)).to include(%(gem "kettle-dev", "#{requirements[0]}", "#{requirements[1]}", require: false))
-      expect(File.read(local_gemfile)).to include('gem "nomono", "~> 1.1", ">= 1.1.6"')
+      expect(File.read(local_gemfile)).to include('gem "nomono", "~> 1.1", ">= 1.1.7"')
       expect(File).not_to exist(File.join(root, "example.gemspec"))
     end
   end
