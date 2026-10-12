@@ -9565,6 +9565,7 @@ module Kettle
     # Both conflict sources share the same dependency_conflicts.resolve list,
     # decision-matching, and review gate.
     def validate_modular_dependency_conflicts!(project_root, recipe_reports)
+      validate_stale_modular_dependency_conflicts!(project_root)
       config = kettle_jem_config(project_root)
       conflicts = modular_dependency_conflicts(project_root, recipe_reports) +
         engine_dependency_conflicts(project_root, recipe_reports, config)
@@ -9616,6 +9617,45 @@ module Kettle
           "Review dependency_conflicts.resolve in #{KETTLE_CONFIG_PATH}; each entry needs gem, direct, modular, action, and reason. " \
         "Supported actions: remove_modular_gem, remove_x_std_lib_eval, remove_direct_gem, keep_both. " \
         "keep_both is valid only when the direct and modular requirements overlap."
+    end
+
+    # A remove_modular_gem / remove_x_std_lib_eval / remove_direct_gem entry
+    # that cites a gemspec as its direct side claims the gemspec declares the
+    # gem ("the gemspec owns the dependency"). When the gemspec has since
+    # stopped declaring it, the entry is stale: every templating run strips a
+    # modular declaration the template would otherwise maintain, and downstream
+    # bundles quietly lose the gem (observed: appraisal2-rubocop failing with
+    # "Unable to find gem rubocop-lts" because .rubocop.yml inherit_gem needed
+    # a gem the conflict entry had been deleting). These are warnings, not
+    # errors — some stale entries are intentional deactivations (e.g. a member
+    # deliberately disabling the yard-junk task) — but each one deserves a
+    # human look, because the recorded reason no longer describes reality.
+    def validate_stale_modular_dependency_conflicts!(project_root)
+      config = kettle_jem_config(project_root)
+      decisions = modular_dependency_conflict_decisions(config)
+      return if decisions.empty?
+
+      gemspec_paths = Dir.glob(File.join(project_root.to_s, "*.gemspec"))
+      gemspec_content = gemspec_paths.filter_map { |path| File.read(path) if File.readable?(path) }.join("\n")
+      return if gemspec_paths.empty?
+
+      stale = decisions.select do |decision|
+        next false unless decision.fetch("direct", "").end_with?(".gemspec")
+        next false unless %w[remove_modular_gem remove_x_std_lib_eval].include?(decision.fetch("action"))
+
+        gem_name = decision.fetch("gem")
+        !gemspec_dependency_records(gemspec_content).any? { |record| record.fetch(:name) == gem_name }
+      end
+      return if stale.empty?
+
+      details = stale.map do |decision|
+        "#{decision.fetch("gem")} (#{decision.fetch("direct")} vs #{decision.fetch("modular")})"
+      end.join(", ")
+      warn(
+        "kettle-jem: stale dependency_conflicts entries — the gemspec no longer declares: #{details}. " \
+          "If the removal is intentional, update the reason in #{KETTLE_CONFIG_PATH} to say so; " \
+          "otherwise remove the entry so the template maintains the modular declaration."
+      )
     end
 
     # Paths of a project's own directly-authored dependency manifests: the

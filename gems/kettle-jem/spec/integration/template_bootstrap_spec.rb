@@ -68,6 +68,75 @@ RSpec.describe Kettle::Jem, "template selection and bootstrap behavior" do
     end
   end
 
+  it "warns when a removal entry cites a gemspec that no longer declares the gem" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-stale-dependency-conflict", tmp_root) do |root|
+      # The gemspec does NOT declare rubocop-lts anymore; the conflict entry
+      # still claims it does ("The gemspec owns the project's style
+      # dependency"). Every templating run strips the modular declaration.
+      write_tree(root, {
+        ".structuredmerge/kettle-jem.yml" => <<~YAML,
+          dependency_conflicts:
+            reviewed: true
+            resolve:
+              - gem: rubocop-lts
+                direct: shields-badge.gemspec
+                modular: gemfiles/modular/style.gemfile
+                action: remove_modular_gem
+                reason: "The gemspec owns the project's style dependency."
+        YAML
+        "shields-badge.gemspec" => <<~RUBY
+          Gem::Specification.new do |spec|
+            spec.name = "shields-badge"
+            spec.add_development_dependency("rake", "~> 13.0")
+          end
+        RUBY
+      })
+      reports = [
+        {relative_path: "gemfiles/modular/style.gemfile", final_content: %(gem "rubocop-lts", "~> 10.3"\n)}
+      ]
+
+      expect {
+        described_class.validate_modular_dependency_conflicts!(root, reports)
+      }.to output(
+        include("stale dependency_conflicts entries", "rubocop-lts", "shields-badge.gemspec vs gemfiles/modular/style.gemfile")
+      ).to_stderr
+    end
+  end
+
+  it "does not warn when a removal entry's gemspec still declares the gem" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-fresh-dependency-conflict", tmp_root) do |root|
+      write_tree(root, {
+        ".structuredmerge/kettle-jem.yml" => <<~YAML,
+          dependency_conflicts:
+            reviewed: true
+            resolve:
+              - gem: yard-relative_markdown_links
+                direct: shields-badge.gemspec
+                modular: gemfiles/modular/documentation.gemfile
+                action: remove_modular_gem
+                reason: "The gemspec owns the project's documentation dependency."
+        YAML
+        "shields-badge.gemspec" => <<~RUBY
+          Gem::Specification.new do |spec|
+            spec.name = "shields-badge"
+            spec.add_development_dependency("yard-relative_markdown_links", "~> 0.5.0")
+          end
+        RUBY
+      })
+      reports = [
+        {relative_path: "gemfiles/modular/documentation.gemfile", final_content: %(gem "yard-relative_markdown_links", "~> 0.6"\n)}
+      ]
+
+      expect {
+        described_class.validate_modular_dependency_conflicts!(root, reports)
+      }.not_to output(/stale dependency_conflicts/).to_stderr
+    end
+  end
+
   it "keeps a remove_direct_gem decision stable across runs" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
