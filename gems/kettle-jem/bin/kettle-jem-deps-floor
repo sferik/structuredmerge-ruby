@@ -355,7 +355,8 @@ class KettleJemDepsFloor
     [
       *ruby_call_dependency_records(content, relative_path),
       *ruby_requirement_assignment_records(content, relative_path),
-      *template_managed_dependency_records(content, relative_path)
+      *template_managed_dependency_records(content, relative_path),
+      *gemspec_minimum_requirement_records(content, relative_path)
     ]
   end
 
@@ -421,6 +422,46 @@ class KettleJemDepsFloor
       next unless requirements.is_a?(::Prism::ArrayNode)
 
       record_from_arguments(relative_path, name, requirements.elements, source_kind: "template_registry")
+    end
+  end
+
+  # GEMSPEC_DEPENDENCY_MINIMUM_REQUIREMENTS floors (lib/kettle/jem.rb):
+  # `{ "gem" => ">= x" }` hash — floor-only records (no pessimistic part),
+  # so the edit target is just the floor range string.
+  def gemspec_minimum_requirement_records(content, relative_path)
+    result = Kettle::Jem.prism_parse_success(content)
+    return [] unless result
+
+    registry = nil
+    result.value.breadth_first_search_all do |node|
+      next unless node.is_a?(::Prism::ConstantWriteNode) && node.name == :GEMSPEC_DEPENDENCY_MINIMUM_REQUIREMENTS
+
+      registry = node
+      break
+    end
+    registry_value = registry&.value
+    registry_value = registry_value.receiver if registry_value.is_a?(::Prism::CallNode) && registry_value.name == :freeze
+    return [] unless registry_value.is_a?(::Prism::HashNode)
+
+    registry_value.elements.filter_map do |entry|
+      next unless entry.is_a?(::Prism::AssocNode)
+      next unless entry.key.is_a?(::Prism::StringNode)
+      next unless entry.value.is_a?(::Prism::StringNode)
+
+      name = entry.key.unescaped
+      floor_value = entry.value.unescaped
+      next unless real_gem_name?(name)
+      next unless floor_value.start_with?(">= ")
+
+      {
+        relative_path: relative_path,
+        name: name,
+        source_kind: "gemspec_floor",
+        current_pessimistic: nil,
+        current_floor: floor_value,
+        pessimistic_range: nil,
+        floor_range: range_for(entry.value)
+      }
     end
   end
 
@@ -508,7 +549,7 @@ class KettleJemDepsFloor
       key = [
         record.fetch(:relative_path),
         record.fetch(:name),
-        record.fetch(:pessimistic_range).fetch(:start_offset),
+        record[:pessimistic_range]&.fetch(:start_offset),
         record.fetch(:floor_range).fetch(:start_offset)
       ]
       next false if seen.include?(key)
@@ -591,10 +632,10 @@ class KettleJemDepsFloor
     changes.group_by { |change| change.fetch(:relative_path) }.each do |relative_path, path_changes|
       path = File.join(project_root, relative_path)
       replacements = path_changes.flat_map do |change|
-        [
-          change.fetch(:pessimistic_range).merge(replacement: JSON.generate(change.fetch(:new_pessimistic))),
-          change.fetch(:floor_range).merge(replacement: JSON.generate(">= #{change.fetch(:new_floor_version)}"))
-        ]
+        ranges = []
+        ranges << change.fetch(:pessimistic_range).merge(replacement: JSON.generate(change.fetch(:new_pessimistic))) if change[:pessimistic_range]
+        ranges << change.fetch(:floor_range).merge(replacement: JSON.generate(">= #{change.fetch(:new_floor_version)}"))
+        ranges
       end
       original = File.read(path)
       updated = Kettle::Jem.replace_source_offsets(original, replacements)
@@ -752,8 +793,8 @@ class KettleJemDepsFloor
       name: change.fetch(:name),
       relative_path: change.fetch(:relative_path),
       source_kind: change.fetch(:source_kind),
-      current_pessimistic: change.fetch(:current_pessimistic),
-      new_pessimistic: change.fetch(:new_pessimistic),
+      current_pessimistic: change[:current_pessimistic],
+      new_pessimistic: change[:new_pessimistic],
       current_floor: change.fetch(:current_floor_version).to_s,
       new_floor: change.fetch(:new_floor_version).to_s
     }

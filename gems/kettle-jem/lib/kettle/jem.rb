@@ -54,7 +54,7 @@ module Kettle
     MANAGED_BLOCK_OPEN = "# <<kettle-jem:generated>> do not edit below this line"
     MANAGED_BLOCK_CLOSE = "# <</kettle-jem:generated>>"
     GEMSPEC_DEPENDENCY_MINIMUM_REQUIREMENTS = {
-      "rspec-stubbed_env" => ">= 1.0.6"
+      "rspec-stubbed_env" => ">= 1.0.17"
     }.freeze
     # Template dependency transitions are location-independent. Prepare finds
     # declarations in the destination and reconciles their complete requirement
@@ -62,7 +62,7 @@ module Kettle
     TEMPLATE_MANAGED_DEPENDENCIES = [
       {name: PACKAGE_NAME, requirements: ["~> 7.1", ">= 7.1.28"], bootstrap: false},
       {name: "nomono", requirements: ["~> 1.1", ">= 1.1.7"], bootstrap: true},
-      {name: "kettle-dev", requirements: ["~> 3.1", ">= 3.1.11"], bootstrap: true},
+      {name: "kettle-dev", requirements: ["~> 3.1", ">= 3.1.12"], bootstrap: true},
       {
         name: "kettle-changelog",
         requirements: ["~> 1.0", ">= 1.0.9"],
@@ -5118,7 +5118,7 @@ module Kettle
       [
         {name: "appraisal2", source: %(gem "appraisal2", "~> 3.2", ">= 3.2.5"\n)},
         {name: "bundler-audit", source: %(gem "bundler-audit", "~> 0.9.3"\n)},
-        {name: "kettle-dev", source: %(gem "kettle-dev", "~> 3.1", ">= 3.1.11"\n)},
+        {name: "kettle-dev", source: %(gem "kettle-dev", "~> 3.1", ">= 3.1.12"\n)},
         {name: "kettle-drift", source: %(gem "kettle-drift", "~> 1.0", ">= 1.0.16"\n)},
         {name: "kettle-family", source: %(gem "kettle-family", "~> 1.3", ">= 1.3.10"\n)},
         {name: PACKAGE_NAME, source: kettle_jem_dependency_source},
