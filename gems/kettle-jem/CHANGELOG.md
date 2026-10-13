@@ -24,6 +24,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-dev (>= 3.1.11 -> >= 3.1.12)
+  - kettle-test (>= 2.0.24 -> >= 2.0.25)
   - rspec-stubbed_env (>= 1.0.6 -> >= 1.0.17)
 
 ### Deprecated
