@@ -26,7 +26,7 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-dev (>= 3.1.11 -> >= 3.1.12)
   - kettle-test (>= 2.0.24 -> >= 2.0.25)
   - rspec-stubbed_env (>= 1.0.6 -> >= 1.0.17)
-  - turbo_tests2 (>= 3.2.14 -> >= 3.2.15)
+  - turbo_tests2 (>= 3.2.14 -> >= 3.2.16)
 
 ### Deprecated
 
