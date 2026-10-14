@@ -28,6 +28,12 @@ Please file a bug if you notice a violation of semantic versioning.
   - rspec-stubbed_env (>= 1.0.6 -> >= 1.0.17)
   - turbo_tests2 (>= 3.2.14 -> >= 3.2.16)
 
+- [kc] kettle-jem/template: updated 7 project files:
+  - code and tests (1)
+  - dependencies (4)
+  - documentation (1)
+  - other (1)
+
 ### Deprecated
 
 ### Removed
