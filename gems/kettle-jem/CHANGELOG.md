@@ -40,6 +40,8 @@ Please file a bug if you notice a violation of semantic versioning.
 - [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
   - ruby/setup-ruby v1.328.0 (e81a8fa391b11a595c1b7ed84177cc0fe02faf83) -> v1.329.0 (651ff0d62c5c79bed6d53ec518387aae20e72c1a)
 
+- Dependency floors raised: turbo_tests2 4.0.0 (drops parallel_tests for runtime_groups) in the template gemspec and managed-floors registry
+
 ### Deprecated
 
 ### Removed
