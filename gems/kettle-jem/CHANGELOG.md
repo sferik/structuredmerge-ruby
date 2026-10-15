@@ -36,6 +36,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - JRuby workflow templates now cap worker JVMs at 2 (TURBO_TESTS2_MAX_PROCESSES=2) alongside the -Xmx1280m heap cap, and truffleruby workflow templates no longer force serial-only lanes (MAX_PROCESSES 1 -> 2): turbo_tests2 workers are spawn-based and engine-portable, so JVM engines run parallel workers safely once workers x per-worker heap is bounded under the runner RAM; the old serial-only setting wasted CI time and made lanes trip the stall watchdog on legitimately long tests
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - ruby/setup-ruby v1.328.0 (e81a8fa391b11a595c1b7ed84177cc0fe02faf83) -> v1.329.0 (651ff0d62c5c79bed6d53ec518387aae20e72c1a)
+
 ### Deprecated
 
 ### Removed
