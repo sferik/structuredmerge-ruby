@@ -34,6 +34,8 @@ Please file a bug if you notice a violation of semantic versioning.
   - documentation (1)
   - other (1)
 
+- JRuby workflow templates now cap worker JVMs at 2 (TURBO_TESTS2_MAX_PROCESSES=2) alongside the -Xmx1280m heap cap, and truffleruby workflow templates no longer force serial-only lanes (MAX_PROCESSES 1 -> 2): turbo_tests2 workers are spawn-based and engine-portable, so JVM engines run parallel workers safely once workers x per-worker heap is bounded under the runner RAM; the old serial-only setting wasted CI time and made lanes trip the stall watchdog on legitimately long tests
+
 ### Deprecated
 
 ### Removed
