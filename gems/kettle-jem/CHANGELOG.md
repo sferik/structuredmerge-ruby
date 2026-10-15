@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.30] - 2026-10-15
+
+- TAG: [v7.1.30][7.1.30t]
+- COVERAGE: 93.50% -- 11359/12149 lines in 17 files
+- BRANCH COVERAGE: 77.27% -- 4917/6363 branches in 17 files
+- 19.72% documented
+
+### Changed
+
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-changelog (>= 1.0.9 -> >= 1.0.10)
   - kettle-dev (>= 3.1.11 -> >= 3.1.13)
@@ -42,17 +59,11 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Dependency floors raised: turbo_tests2 4.0.0 (drops parallel_tests for runtime_groups) in the template gemspec and managed-floors registry
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - JRuby workflow templates now set TURBO_TESTS2_WATCHDOG_SECONDS=1500 (matching the truffleruby serial-lane margin): JRuby engines cannot fork, so turbo_tests2 runs serial and a single slow spec could exceed the previous 900s watchdog and fail the whole lane (jruby-9.2 killed mid-run after 805 passing examples)
 
 - JRuby workflow templates now cap each turbo_tests2 worker JVM at -Xmx1280m via JRUBY_OPTS: without a cap JRuby defaults to 1/4 of runner RAM per worker and concurrent workers get OOM-killed silently mid-run, which the watchdog then reports as total worker silence (the jruby-9.2 lane died this way with 805 examples passing)
-
-### Security
 
 ## [7.1.29] - 2026-10-11
 
@@ -2253,7 +2264,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.29...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.30...HEAD
+[7.1.30]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.29...v7.1.30
+[7.1.30t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.30
 [7.1.29]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.28...v7.1.29
 [7.1.29t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.29
 [7.1.28]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.27...v7.1.28
