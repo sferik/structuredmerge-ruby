@@ -23,7 +23,8 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Changed
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
-  - kettle-dev (>= 3.1.11 -> >= 3.1.12)
+  - kettle-changelog (>= 1.0.9 -> >= 1.0.10)
+  - kettle-dev (>= 3.1.11 -> >= 3.1.13)
   - kettle-test (>= 2.0.24 -> >= 2.0.25)
   - rspec-stubbed_env (>= 1.0.6 -> >= 1.0.17)
   - turbo_tests2 (>= 3.2.14 -> >= 3.2.17)
