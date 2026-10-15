@@ -42,6 +42,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - JRuby workflow templates now set TURBO_TESTS2_WATCHDOG_SECONDS=1500 (matching the truffleruby serial-lane margin): JRuby engines cannot fork, so turbo_tests2 runs serial and a single slow spec could exceed the previous 900s watchdog and fail the whole lane (jruby-9.2 killed mid-run after 805 passing examples)
 
+- JRuby workflow templates now cap each turbo_tests2 worker JVM at -Xmx1280m via JRUBY_OPTS: without a cap JRuby defaults to 1/4 of runner RAM per worker and concurrent workers get OOM-killed silently mid-run, which the watchdog then reports as total worker silence (the jruby-9.2 lane died this way with 805 examples passing)
+
 ### Security
 
 ## [7.1.29] - 2026-10-11
