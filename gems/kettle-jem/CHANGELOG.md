@@ -23,7 +23,8 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Changed
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
-  - kettle-changelog (>= 1.0.10 -> >= 1.0.11)
+  - kettle-changelog (>= 1.0.10 -> >= 1.0.12)
+  - kettle-dev (>= 3.1.13 -> >= 3.1.15)
   - kettle-drift (>= 1.0.16 -> >= 1.0.17)
   - kettle-family (>= 1.3.10 -> >= 1.3.11)
   - kettle-soup-cover (>= 3.0.12 -> >= 3.0.13)
