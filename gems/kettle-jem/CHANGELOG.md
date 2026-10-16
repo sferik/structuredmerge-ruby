@@ -30,6 +30,11 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-test (>= 2.0.25 -> >= 2.0.27)
   - nomono (>= 1.1.7 -> >= 1.1.8)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - github/codeql-action/analyze v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d) -> v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee)
+  - github/codeql-action/autobuild v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d) -> v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee)
+  - github/codeql-action/init v4.38.3 (24c54180a607b1449ed407dd24f251e4e9147c8d) -> v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee)
+
 ### Deprecated
 
 ### Removed
