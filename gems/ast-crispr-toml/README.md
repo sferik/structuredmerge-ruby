@@ -21,6 +21,16 @@ I've summarized my thoughts in [this blog post](https://dev.to/galtzo/hostile-ta
 
 ## 🌻 Synopsis <a href="https://discord.gg/3qme4XHNKN"><img alt="Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0" src="https://logos.galtzo.com/assets/images/galtzo-floss/avatar-128px.svg" width="8%" align="right"/></a> <a href="https://ruby-toolbox.com"><img alt="ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5" src="https://logos.galtzo.com/assets/images/ruby-lang/avatar-128px.svg" width="8%" align="right"/></a>
 
+`ast-crispr-toml` is the TOML adapter for `ast-crispr`. It exposes TOML tables (including dotted sub-tables and array tables) and key/value pairs addressed by dotted key paths as structural owners, so configuration files like `mise.toml` can be edited through ast-crispr Actors without line-oriented string surgery.
+
+### Key Features
+
+- toml-merge-backed TOML document contexts (parser-agnostic over TreeHaver, Citrus, and Parslet backends).
+- Table selectors with ranges that include leading comments and clamp to the table's body end.
+- Dotted-key-path pair selectors (`tasks.family-lint.run`).
+- Leading/trailing comment regions for table owners.
+- Edits through the shared ast-crispr Actors (`Insert`, `Replace`, `Delete`, `DeleteBatch`).
+
 ## 💡 Info you can shake a stick at
 
 | Tokens to Remember | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace] |
