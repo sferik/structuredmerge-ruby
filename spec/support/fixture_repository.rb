@@ -15,16 +15,12 @@ module StructuredMerge
       @lock ||= YAML.load_file(LOCK_PATH.to_s)
     end
 
-    def version
-      lock.fetch('version')
-    end
-
-    def tag
-      lock.fetch('tag')
-    end
-
     def revision
       lock.fetch('revision')
+    end
+
+    def branch
+      lock.fetch('branch')
     end
 
     def repository
@@ -35,12 +31,8 @@ module StructuredMerge
       git_output('rev-parse', 'HEAD')
     end
 
-    def tag_revision
-      git_output('rev-parse', "refs/tags/#{tag}^{commit}")
-    end
-
     def report
-      "StructuredMerge fixtures: version=#{version} tag=#{tag} revision=#{revision} checkout=#{checkout_revision}"
+      "StructuredMerge fixtures: branch=#{branch} revision=#{revision} checkout=#{checkout_revision}"
     end
 
     def git_output(*args, strip: true)

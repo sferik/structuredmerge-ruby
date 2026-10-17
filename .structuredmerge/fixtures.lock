@@ -1,4 +1,3 @@
 repository: https://github.com/structuredmerge/structuredmerge-fixtures.git
-version: 7.1.8
-tag: v7.1.8
-revision: 3d49b80ff19ab8594e6cd625977f868a5fda2a54
+branch: main
+revision: b08095eeaeca0aee2a12e85126668e81de4ace4f
