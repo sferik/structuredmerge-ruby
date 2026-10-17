@@ -6822,7 +6822,7 @@ module Kettle
 
     def apply_template_source(project_root, recipe, original, facts: nil, env: ENV, template_contents: nil)
       strategy = recipe.dig(:template_preference, :strategy).to_s
-      return original if strategy == "keep_destination"
+      return original if Ast::Template::Strategies.keep_destination?(strategy)
 
       content = recipe_template_content(project_root, recipe, template_contents: template_contents)
       return finalize_github_workflow_template(content, facts) if strategy == "raw_copy" && github_workflow_template_recipe?(recipe)
@@ -7618,7 +7618,8 @@ module Kettle
 
     def merge_config_template_source(recipe, template_content, destination_content, facts: nil, env: ENV)
       file_type = template_file_type(recipe)
-      if destination_content.to_s.strip.empty?
+      trivial_outcome = Ast::Template::Strategies.trivial_merge_outcome(template_content, destination_content)
+      if trivial_outcome == :empty_destination
         if file_type == :gemfile
           return finalize_gemfile_template_source(recipe, template_content, destination_content, facts: facts, template_content: template_content)
         end
@@ -7627,7 +7628,7 @@ module Kettle
 
         return template_content
       end
-      if destination_content == template_content
+      if trivial_outcome == :identical
         if file_type == :gemfile
           return finalize_gemfile_template_source(recipe, destination_content, destination_content, facts: facts, template_content: template_content)
         end
