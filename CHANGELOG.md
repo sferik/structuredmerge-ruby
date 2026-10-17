@@ -20,7 +20,13 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- ast-template: New Ast::Template::TokenApplication — the slice-1041 token-application contract (stringified replacements, on-missing-keep resolution with canonical keys, namespace-scoped unresolved scan raising UnresolvedTokensError); conformance-verified against structuredmerge/fixtures templating/slice-1041-token-application; first extraction of generic templating machinery from kettle-jem (slice-1040)
+
 ### Changed
+
+- Uncap the turbo_tests2 dependency (>= 3.1.12, no upper bound): turbo_tests2 4.0 dropped parallel_tests for runtime_groups, and kettle-test only shells out to the turbo_tests2 executable, which kept its CLI surface; family members could not resolve the templated turbo_tests2 ~> 4.0 floor against kettle-test's < 4 cap
+
+- kettle-jem: token application (resolve_template_tokens, yaml_scalar_value_template_tokens, stringify_template_tokens) now delegates to Ast::Template::TokenApplication instead of an inline implementation; adds ast-template ~> 7.1 (>= 7.1.11) dependency, resolvable once the family publishes 7.1.11
 
 ### Deprecated
 

@@ -103,6 +103,7 @@ Gem::Specification.new do |spec|
 
   # Utilities
   spec.add_dependency 'ast-merge', "= #{spec.version}"
+  spec.add_dependency('token-resolver', '~> 2.0', '>= 2.0.10') # ruby >= 3.2.0
   spec.add_dependency('version_gem', '~> 1.1', '>= 1.1.15') # ruby >= 2.2.0
 
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
