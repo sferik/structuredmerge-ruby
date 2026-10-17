@@ -1,0 +1,10 @@
+module Ast
+  module Crispr
+    module Toml
+      module Version
+        VERSION: String
+      end
+      VERSION: String
+    end
+  end
+end

@@ -12,6 +12,7 @@ members:
     - gems/ast-crispr
     - gems/ast-crispr-ruby-prism
     - gems/ast-crispr-markdown-markly
+    - gems/ast-crispr-toml
     - gems/ast-merge-git
     - gems/plain-merge
     - gems/bash-merge
@@ -48,6 +49,7 @@ members:
       - ast-crispr
       - ast-crispr-ruby-prism
       - ast-crispr-markdown-markly
+      - ast-crispr-toml
       - ast-merge-git
       - plain-merge
       - bash-merge

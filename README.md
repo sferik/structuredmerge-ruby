@@ -62,6 +62,7 @@ The family is intentionally layered:
 | [`ast-crispr`][ruby-ast-crispr] | Generic AST edits | Structured document surgery recipes for generated blocks and template-owned regions. |
 | [`ast-crispr-ruby-prism`][ruby-ast-crispr-ruby-prism] | Ruby AST edits | [Prism][prism]-backed Ruby source edits, including require insertion and template-managed Ruby regions. |
 | [`ast-crispr-markdown-markly`][ruby-ast-crispr-markdown-markly] | Markdown AST edits | [Markly][markly]-backed Markdown block replacement and README recipe support. |
+| [`ast-crispr-toml`][ruby-ast-crispr-toml] | TOML AST edits | [toml-merge][ruby-toml-merge]-backed TOML table and dotted-key-path selection (mise.toml and friends). |
 
 ### Format Gems
 
@@ -118,7 +119,7 @@ tags are capability names, not package preferences.
 | [Psych][psych] | `yaml-merge`, `psych-merge` | Ruby standard YAML parser/emitter path. |
 | [RBS][rbs] | `rbs-merge` | Ruby signature parser path. |
 | [CommonMarker][commonmarker], [Markly][markly], [Kramdown][kramdown] | `markdown-merge` providers | Markdown parser families with different CommonMark/GFM/Ruby-native tradeoffs. |
-| [Citrus][citrus], [Parslet][parslet] | `toml-merge` providers | Pure-Ruby TOML parser families exposed as provider-specific TreeHaver backend paths. |
+| [Citrus][citrus], [Parslet][parslet] | `toml-merge` providers, `ast-crispr-toml` | Pure-Ruby TOML parser families exposed as provider-specific TreeHaver backend paths. |
 | [Kaitai Struct][kaitai] | `binary-merge`, `zip-merge` | Schema-oriented binary parsing support and shared binary-family merge behavior. |
 
 #### Backend Platform Compatibility
@@ -152,6 +153,7 @@ Legend: ✅ = works, ❌ = does not work, ❓ = not part of the supported runtim
 [ruby-ast-crispr]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr
 [ruby-ast-crispr-ruby-prism]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-ruby-prism
 [ruby-ast-crispr-markdown-markly]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-markdown-markly
+[ruby-ast-crispr-toml]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml
 [ruby-plain-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/plain-merge
 [ruby-json-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/json-merge
 [ruby-yaml-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/yaml-merge
