@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- ast-merge-git: pinned-Git-competitor probe spec now skips when the system git does not match the corpus pin, so the suite holds on any machine regardless of installed git (CI runner images ship a different git); runner-side comparability guards remain in force for real benchmark runs
+
 ### Security
 
 ## [7.1.11] - 2026-10-17
