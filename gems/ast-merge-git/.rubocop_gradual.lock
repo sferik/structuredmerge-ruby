@@ -105,8 +105,8 @@
   "lib/ast-merge-git.rb:4085939583": [
     [1, 1, 0, "Naming/FileName: The name of this source file (`ast-merge-git.rb`) should use snake_case.", 5381]
   ],
-  "lib/ast/merge/git.rb:591150602": [
-    [275, 7, 790, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `register_explicit_rust_provider` is too high. [8/7]", 1977872112]
+  "lib/ast/merge/git.rb:641030538": [
+    [277, 7, 790, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `register_explicit_rust_provider` is too high. [8/7]", 1977872112]
   ],
   "lib/ast/merge/git/rust_host_provider.rb:3562734462": [
     [25, 9, 910, "Metrics/AbcSize: Assignment Branch Condition size for `policy` is too high. [<4, 17, 7> 18.81/17]", 1969699911],
