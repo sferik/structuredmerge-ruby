@@ -531,8 +531,6 @@
       <pre class="lines">
 
 
-2282
-2283
 2284
 2285
 2286
@@ -540,10 +538,12 @@
 2288
 2289
 2290
-2291</pre>
+2291
+2292
+2293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2282</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2284</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_entry'>build_entry</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_spec'>spec</span><span class='comma'>,</span> <span class='label'>workspace_root:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_spec'>spec</span><span class='op'>&amp;.</span><span class='id identifier rubyid_full_gem_path'>full_gem_path</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -575,14 +575,14 @@
       <pre class="lines">
 
 
-2315
-2316
 2317
 2318
-2319</pre>
+2319
+2320
+2321</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2315</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_canonical_path'>canonical_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
   <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_realpath'>realpath</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
@@ -609,8 +609,6 @@
       <pre class="lines">
 
 
-2321
-2322
 2323
 2324
 2325
@@ -628,10 +626,12 @@
 2337
 2338
 2339
-2340</pre>
+2340
+2341
+2342</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2321</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2323</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_console_lines'>console_lines</span><span class='lparen'>(</span><span class='label'>snapshot:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>project_root:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_snapshot'>snapshot</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_snapshot'>snapshot</span>
@@ -673,8 +673,6 @@
       <pre class="lines">
 
 
-2293
-2294
 2295
 2296
 2297
@@ -685,10 +683,12 @@
 2302
 2303
 2304
-2305</pre>
+2305
+2306
+2307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2293</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2295</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_workspace_root'>default_workspace_root</span>
   <span class='id identifier rubyid_env_root'>env_root</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>KETTLE_DEV_DEV</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span>
@@ -746,16 +746,16 @@
       <pre class="lines">
 
 
-2307
-2308
 2309
 2310
 2311
 2312
-2313</pre>
+2313
+2314
+2315</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2307</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2309</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_path?'>local_path?</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>workspace_root:</span> <span class='id identifier rubyid_default_workspace_root'>default_workspace_root</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_workspace_root'>workspace_root</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -784,18 +784,18 @@
       <pre class="lines">
 
 
-2451
-2452
 2453
 2454
 2455
 2456
 2457
 2458
-2459</pre>
+2459
+2460
+2461</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2451</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2453</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_warning_section'>local_warning_section</span><span class='lparen'>(</span><span class='id identifier rubyid_warning'>warning</span><span class='rparen'>)</span>
   <span class='heredoc_beg'>&lt;&lt;~MARKDOWN</span><span class='period'>.</span><span class='id identifier rubyid_chomp'>chomp</span>
@@ -826,8 +826,6 @@
       <pre class="lines">
 
 
-2461
-2462
 2463
 2464
 2465
@@ -846,10 +844,12 @@
 2478
 2479
 2480
-2481</pre>
+2481
+2482
+2483</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2461</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2463</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_workspace_warning'>local_workspace_warning</span><span class='lparen'>(</span><span class='label'>snapshot:</span><span class='comma'>,</span> <span class='label'>project_root:</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_project_root'>project_root</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -892,18 +892,18 @@
       <pre class="lines">
 
 
-2441
-2442
 2443
 2444
 2445
 2446
 2447
 2448
-2449</pre>
+2449
+2450
+2451</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2441</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2443</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_workspace_warning_lines'>local_workspace_warning_lines</span><span class='lparen'>(</span><span class='label'>snapshot:</span><span class='comma'>,</span> <span class='label'>project_root:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_warning'>warning</span> <span class='op'>=</span> <span class='id identifier rubyid_local_workspace_warning'>local_workspace_warning</span><span class='lparen'>(</span><span class='label'>snapshot:</span> <span class='id identifier rubyid_snapshot'>snapshot</span><span class='comma'>,</span> <span class='label'>project_root:</span> <span class='id identifier rubyid_project_root'>project_root</span><span class='rparen'>)</span>
@@ -934,8 +934,6 @@
       <pre class="lines">
 
 
-2342
-2343
 2344
 2345
 2346
@@ -954,10 +952,12 @@
 2359
 2360
 2361
-2362</pre>
+2362
+2363
+2364</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2342</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2344</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_markdown_section'>markdown_section</span><span class='lparen'>(</span><span class='label'>snapshot:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_snapshot'>snapshot</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_snapshot'>snapshot</span>
@@ -1000,8 +1000,6 @@
       <pre class="lines">
 
 
-2364
-2365
 2366
 2367
 2368
@@ -1039,10 +1037,12 @@
 2400
 2401
 2402
-2403</pre>
+2403
+2404
+2405</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2364</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2366</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_markdown'>render_markdown</span><span class='lparen'>(</span><span class='label'>project_root:</span><span class='comma'>,</span> <span class='label'>output_dir:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>snapshot:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>run_started_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='label'>finished_at:</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='label'>status:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>warnings:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>error:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>template_diff:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>template_commit_sha:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
@@ -1104,14 +1104,14 @@
       <pre class="lines">
 
 
-2405
-2406
 2407
 2408
-2409</pre>
+2409
+2410
+2411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2405</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2407</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_report_path'>report_path</span><span class='lparen'>(</span><span class='label'>project_root:</span><span class='comma'>,</span> <span class='label'>output_dir:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>run_started_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='label'>pid:</span> <span class='const'>Process</span><span class='period'>.</span><span class='id identifier rubyid_pid'>pid</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_target_root'>target_root</span> <span class='op'>=</span> <span class='id identifier rubyid_output_dir'>output_dir</span> <span class='op'>||</span> <span class='id identifier rubyid_project_root'>project_root</span>
@@ -1138,15 +1138,15 @@
       <pre class="lines">
 
 
-2483
-2484
 2485
 2486
 2487
-2488</pre>
+2488
+2489
+2490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2483</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sibling_workspace_root'>sibling_workspace_root</span><span class='lparen'>(</span><span class='id identifier rubyid_project_root'>project_root</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_candidate'>candidate</span> <span class='op'>=</span> <span class='id identifier rubyid_canonical_path'>canonical_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>..</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_project_root'>project_root</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1174,16 +1174,16 @@
       <pre class="lines">
 
 
-2274
-2275
 2276
 2277
 2278
 2279
-2280</pre>
+2280
+2281
+2282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2274</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_snapshot'>snapshot</span><span class='lparen'>(</span><span class='label'>loaded_specs:</span> <span class='const'>Gem</span><span class='period'>.</span><span class='id identifier rubyid_loaded_specs'>loaded_specs</span><span class='comma'>,</span> <span class='label'>workspace_root:</span> <span class='id identifier rubyid_default_workspace_root'>default_workspace_root</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span>
@@ -1212,15 +1212,15 @@
       <pre class="lines">
 
 
-2434
-2435
 2436
 2437
 2438
-2439</pre>
+2439
+2440
+2441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2434</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2436</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_source_label'>source_label</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not loaded</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:loaded</span><span class='rbracket'>]</span>
@@ -1248,8 +1248,6 @@
       <pre class="lines">
 
 
-2490
-2491
 2492
 2493
 2494
@@ -1266,10 +1264,12 @@
 2505
 2506
 2507
-2508</pre>
+2508
+2509
+2510</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2490</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2492</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_template_diff_section'>template_diff_section</span><span class='lparen'>(</span><span class='id identifier rubyid_diff'>diff</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_lines'>lines</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>## Template File Changes</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
@@ -1310,8 +1310,6 @@
       <pre class="lines">
 
 
-2411
-2412
 2413
 2414
 2415
@@ -1331,10 +1329,12 @@
 2429
 2430
 2431
-2432</pre>
+2432
+2433
+2434</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2411</span>
+      <pre class="code"><span class="info file"># File 'lib/kettle/jem.rb', line 2413</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='label'>project_root:</span><span class='comma'>,</span> <span class='label'>output_dir:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>snapshot:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>report_path:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>run_started_at:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span>
   <span class='label'>finished_at:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>warnings:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>error:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>template_diff:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>template_commit_sha:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
