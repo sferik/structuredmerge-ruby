@@ -4,12 +4,14 @@
 # contract. Cases come from the shared fixture manifest; do not add inline
 # cases here — extend the fixture so every host runs the same contract.
 RSpec.describe 'slice-1043 file-type detection and merge dispatch' do
-  repo_root = Pathname(__dir__).expand_path
-  repo_root = repo_root.parent until repo_root.join('fixtures').directory? && repo_root.join('ruby').directory? || repo_root.root?
-  raise "structuredmerge container not found from #{__dir__}" if repo_root.root?
+  search_root = Pathname(__dir__).expand_path
+  search_root = search_root.parent until search_root.join('fixtures').directory? || search_root.parent.join('fixtures').directory? || search_root.root?
+  fixture_root = search_root.join('fixtures')
+  fixture_root = search_root.parent.join('fixtures') unless fixture_root.directory?
+  raise "structuredmerge fixtures not found from #{__dir__}" unless fixture_root.directory?
 
   manifest = JSON.parse(
-    repo_root.join('fixtures/templating/slice-1043-merge-dispatch/manifest.json').read,
+    fixture_root.join('templating/slice-1043-merge-dispatch/manifest.json').read,
     symbolize_names: true
   )
 

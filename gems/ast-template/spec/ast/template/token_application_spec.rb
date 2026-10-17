@@ -4,15 +4,16 @@
 # Cases come from the shared fixture manifest; do not add inline cases here —
 # extend the fixture so every host runs the same contract.
 RSpec.describe Ast::Template::TokenApplication do
-  # The fixtures repo is a sibling checkout of the ruby monorepo inside the
-  # structuredmerge container; ascend rather than counting segments because
-  # parallel runners can load this file through paths of differing depth.
-  repo_root = Pathname(__dir__).expand_path
-  repo_root = repo_root.parent until repo_root.join('fixtures').directory? && repo_root.join('ruby').directory? || repo_root.root?
-  raise "structuredmerge container not found from #{__dir__}" if repo_root.root?
+  # The fixtures checkout may be under the local container or a sibling of the
+  # repository checkout in CI. Ascend rather than counting path segments.
+  search_root = Pathname(__dir__).expand_path
+  search_root = search_root.parent until search_root.join('fixtures').directory? || search_root.parent.join('fixtures').directory? || search_root.root?
+  fixture_root = search_root.join('fixtures')
+  fixture_root = search_root.parent.join('fixtures') unless fixture_root.directory?
+  raise "structuredmerge fixtures not found from #{__dir__}" unless fixture_root.directory?
 
   manifest = JSON.parse(
-    repo_root.join('fixtures/templating/slice-1041-token-application/manifest.json').read,
+    fixture_root.join('templating/slice-1041-token-application/manifest.json').read,
     symbolize_names: true
   )
 
