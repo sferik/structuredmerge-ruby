@@ -113,12 +113,12 @@ run = "K_JEM_TEMPLATING=true STRUCTUREDMERGE_DEV={{config_root}}/gems KETTLE_DEV
 [tasks.bupb]
 description = "Install latest stable Bundler and update family lockfiles; pass options after --"
 raw = true
-run = "STRUCTUREDMERGE_DEV=false KETTLE_DEV_DEV=false K_JEM_TEMPLATING=false bundle _$(ruby -e 'puts Gem::Specification.find_all_by_name(%q{bundler}).map(&:version).reject(&:prerelease?).max')_ exec kettle-family update-bundler --execute --commit --env STRUCTUREDMERGE_DEV={{config_root}}/gems --env KETTLE_DEV_DEV=false --env K_JEM_TEMPLATING=true"
+run = "STRUCTUREDMERGE_DEV=false KETTLE_DEV_DEV=false K_JEM_TEMPLATING=false bundle _$(ruby -e 'require %q{kettle/dev}; print Kettle::Dev::BundlerPinning.installed_stable')_ exec kettle-family update-bundler --execute --commit --env STRUCTUREDMERGE_DEV={{config_root}}/gems --env KETTLE_DEV_DEV=false --env K_JEM_TEMPLATING=true"
 
 [tasks.update-bundler]
 description = "Install latest stable Bundler and update family lockfiles; pass options after --"
 raw = true
-run = "STRUCTUREDMERGE_DEV=false KETTLE_DEV_DEV=false K_JEM_TEMPLATING=false bundle _$(ruby -e 'puts Gem::Specification.find_all_by_name(%q{bundler}).map(&:version).reject(&:prerelease?).max')_ exec kettle-family update-bundler --execute --commit --env STRUCTUREDMERGE_DEV={{config_root}}/gems --env KETTLE_DEV_DEV=false --env K_JEM_TEMPLATING=true"
+run = "STRUCTUREDMERGE_DEV=false KETTLE_DEV_DEV=false K_JEM_TEMPLATING=false bundle _$(ruby -e 'require %q{kettle/dev}; print Kettle::Dev::BundlerPinning.installed_stable')_ exec kettle-family update-bundler --execute --commit --env STRUCTUREDMERGE_DEV={{config_root}}/gems --env KETTLE_DEV_DEV=false --env K_JEM_TEMPLATING=true"
 
 [tasks.bex]
 description = "Run a bundle exec command across family members; pass COMMAND after --"
