@@ -731,39 +731,46 @@ RSpec.describe Ast::Merge::Git::LocalBenchmark do
     ENV['BENCHMARK_EXPECTED_ORACLE_BYTES'] = previous
   end
 
-  it 'probes the pinned Git competitor using Git version output' do
-    git_path, status = Open3.capture2('sh', '-c', 'command -v git')
-    expect(status).to be_success
-    system_version = Open3.capture2(git_path.strip, '--version').first.strip
-
-    # Expectations derive from the pinned competitor document — the spec
-    # asserts the runner's probe AGREES with the corpus pin, so a competitor
-    # version bump touches only the corpus, never this spec.
+  it 'probes the competitor version and merges pinned provenance on agreement' do
+    # The probe contract is runner behavior: run `--version`, compare against
+    # the corpus pin, merge metadata. A stub binary keeps the suite
+    # deterministic — no dependence on whichever git a machine ships.
     pinned_git = benchmark.document.fetch('competitors').fetch('git')
-    pinned_version = "git version #{pinned_git.fetch('version')}"
+    competitor = tmp_root.join('stub-git')
+    competitor.dirname.mkpath
+    competitor.write("#!/bin/sh\necho \"git version #{pinned_git.fetch('version')}\"\n")
+    competitor.chmod(0o755)
 
-    # The system binary is whichever git the machine ships; the corpus pin
-    # names the competitor the benchmark numbers are valid for. When they
-    # diverge there is nothing to assert — comparability is the runner's own
-    # guard when actually running benchmarks. Skip instead of failing so the
-    # suite holds on every machine regardless of installed git.
-    if system_version != pinned_version
-      skip "system git reports #{system_version.inspect}, not the pinned competitor (#{pinned_version.inspect})"
-    end
-
-    runner = Ast::Merge::Git::LocalBenchmarkRunner.new(
+    probe_runner = Ast::Merge::Git::LocalBenchmarkRunner.new(
       benchmark: benchmark,
       driver_path: driver,
       tmp_root: tmp_root.join('git-competitive-runs'),
-      competitor_paths: { 'git' => Pathname(git_path.strip) }
+      competitor_paths: { 'git' => competitor }
     )
 
-    provenance = runner.send(:competitor_provenance)
+    provenance = probe_runner.send(:competitor_provenance)
 
     expect(provenance.fetch('git')).to include(
       'source_revision' => pinned_git.fetch('source_revision'),
-      'reported_version' => pinned_version
+      'reported_version' => "git version #{pinned_git.fetch('version')}"
     )
+  end
+
+  it 'refuses to run when the competitor version differs from the corpus pin' do
+    competitor = tmp_root.join('stub-git')
+    competitor.dirname.mkpath
+    competitor.write("#!/bin/sh\necho \"git version 9.9.9\"\n")
+    competitor.chmod(0o755)
+
+    probe_runner = Ast::Merge::Git::LocalBenchmarkRunner.new(
+      benchmark: benchmark,
+      driver_path: driver,
+      tmp_root: tmp_root.join('git-competitive-runs'),
+      competitor_paths: { 'git' => competitor }
+    )
+
+    expect { probe_runner.send(:competitor_provenance) }
+      .to raise_error(Ast::Merge::Git::LocalBenchmark::Error, /version differs/)
   end
 
   context 'with the installed paired drivers' do
