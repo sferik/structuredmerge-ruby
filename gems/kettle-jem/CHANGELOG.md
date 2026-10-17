@@ -30,6 +30,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Curated binstub generation now includes kettle-changelog, so templated gems get bin/kettle-changelog during install and pass family readiness gates
 
+- [kc] curated-binstubs-turbo-changelog: Curated binstub generation now includes turbo_tests2 and kettle-changelog, so templated gems get bin/turbo_tests2 (kettle-test runner, CI step) and bin/kettle-changelog during install and pass family readiness gates
+
 ### Security
 
 ## [7.1.31] - 2026-10-17
