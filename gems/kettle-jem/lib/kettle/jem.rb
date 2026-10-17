@@ -16,6 +16,7 @@ require "addressable/uri"
 require "token/resolver"
 require "yaml"
 require "ast/merge"
+require "ast/template"
 require "ast/crispr/markdown/markly"
 require "markdown/merge"
 require "kettle/ndjson"
@@ -18260,15 +18261,15 @@ module Kettle
     end
 
     def resolve_template_tokens(content, tokens, scan_unresolved: true)
-      resolver = Token::Resolver::Resolve.new(on_missing: :keep)
-      document = Token::Resolver::Document.new(content.to_s, config: TEMPLATE_TOKEN_CONFIG)
-      resolved = resolver.resolve(document, stringify_template_tokens(tokens))
-      return resolved unless scan_unresolved
-
-      unresolved = Token::Resolver::Document.new(resolved, config: TEMPLATE_TOKEN_CONFIG).token_keys.grep(/\AKJ\|/).sort
-      return resolved if unresolved.empty?
-
-      raise ArgumentError, "unresolved kettle-jem template tokens: #{unresolved.map { |token| "{#{token}}" }.join(", ")}"
+      Ast::Template::TokenApplication.apply_tokens(
+        content,
+        tokens,
+        config: TEMPLATE_TOKEN_CONFIG,
+        namespace: "KJ",
+        scan_unresolved: scan_unresolved
+      )
+    rescue Ast::Template::TokenApplication::UnresolvedTokensError => e
+      raise ArgumentError, "unresolved kettle-jem template tokens: #{e.tokens.map { |token| "{#{token}}" }.join(", ")}"
     end
 
     def assert_no_unresolved_template_tokens_in_yaml_values(content, label)
@@ -18281,7 +18282,11 @@ module Kettle
 
     def yaml_scalar_value_template_tokens(content)
       yaml_scalar_pairs(content).flat_map do |_key_node, value_node|
-        Token::Resolver::Document.new(value_node.value.to_s, config: TEMPLATE_TOKEN_CONFIG).token_keys.grep(/\AKJ\|/)
+        Ast::Template::TokenApplication.unresolved_namespaced_tokens(
+          value_node.value.to_s,
+          config: TEMPLATE_TOKEN_CONFIG,
+          namespace: "KJ"
+        )
       end.uniq
     end
 
@@ -18514,7 +18519,7 @@ module Kettle
     end
 
     def stringify_template_tokens(tokens)
-      tokens.to_h.transform_keys(&:to_s).transform_values(&:to_s)
+      Ast::Template::TokenApplication.stringify_replacements(tokens)
     end
 
     def falsey_config?(value)

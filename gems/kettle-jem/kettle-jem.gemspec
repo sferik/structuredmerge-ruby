@@ -99,6 +99,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("ast-crispr-markdown-markly", "~> 7.1", ">= 7.1.8")  # ruby >= 4.0.0
   spec.add_dependency("ast-crispr-ruby-prism", "~> 7.1", ">= 7.1.10")       # ruby >= 4.0.0
   spec.add_dependency("ast-merge", "~> 7.1", ">= 7.1.8")                  # ruby >= 4.0.0
+  spec.add_dependency("ast-template", "~> 7.1", ">= 7.1.11")              # ruby >= 4.0.0, token application contract (slice-1041)
   spec.add_dependency("bash-merge", "~> 7.1", ">= 7.1.8")                 # ruby >= 4.0.0
   spec.add_dependency("citrus-toml-merge", "~> 7.1", ">= 7.1.8")          # ruby >= 4.0.0
   spec.add_dependency("dotenv-merge", "~> 7.1", ">= 7.1.8")              # ruby >= 4.0.0
