@@ -36,6 +36,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - kettle-jem: the keep_destination early return and the empty/identical-destination merge short-circuits now delegate to Ast::Template::Strategies predicates instead of inline checks
 
+- ast-merge-git: refresh pinned Git competitor to 2.56.0 (source revision a018953688f1b10bddf91bff8747068f5f4746a4); local benchmark spec now derives competitor expectations from the corpus pin instead of duplicating literals
+
 ### Deprecated
 
 ### Removed

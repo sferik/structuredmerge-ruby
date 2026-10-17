@@ -743,9 +743,13 @@ RSpec.describe Ast::Merge::Git::LocalBenchmark do
 
     provenance = runner.send(:competitor_provenance)
 
+    # Expectations derive from the pinned competitor document — the spec
+    # asserts the runner's probe AGREES with the corpus pin, so a competitor
+    # version bump touches only the corpus, never this spec.
+    pinned_git = benchmark.document.fetch('competitors').fetch('git')
     expect(provenance.fetch('git')).to include(
-      'source_revision' => 'e9019fcafe0040228b8631c30f97ae1adb61bcdc',
-      'reported_version' => 'git version 2.55.0'
+      'source_revision' => pinned_git.fetch('source_revision'),
+      'reported_version' => "git version #{pinned_git.fetch('version')}"
     )
   end
 
