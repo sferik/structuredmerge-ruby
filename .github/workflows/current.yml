@@ -683,8 +683,8 @@ jobs:
             abort "RBS validation failed for #{failures.length} gem(s)" unless failures.empty?
           '
 
-  tslp-cold-cache:
-    name: TSLP cold cache
+  tslp-cold-start:
+    name: TSLP cold-start
     needs: detect
     if: ${{ needs.detect.outputs.release_mode == '' }}
     runs-on: ubuntu-latest
@@ -717,7 +717,7 @@ jobs:
           done
 
           exit 1
-      - name: Run cold-cache TSLP checks
+      - name: Run cold-start TSLP checks
         working-directory: gems/tree_haver
         env:
           K_JEM_TEMPLATING: true
@@ -726,7 +726,7 @@ jobs:
         run: |
           set -euo pipefail
           export TREE_SITTER_LANGUAGE_PACK_CACHE_DIR
-          TREE_SITTER_LANGUAGE_PACK_CACHE_DIR="$(mktemp -d "${RUNNER_TEMP}/tslp-cold-cache.XXXXXX")"
+          TREE_SITTER_LANGUAGE_PACK_CACHE_DIR="$(mktemp -d "${RUNNER_TEMP}/tslp-cold-start.XXXXXX")"
           bundle exec rspec spec/grammar_finder_spec.rb spec/backends/tslp_spec.rb --format progress
 
   check:
@@ -740,7 +740,7 @@ jobs:
       - family-suite
       - benchmark-dev
       - rbs
-      - tslp-cold-cache
+      - tslp-cold-start
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -757,7 +757,7 @@ jobs:
           FAMILY_SUITE_RESULT: ${{ needs.family-suite.result }}
           BENCHMARK_DEV_RESULT: ${{ needs.benchmark-dev.result }}
           RBS_RESULT: ${{ needs.rbs.result }}
-          TSLP_COLD_CACHE_RESULT: ${{ needs.tslp-cold-cache.result }}
+          TSLP_COLD_START_RESULT: ${{ needs.tslp-cold-start.result }}
         run: |
           set -euo pipefail
           echo "Selected gem suites: ${SELECTED_GEMS}"
@@ -769,7 +769,7 @@ jobs:
           echo "Family suite result: ${FAMILY_SUITE_RESULT}"
           echo "Dev benchmark result: ${BENCHMARK_DEV_RESULT}"
           echo "RBS result: ${RBS_RESULT}"
-          echo "TSLP cold cache result: ${TSLP_COLD_CACHE_RESULT}"
+          echo "TSLP cold-start result: ${TSLP_COLD_START_RESULT}"
 
           if [[ "${DETECT_RESULT}" != "success" ]]; then
             exit 1
@@ -786,11 +786,11 @@ jobs:
             [[ "${COVERAGE_RESULT}" == "skipped" ]] || exit 1
             [[ "${RBS_RESULT}" == "skipped" ]] || exit 1
             [[ "${BENCHMARK_DEV_RESULT}" == "skipped" ]] || exit 1
-            [[ "${TSLP_COLD_CACHE_RESULT}" == "skipped" ]] || exit 1
+            [[ "${TSLP_COLD_START_RESULT}" == "skipped" ]] || exit 1
             exit 0
           fi
 
-          for result in "${RBS_RESULT}" "${BENCHMARK_DEV_RESULT}" "${TSLP_COLD_CACHE_RESULT}"; do
+          for result in "${RBS_RESULT}" "${BENCHMARK_DEV_RESULT}" "${TSLP_COLD_START_RESULT}"; do
             [[ "${result}" == "success" ]] || exit 1
           done
 
