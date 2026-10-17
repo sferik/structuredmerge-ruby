@@ -25,6 +25,8 @@ module Ast
       'rust' => 'Rust',
       'typescript' => 'TypeScript'
     }.freeze
+    autoload :FileTypes, 'ast/template/file_types'
+    autoload :MergeDispatch, 'ast/template/merge_dispatch'
     autoload :RustHostProvider, 'ast/template/rust_host_provider'
     autoload :Strategies, 'ast/template/strategies'
     autoload :TokenApplication, 'ast/template/token_application'

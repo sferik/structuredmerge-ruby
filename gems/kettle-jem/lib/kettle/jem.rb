@@ -543,9 +543,10 @@ module Kettle
     }.freeze
     README_KLOC_BADGE_PATTERN = /(\[🧮kloc-img\]:\s*https?:\/\/img\.shields\.io\/badge\/KLOC-)(\d+(?:\.\d+)?)(-[^\s]*)/
     CHANGELOG_COVERAGE_KLOC_PATTERN = /-\s*COVERAGE:\s*.+--\s*\d+\/(\d+)\s+lines/i
-    RUBY_TEMPLATE_BASENAMES = %w[Gemfile Rakefile Appraisals Appraisal.root.gemfile .simplecov].freeze
-    RUBY_TEMPLATE_SUFFIXES = %w[.gemspec .gemfile].freeze
-    RUBY_TEMPLATE_EXTENSIONS = %w[.rb .rake].freeze
+    # Aliased to the ast-template single source (slice-1043); do not edit here.
+    RUBY_TEMPLATE_BASENAMES = Ast::Template::FileTypes::RUBY_BASENAMES
+    RUBY_TEMPLATE_SUFFIXES = Ast::Template::FileTypes::RUBY_SUFFIXES
+    RUBY_TEMPLATE_EXTENSIONS = Ast::Template::FileTypes::RUBY_EXTENSIONS
     TEMPLATE_TOKEN_CONFIG = Token::Resolver::Config.new(separators: ["|", ":"]).freeze
     EMPTY_TEMPLATE_TOKENS = %w[
       KJ|CB:USER
@@ -7650,20 +7651,20 @@ module Kettle
         end
         merge_result = merge_ruby_template_source(file_type, recipe, template_content, merge_destination, facts: facts)
       when :yaml
-        merge_result = Psych::Merge.merge_yaml(
+        merge_result = Ast::Template::MergeDispatch.dispatch(
+          :yaml,
           template_content,
           destination_content,
-          "yaml",
           **yaml_merge_options(recipe)
         )
       when :toml
-        merge_result = Citrus::Toml::Merge.merge_toml(template_content, destination_content, "toml")
+        merge_result = Ast::Template::MergeDispatch.dispatch(:toml, template_content, destination_content)
       when :json, :jsonc, :json5
         merge_result = merge_json_template_source(template_content, destination_content, recipe, file_type)
       when :markdown
         return merge_changelog_template_source(template_content, destination_content, facts: facts) if recipe.fetch(:target_path) == "CHANGELOG.md"
 
-        merge_result = Markdown::Merge.merge_markdown(template_content, destination_content, "markdown")
+        merge_result = Ast::Template::MergeDispatch.dispatch(:markdown, template_content, destination_content)
       when :dotenv
         merge_result = merge_dotenv_template_source(template_content, destination_content, recipe)
       when :rbs
@@ -12618,31 +12619,10 @@ module Kettle
     end
 
     def template_file_type(recipe)
-      configured = recipe.dig(:template_preference, :file_type).to_s
-      return configured.to_sym unless configured.empty?
-
-      relative_path = recipe.fetch(:target_path).to_s
-      basename = File.basename(relative_path)
-      extension = File.extname(relative_path).downcase
-      return :gitignore if basename == ".gitignore"
-      return :gemfile if basename == "Gemfile" || basename.end_with?(".gemfile")
-      return :appraisals if basename.start_with?("Appraisals") || basename == "Appraisal.root.gemfile"
-      return :gemspec if basename.end_with?(".gemspec")
-      return :rakefile if basename == "Rakefile" || extension == ".rake"
-      return :ruby if RUBY_TEMPLATE_BASENAMES.include?(basename) ||
-        RUBY_TEMPLATE_SUFFIXES.any? { |suffix| basename.end_with?(suffix) } ||
-        RUBY_TEMPLATE_EXTENSIONS.include?(extension)
-      return :yaml if extension.match?(/\A\.ya?ml\z/) || File.basename(relative_path).casecmp("citation.cff").zero?
-      return :toml if extension == ".toml"
-      return :jsonc if relative_path == ".devcontainer/devcontainer.json"
-      return :jsonc if extension == ".jsonc"
-      return :json5 if extension == ".json5"
-      return :json if extension == ".json"
-      return :markdown if extension.match?(/\A\.md(?:own)?\z/)
-      return :dotenv if basename.start_with?(".env") || basename.end_with?(".env") || extension == ".env"
-      return :rbs if extension == ".rbs"
-
-      :text
+      Ast::Template::FileTypes.detect(
+        recipe.fetch(:target_path).to_s,
+        configured: recipe.dig(:template_preference, :file_type)
+      )
     end
 
     def merge_gitignore_template_source(template_content, destination_content)

@@ -24,6 +24,10 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - ast-template: New Ast::Template::Strategies — the slice-1042 strategy resolution/application contract (strategy vocabulary, per-path overrides, the keep/raw_copy/accept_template/merge decision table with the trivial-merge short-circuits), conformance-verified against structuredmerge/fixtures templating/slice-1042-strategy-application
 
+- Ast::Template::FileTypes — destination-path file-type detection extracted from kettle-jem as the slice-1043 contract, fixture-driven conformance specs (structuredmerge/fixtures/templating/slice-1043-merge-dispatch)
+
+- Ast::Template::MergeDispatch — merge dispatch routing file types to merger adapters (yaml/toml/markdown defaults via psych-merge/citrus-toml-merge/markdown-merge, lazily required); consumer policy types (gemspec, ruby family, json variants, dotenv, rbs, bash, gitignore) register adapters
+
 ### Changed
 
 - Uncap the turbo_tests2 dependency (>= 3.1.12, no upper bound): turbo_tests2 4.0 dropped parallel_tests for runtime_groups, and kettle-test only shells out to the turbo_tests2 executable, which kept its CLI surface; family members could not resolve the templated turbo_tests2 ~> 4.0 floor against kettle-test's < 4 cap
