@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Curated binstub generation now includes kettle-changelog, so templated gems get bin/kettle-changelog during install and pass family readiness gates
+
 ### Security
 
 ## [7.1.31] - 2026-10-17
