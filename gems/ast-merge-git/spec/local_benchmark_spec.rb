@@ -774,43 +774,12 @@ RSpec.describe Ast::Merge::Git::LocalBenchmark do
   end
 
   context 'with the installed paired drivers' do
-    subject(:run) do
-      Ast::Merge::Git::LocalBenchmarkRunner.new(
-        benchmark: benchmark,
-        driver_path: driver,
-        tmp_root: tmp_root
-      ).run(profile: 'micro')
-    end
-
-    it 'turns a Git text conflict into a structurally verified candidate clean result' do
-      results = run.fetch('results').select do |item|
-        item['case_id'] == 'case.merge3.json.independent-fields.v1'
-      end
-
-      expect(results.map { |item| item['outcome'] }).to eq(%w[false_conflict correct_clean])
-      expect(results.last.dig('checks', 'parse_validity_only_accepted')).to be(false)
-      expect(results.last.dig('checks', 'acceptable')).to be(true)
-      expect(results.last.fetch('deterministic_correctness_rerun')).to be(true)
-    end
-
-    it 'preserves intentional-conflict safety and accepts expected malformed-input rejection' do
-      by_case = run.fetch('results').group_by { |item| item['case_id'] }
-      conflict = by_case.fetch('case.merge3.json.same-owner-conflict.v1')
-      malformed = by_case.fetch('case.merge3.json.malformed-ours.v1').last
-
-      expect(conflict.map { |item| item['outcome'] }).to eq(%w[true_conflict true_conflict])
-      expect(malformed['outcome']).to eq('correct_clean')
-      expect(malformed.fetch('diagnostics').map { |item| item['message'] }.join).to include('ours parse error')
-    end
-
-    it 'preserves cwd, serializes as JSON, and calculates a stable cache identity' do
-      cwd = Dir.pwd
-      first = run
-      second = run
-
-      expect(Dir.pwd).to eq(cwd)
-      expect(first.dig('cache_identity', 'sha256')).to eq(second.dig('cache_identity', 'sha256'))
-      expect { JSON.generate(first) }.not_to raise_error
+    # The real paired-drivers micro benchmark moved out of the spec suite on
+    # purpose: it runs the actual benchmark machinery. Invoke it explicitly
+    # with `bundle exec rake benchmark:micro` — the invariants it checks live
+    # in Ast::Merge::Git::MicroBenchmarkCheck (see micro_benchmark_check_spec).
+    it 'is available as an explicit rake task, not as part of this suite' do
+      expect(File.file?(Pathname(__dir__).join('..', 'rakelib', 'benchmark_micro.rake'))).to be(true)
     end
   end
 

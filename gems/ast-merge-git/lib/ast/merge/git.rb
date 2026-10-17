@@ -13,6 +13,8 @@ module Ast
     module Git
       PACKAGE_NAME = 'ast-merge-git'
       autoload :RustHostProvider, 'ast/merge/git/rust_host_provider'
+      # Dev-only benchmark verification; loaded by the benchmark:micro rake task.
+      autoload :MicroBenchmarkCheck, 'ast/merge/git/micro_benchmark_check'
       EXIT_SUCCESS = 0
       EXIT_CONFLICT = 1
       EXIT_ERROR = 2
