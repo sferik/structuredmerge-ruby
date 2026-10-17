@@ -20,7 +20,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- ast-crispr-toml: new TOML adapter for ast-crispr — table blocks (including dotted sub-tables and array tables, ranges clamped to body end, leading comments selectable) and pairs addressed by dotted key paths, backed by toml-merge FileAnalysis; registered in the family and documented in the monorepo README
+- [kc] ast-crispr-toml-adapter: ast-crispr-toml: new TOML adapter for ast-crispr — table blocks (including dotted sub-tables and array tables, ranges clamped to body end, leading comments selectable) and pairs addressed by dotted key paths, backed by toml-merge FileAnalysis; Selectors.table/Selectors.pair with ast-crispr Actor integration; templated and registered as a family member
 
 ### Changed
 

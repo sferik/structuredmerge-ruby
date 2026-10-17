@@ -12,9 +12,9 @@ authors:
     orcid: 'https://orcid.org/0009-0008-8519-441X'
 identifiers:
   - type: url
-    value: 'https://github.com/structuredmerge/structuredmerge-ruby'
+    value: 'https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml'
     description: "ast-crispr-toml"
-repository-code: 'https://github.com/structuredmerge/structuredmerge-ruby'
+repository-code: 'https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml'
 abstract: >-
   ast-crispr-toml
 license: See license file
