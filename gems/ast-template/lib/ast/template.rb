@@ -26,6 +26,7 @@ module Ast
       'typescript' => 'TypeScript'
     }.freeze
     autoload :RustHostProvider, 'ast/template/rust_host_provider'
+    autoload :Strategies, 'ast/template/strategies'
     autoload :TokenApplication, 'ast/template/token_application'
 
     class << self
