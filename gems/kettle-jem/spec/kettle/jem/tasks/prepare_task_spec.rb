@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe Kettle::Jem::Tasks::PrepareTask do
+  # Managed dependency floors are asserted against the source of truth, never
+  # as literal versions: the floor churns on every family bump, and a literal
+  # here fails for a version number, not a behavior. Inputs (legacy content
+  # fed to the repair) stay literal — they must name an OLD value.
+  def managed_requirements(name)
+    Kettle::Jem::TEMPLATE_MANAGED_DEPENDENCIES.find { |dependency| dependency.fetch(:name) == name }.fetch(:requirements)
+  end
+
   def tmp_root
     File.expand_path("../../../../tmp", __dir__).tap { |path| FileUtils.mkdir_p(path) }
   end
@@ -67,7 +75,7 @@ RSpec.describe Kettle::Jem::Tasks::PrepareTask do
       expect(step.fetch(:status)).to eq("applied")
       expect(step.fetch(:changed_files)).to eq(["gemfiles/modular/coverage_local.gemfile"])
       content = File.read(path)
-      expect(content).to include('nomono_activation_requirements = ["~> 1.1", ">= 1.1.8"]')
+      expect(content).to include("nomono_activation_requirements = #{managed_requirements("nomono").inspect}")
       expect(content).to include('Gem::Specification.find_all_by_name("nomono")')
       expect(content.scan(/^[ \t]*require "nomono\/bundler"$/).size).to eq(1)
     end
@@ -295,9 +303,10 @@ RSpec.describe Kettle::Jem::Tasks::PrepareTask do
 
       kettle_dev = Kettle::Jem::TEMPLATE_MANAGED_DEPENDENCIES.find { |dependency| dependency.fetch(:name) == "kettle-dev" }
       requirements = kettle_dev.fetch(:requirements)
+      nomono_requirements = managed_requirements("nomono")
       expect(step.fetch(:changed_files)).to contain_exactly("Gemfile", "gemfiles/modular/templating_local.gemfile")
       expect(File.read(gemfile)).to include(%(gem "kettle-dev", "#{requirements[0]}", "#{requirements[1]}", require: false))
-      expect(File.read(local_gemfile)).to include('gem "nomono", "~> 1.1", ">= 1.1.8"')
+      expect(File.read(local_gemfile)).to include(%(gem "nomono", "#{nomono_requirements[0]}", "#{nomono_requirements[1]}"))
       expect(File).not_to exist(File.join(root, "example.gemspec"))
     end
   end
@@ -321,9 +330,10 @@ RSpec.describe Kettle::Jem::Tasks::PrepareTask do
       )
 
       expect(step.fetch(:changed_files)).to contain_exactly("example.gemspec", "gemfiles/modular/templating.gemfile")
-      expect(File.read(templating_gemfile)).to include('gem "kettle-jem", "~> 7.1", ">= 7.1.28"')
+      jem_requirements = managed_requirements("kettle-jem")
+      expect(File.read(templating_gemfile)).to include(%(gem "kettle-jem", "#{jem_requirements[0]}", "#{jem_requirements[1]}"))
       expect(File.read(gemspec)).to include(
-        'spec.add_development_dependency("kettle-jem", "~> 7.1", ">= 7.1.28")'
+        %(spec.add_development_dependency("kettle-jem", "#{jem_requirements[0]}", "#{jem_requirements[1]}"))
       )
     end
   end
