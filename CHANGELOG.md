@@ -20,8 +20,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- [kc] ast-crispr-toml-adapter: ast-crispr-toml: new TOML adapter for ast-crispr — table blocks (including dotted sub-tables and array tables, ranges clamped to body end, leading comments selectable) and pairs addressed by dotted key paths, backed by toml-merge FileAnalysis; Selectors.table/Selectors.pair with ast-crispr Actor integration; templated and registered as a family member
-
 ### Changed
 
 ### Deprecated
@@ -31,6 +29,17 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [7.1.12] - 2026-10-17
+
+- TAG: [v7.1.12][7.1.12t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Added
+
+- [kc] ast-crispr-toml-adapter: ast-crispr-toml: new TOML adapter for ast-crispr — table blocks (including dotted sub-tables and array tables, ranges clamped to body end, leading comments selectable) and pairs addressed by dotted key paths, backed by toml-merge FileAnalysis; Selectors.table/Selectors.pair with ast-crispr Actor integration; templated and registered as a family member
 
 ## [7.1.11] - 2026-10-17
 
@@ -876,7 +885,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.11...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.12...HEAD
+[7.1.12]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.11...v7.1.12
+[7.1.12t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.12
 [7.1.11]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.10...v7.1.11
 [7.1.11t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.11
 [7.1.10]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.9...v7.1.10

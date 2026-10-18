@@ -28,11 +28,20 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+### Security
+
+## [7.1.32] - 2026-10-17
+
+- TAG: [v7.1.32][7.1.32t]
+- COVERAGE: 93.48% -- 11335/12125 lines in 17 files
+- BRANCH COVERAGE: 77.15% -- 4881/6327 branches in 17 files
+- 19.72% documented
+
+### Fixed
+
 - Curated binstub generation now includes kettle-changelog, so templated gems get bin/kettle-changelog during install and pass family readiness gates
 
 - [kc] curated-binstubs-turbo-changelog: Curated binstub generation now includes turbo_tests2 and kettle-changelog, so templated gems get bin/turbo_tests2 (kettle-test runner, CI step) and bin/kettle-changelog during install and pass family readiness gates
-
-### Security
 
 ## [7.1.31] - 2026-10-17
 
@@ -2291,7 +2300,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...HEAD
+[7.1.32]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...v7.1.32
+[7.1.32t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.32
 [7.1.31]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.30...v7.1.31
 [7.1.31t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.31
 [7.1.30]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.29...v7.1.30

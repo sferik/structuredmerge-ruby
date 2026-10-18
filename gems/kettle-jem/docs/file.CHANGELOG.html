@@ -70,7 +70,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 and <a href="https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html">yes</a>, platform and engine support are part of the <a href="https://github.com/semver/semver/issues/716#issuecomment-869336139">public API</a>.<br>
 Please file a bug if you notice a violation of semantic versioning.</p>
 
-<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...HEAD">Unreleased</a></h2>
+<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...HEAD">Unreleased</a></h2>
 
 <h3 id="added">Added</h3>
 
@@ -83,6 +83,28 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 <h3 id="fixed">Fixed</h3>
 
 <h3 id="security">Security</h3>
+
+<h2 id="7132---2026-10-17">
+<a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...v7.1.32">7.1.32</a> - 2026-10-17</h2>
+
+<ul>
+  <li>TAG: <a href="https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.32">v7.1.32</a>
+</li>
+  <li>COVERAGE: 93.48% – 11335/12125 lines in 17 files</li>
+  <li>BRANCH COVERAGE: 77.15% – 4881/6327 branches in 17 files</li>
+  <li>19.72% documented</li>
+</ul>
+
+<h3 id="fixed-1">Fixed</h3>
+
+<ul>
+  <li>
+    <p>Curated binstub generation now includes kettle-changelog, so templated gems get bin/kettle-changelog during install and pass family readiness gates</p>
+  </li>
+  <li>
+    <p>[kc] curated-binstubs-turbo-changelog: Curated binstub generation now includes turbo_tests2 and kettle-changelog, so templated gems get bin/turbo_tests2 (kettle-test runner, CI step) and bin/kettle-changelog during install and pass family readiness gates</p>
+  </li>
+</ul>
 
 <h2 id="7131---2026-10-17">
 <a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.30...v7.1.31">7.1.31</a> - 2026-10-17</h2>
@@ -160,7 +182,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>Dependency floors raised: turbo_tests2 4.0.0 (drops parallel_tests for runtime_groups) in the template gemspec and managed-floors registry</li>
 </ul>
 
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 
 <ul>
   <li>
@@ -314,7 +336,7 @@ them, but are no longer forced on every bundle. This also stops <code>commonmark
 native extension from being compiled, which fails on ruby-head.</li>
 </ul>
 
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 
 <ul>
   <li>
@@ -517,7 +539,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-4">Fixed</h3>
 
 <ul>
   <li>
@@ -579,7 +601,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-4">Fixed</h3>
+<h3 id="fixed-5">Fixed</h3>
 
 <ul>
   <li>
@@ -614,7 +636,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-5">Fixed</h3>
+<h3 id="fixed-6">Fixed</h3>
 
 <ul>
   <li>
@@ -642,7 +664,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="fixed-6">Fixed</h3>
+<h3 id="fixed-7">Fixed</h3>
 
 <ul>
   <li>
@@ -751,7 +773,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-7">Fixed</h3>
+<h3 id="fixed-8">Fixed</h3>
 
 <ul>
   <li>
@@ -790,7 +812,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-8">Fixed</h3>
+<h3 id="fixed-9">Fixed</h3>
 
 <ul>
   <li>Apply StructuredMerge local template dependencies on the active development platform.</li>
@@ -828,7 +850,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-9">Fixed</h3>
+<h3 id="fixed-10">Fixed</h3>
 
 <ul>
   <li>
@@ -919,7 +941,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-10">Fixed</h3>
+<h3 id="fixed-11">Fixed</h3>
 
 <ul>
   <li>
@@ -961,7 +983,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-11">Fixed</h3>
+<h3 id="fixed-12">Fixed</h3>
 
 <ul>
   <li>
@@ -1033,7 +1055,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Raise first-party dependency minimums to their latest released versions.</li>
 </ul>
 
-<h3 id="fixed-12">Fixed</h3>
+<h3 id="fixed-13">Fixed</h3>
 
 <ul>
   <li>
@@ -1111,7 +1133,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-13">Fixed</h3>
+<h3 id="fixed-14">Fixed</h3>
 
 <ul>
   <li>
@@ -1263,7 +1285,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Make the repository-local kettle-jem-deps-floor executable bootstrap the consistent StructuredMerge development bundle before loading parser dependencies.</li>
 </ul>
 
-<h3 id="fixed-14">Fixed</h3>
+<h3 id="fixed-15">Fixed</h3>
 
 <ul>
   <li>
@@ -1315,7 +1337,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Main templating commands now record an aggregate Changed entry through kettle-changelog only when template files change, while transfer replay uses kettle-changelog’s structural merger.</li>
 </ul>
 
-<h3 id="fixed-15">Fixed</h3>
+<h3 id="fixed-16">Fixed</h3>
 
 <ul>
   <li>Restore source-checkout loading for the repository-local dependency-floor and workflow-pin maintenance tools.</li>
@@ -1343,7 +1365,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-16">Fixed</h3>
+<h3 id="fixed-17">Fixed</h3>
 
 <ul>
   <li>
@@ -1420,7 +1442,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-17">Fixed</h3>
+<h3 id="fixed-18">Fixed</h3>
 
 <ul>
   <li>
@@ -1732,7 +1754,7 @@ use ClickGems instead of BestGems.</p>
   <li>Record explicit modular dependency removals and compatible keep_both decisions so repeated templating remains deterministic.</li>
 </ul>
 
-<h3 id="fixed-18">Fixed</h3>
+<h3 id="fixed-19">Fixed</h3>
 
 <ul>
   <li>Templating now removes the obsolete <code>tree_sitter_language_pack</code> entry from<br>
