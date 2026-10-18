@@ -93,7 +93,10 @@ run = "bundle exec kettle-family bump --execute"
 [tasks.changelog]
 description = "Add a structured entry to a member Unreleased changelog"
 raw = true
-run = "bundle exec kettle-family add-changelog --execute"
+# Unset leaked K_CHANGELOG_* overrides: they are absolute paths read
+# unconditionally by the changelog tools, so a stale value from another
+# family's mise env silently retargets entries to the wrong CHANGELOG.
+run = "env -u K_CHANGELOG_PATH -u K_CHANGELOG_VERSION_FILE -u K_CHANGELOG_GEM_NAME -- bundle exec kettle-family add-changelog --execute"
 
 [tasks.clean]
 raw = true
