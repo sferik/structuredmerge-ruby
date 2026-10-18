@@ -69,7 +69,7 @@ module Config
         values = stringify_keys(values)
         reject_unknown_keys!(values, RULE_KEYS, "rule")
         cardinality = rule_value(values, "cardinality", default ? "repeatable" : "single").to_sym
-        on_conflict = rule_value(values, "on_conflict", default ? "union" : "conflict").to_sym
+        on_conflict = rule_value(values, "on_conflict", "conflict").to_sym
         normalizer = rule_value(values, "normalizer", "identity").to_sym
         validate_rule!(cardinality, on_conflict, normalizer)
         Rule.new(cardinality: cardinality, on_conflict: on_conflict, normalizer: normalizer)

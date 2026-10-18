@@ -2,7 +2,7 @@ name: rspec
 format: flag_file
 defaults:
   cardinality: repeatable
-  on_conflict: union
+  on_conflict: conflict
 flags:
   --require:
     cardinality: single

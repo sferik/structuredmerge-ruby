@@ -35,6 +35,7 @@ end
 
 gemspec path: 'gems/tree_haver'
 gemspec path: 'gems/ast-merge'
+gemspec path: 'gems/config-merge'
 gemspec path: 'gems/ast-merge-git'
 gemspec path: 'gems/ast-crispr'
 gemspec path: 'gems/ast-crispr-ruby-prism'

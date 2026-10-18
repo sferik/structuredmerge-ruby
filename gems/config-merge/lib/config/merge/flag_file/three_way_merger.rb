@@ -88,8 +88,8 @@ module Config
           base_key = semantic_options(base, rule)
           ours_key = semantic_options(ours, rule)
           theirs_key = semantic_options(theirs, rule)
-          return [ours, nil] if ours_key == theirs_key || theirs_key == base_key
-          return [theirs, nil] if ours_key == base_key
+          return [sourced(ours, :ours), nil] if ours_key == theirs_key || theirs_key == base_key
+          return [sourced(theirs, :theirs), nil] if ours_key == base_key
           if rule.cardinality == :repeatable && rule.on_conflict == :union
             return [merge_repeatable(base, ours, theirs, rule), nil]
           end
@@ -99,9 +99,9 @@ module Config
 
         def resolve_conflict(flag, base, ours, theirs, rule)
           case rule.on_conflict
-          when :ours then [ours, nil]
-          when :theirs then [theirs, nil]
-          when :base then [base, nil]
+          when :ours then [sourced(ours, :ours), nil]
+          when :theirs then [sourced(theirs, :theirs), nil]
+          when :base then [sourced(base, :base), nil]
           when :union then [stable_union(ours, theirs, rule), nil]
           when :conflict then [nil, Conflict.new(flag: flag, base: base, ours: ours, theirs: theirs)]
           end
@@ -111,7 +111,7 @@ module Config
           counts = [base, ours, theirs].map { |options| option_counts(options, rule) }
           keys = counts.flat_map(&:keys).uniq
           targets = keys.to_h { |key| [key, target_count(key, counts)] }
-          select_records(targets, [ours, theirs, base], rule)
+          select_records(targets, [[ours, :ours], [theirs, :theirs], [base, :base]], rule)
         end
 
         def target_count(key, counts)
@@ -123,24 +123,30 @@ module Config
 
         def stable_union(ours, theirs, rule)
           seen = {}
-          (ours + theirs).each_with_object([]) do |option, selected|
+          sourced(ours, :ours).concat(sourced(theirs, :theirs)).each_with_object([]) do |(option, source), selected|
             key = semantic_key(option, rule)
             next if seen[key]
 
             seen[key] = true
-            selected << option
+            selected << [option, source]
           end
         end
 
         def select_records(targets, sources, rule)
           remaining = targets.dup
-          sources.flatten.each_with_object([]) do |option, selected|
-            key = semantic_key(option, rule)
-            next unless remaining.fetch(key, 0).positive?
+          sources.each_with_object([]) do |(options, source), selected|
+            options.each do |option|
+              key = semantic_key(option, rule)
+              next unless remaining.fetch(key, 0).positive?
 
-            selected << option
-            remaining[key] -= 1
+              selected << [option, source]
+              remaining[key] -= 1
+            end
           end
+        end
+
+        def sourced(options, source)
+          options.map { |option| [option, source] }
         end
 
         def option_counts(options, rule)
@@ -165,53 +171,47 @@ module Config
         end
 
         def render
-          records.sort_by { |line_number, source_rank, sequence, _raw| [line_number, source_rank, sequence] }
+          records.sort_by do |line_number, source_rank, position, sequence, _raw|
+            [line_number, source_rank, position, sequence]
+          end
                  .map(&:last).join("\n")
         end
 
         private
 
         def records
-          @remaining = selected_counts
           @opaque_remaining = opaque_counts
           @sequence = 0
-          @documents.flat_map do |document, source_rank|
-            option_records(document, source_rank) + opaque_records(document, source_rank)
+          selected_records + @documents.flat_map do |document, source_rank|
+            opaque_records(document, source_rank)
           end
         end
 
-        def option_records(document, source_rank)
-          document.options.filter_map do |option|
-            rule = @policy.rule_for(option.flag)
-            key = semantic_key(option, rule)
-            next unless @remaining.fetch(option.flag, {}).fetch(key, 0).positive?
-
-            @remaining.fetch(option.flag)[key] -= 1
-            record(option.line_number, source_rank, option.raw)
+        def selected_records
+          @selected.flat_map do |_flag, entries|
+            entries.map do |option, source|
+              record(option.line_number, source_rank(source), option.position, option.raw)
+            end
           end
+        end
+
+        def source_rank(source)
+          { ours: 0, theirs: 1, base: 2 }.fetch(source)
         end
 
         def opaque_records(document, source_rank)
-          document.opaque_lines.filter_map do |line_number, raw|
+          document.opaque_lines.filter_map do |line_number, position, raw|
             next unless @opaque_remaining.fetch(raw, 0).positive?
 
             @opaque_remaining[raw] -= 1
-            record(line_number, source_rank, raw)
+            record(line_number, source_rank, position, raw)
           end
         end
 
-        def record(line_number, source_rank, raw)
-          value = [line_number, source_rank, @sequence, raw]
+        def record(line_number, source_rank, position, raw)
+          value = [line_number, source_rank, position, @sequence, raw]
           @sequence += 1
           value
-        end
-
-        def selected_counts
-          @selected.to_h do |flag, options|
-            rule = @policy.rule_for(flag)
-            counts = options.each_with_object(Hash.new(0)) { |option, result| result[semantic_key(option, rule)] += 1 }
-            [flag, counts]
-          end
         end
 
         def opaque_counts
@@ -223,7 +223,7 @@ module Config
         end
 
         def line_counts(document)
-          document.opaque_lines.each_with_object(Hash.new(0)) do |(_line, raw), result|
+          document.opaque_lines.each_with_object(Hash.new(0)) do |(_line, _position, raw), result|
             result[raw] += 1
           end
         end
@@ -237,10 +237,6 @@ module Config
           return ours_count if theirs_count == base_count
 
           [ours_count, theirs_count].max
-        end
-
-        def semantic_key(option, rule)
-          [option.flag, NormalizerRegistry.normalize(rule.normalizer, option.value)]
         end
       end
     end

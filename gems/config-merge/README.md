@@ -87,15 +87,17 @@ name: rspec
 format: flag_file
 defaults:
   cardinality: repeatable
-  on_conflict: union
+  on_conflict: conflict
 flags:
   --require:
     cardinality: single
     on_conflict: ours
-    normalizer: identity
+  --env:
+    cardinality: repeatable
+    on_conflict: union
 ```
 
-`ours` means the current or destination side. `theirs` means the incoming side. A rule can use `on_conflict: conflict` to leave divergent edits unresolved. Normalizers affect comparison only; rendering retains the option values from the selected source records. YAML is loaded with safe parsing, and unknown fields or normalizer names are rejected.
+Undeclared flags default to unresolved conflicts; repeatable flags can explicitly opt into union. Normalizers affect comparison only; rendering retains the option values from the selected source records. YAML is loaded with safe parsing, and unknown fields or normalizer names are rejected.
 
 ## 🔧 Basic Usage
 

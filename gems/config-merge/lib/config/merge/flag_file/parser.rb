@@ -25,7 +25,7 @@ module Config
         private
 
         def parse_line(line, line_number)
-          return [[], [[line_number, line].freeze]] if line.strip.empty? || line.strip.start_with?("#")
+          return [[], [[line_number, 0, line].freeze]] if line.strip.empty? || line.strip.start_with?("#")
 
           parse_options(line, line_number)
         rescue ArgumentError => e
@@ -44,7 +44,7 @@ module Config
           index = 0
           while index < tokens.length
             option, consumed = parse_option(tokens, index, line_number)
-            option ? options << option : opaque << [line_number, tokens[index]].freeze
+            option ? options << option : opaque << [line_number, index, Shellwords.escape(tokens[index])].freeze
             index += consumed
           end
           [options, opaque]
@@ -54,25 +54,49 @@ module Config
           token = tokens[index]
           return [nil, 1] unless token.start_with?("-")
 
-          flag, value = parse_flag_token(token)
-          consumed = 1
-          if value.nil? && tokens[index + 1] && !tokens[index + 1].start_with?("-")
-            value = tokens[index + 1]
-            consumed += 1
-          end
-          [Option.new(flag: flag, value: value, raw: render(flag, value), line_number: line_number), consumed]
+          flag, value, binding = parse_flag_token(token)
+          value, binding, consumed = parse_argument(tokens, index, value, binding)
+          [build_option(flag, value, line_number, index, binding), consumed]
+        end
+
+        def build_option(flag, value, line_number, index, binding)
+          Option.new(
+            flag: flag,
+            value: value,
+            raw: render(flag, value, binding: binding),
+            line_number: line_number,
+            position: index,
+            binding: binding
+          )
         end
 
         def parse_flag_token(token)
           flag, separator, value = token.partition("=")
-          [flag, separator.empty? ? nil : value]
+          [flag, separator.empty? ? nil : value, separator.empty? ? :none : :equals]
         end
 
-        def render(flag, value)
-          return Shellwords.escape(flag) if value.nil?
+        def parse_argument(tokens, index, value, binding)
+          next_token = tokens[index + 1]
+          return [value, binding, 1] unless value.nil? && next_token && !next_token.start_with?("-")
 
-          rendered_value = value.match?(/[\s\\"']/) ? Shellwords.escape(value) : value
-          "#{Shellwords.escape(flag)} #{rendered_value}"
+          [next_token, :separate, 2]
+        end
+
+        def render(flag, value, binding:)
+          rendered_flag = Shellwords.escape(flag)
+          return rendered_flag if value.nil?
+
+          rendered_value = escape(value)
+          return "#{rendered_flag}=#{rendered_value}" if binding == :equals || value.start_with?("-")
+
+          "#{rendered_flag} #{rendered_value}"
+        end
+
+        def escape(value)
+          return "''" if value.empty?
+          return Shellwords.escape(value) if value.match?(/[\s\\"']/)
+
+          value
         end
       end
     end

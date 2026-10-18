@@ -4,9 +4,11 @@ module Config
   module Merge
     module FlagFile
       # One parsed flag and its optional argument.
-      Option = Struct.new(:flag, :value, :raw, :line_number, keyword_init: true) do
-        def initialize(flag:, value:, raw:, line_number:)
-          super
+      Option = Struct.new(:flag, :value, :raw, :line_number, :position, :binding, keyword_init: true) do
+        def initialize(**attributes)
+          attributes[:position] ||= 0
+          attributes[:binding] ||= :none
+          super(**attributes)
           freeze
         end
 

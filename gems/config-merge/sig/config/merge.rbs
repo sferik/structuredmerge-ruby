@@ -42,11 +42,13 @@ module Config
         attr_reader value: String?
         attr_reader raw: String
         attr_reader line_number: Integer
+        attr_reader position: Integer
+        attr_reader binding: Symbol
       end
 
       class Document
         attr_reader options: Array[Option]
-        attr_reader opaque_lines: Array[[Integer, String]]
+        attr_reader opaque_lines: Array[[Integer, Integer, String]]
         attr_reader trailing_newline: bool
       end
 
