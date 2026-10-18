@@ -15,7 +15,44 @@ module Ast
     MERGE_ENGINE_ENVIRONMENT_VARIABLE = 'SMORG_MERGE_ENGINE'
     TEMPLATE_TOKEN_CONFIG = Token::Resolver::Config.new(separators: ['|', ':']).freeze
 
-    class Error < StandardError; end
+    # Base exception contract for concise user output and complete diagnostics.
+    # Ruby's exception cause chain remains the source of truth for wrapped failures.
+    class Error < StandardError
+      attr_reader :summary, :context
+
+      def initialize(message = nil, summary: nil, context: {})
+        super(summary || message)
+        @summary = (summary || message || self.class.name).to_s
+        @context = context.to_h.freeze
+      end
+
+      # Raise this error class while preserving the original exception as Ruby's cause.
+      def self.raise_with_cause(summary, cause:, context: {})
+        raise new(summary, context: context), cause: cause
+      end
+
+      # Structured exception and cause data for logs or verbose output.
+      def diagnostic_chain
+        exception = self
+        chain = []
+        while exception
+          chain << {
+            class: exception.class.name,
+            message: exception.message,
+            backtrace: exception.backtrace || []
+          }.freeze
+          exception = exception.cause
+        end
+        chain.freeze
+      end
+
+      def render_diagnostic
+        diagnostic_chain.map do |entry|
+          lines = entry[:backtrace]
+          ["#{entry[:class]}: #{entry[:message]}", *lines.map { |line| "  from #{line}" }].join("\n")
+        end.join("\nCaused by: ")
+      end
+    end
 
     class ParseError < Error
       attr_reader :errors, :content

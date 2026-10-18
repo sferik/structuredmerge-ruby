@@ -16,6 +16,13 @@ module Ast
     end
 
     class Error < StandardError
+      attr_reader summary: String
+      attr_reader context: Hash[Symbol, untyped]
+
+      def initialize: (?String message, ?summary: String?, ?context: Hash[Symbol, untyped]) -> void
+      def self.raise_with_cause: (String summary, cause: Exception, ?context: Hash[Symbol, untyped]) -> bot
+      def diagnostic_chain: () -> Array[Hash[Symbol, untyped]]
+      def render_diagnostic: () -> String
     end
 
     module PortableBenchmarkContract
