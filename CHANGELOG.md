@@ -20,6 +20,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- ast-merge: Add a shared error contract with concise summaries, structured context, and cause-chain diagnostics that preserve original backtraces.
+
 ### Changed
 
 ### Deprecated
