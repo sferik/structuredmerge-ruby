@@ -20,6 +20,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- Version gate for local gemfile wiring: _local.gemfile now declares local_gem_requirements from the same template facts style.gemfile uses (KJ|RUBOCOP_LTS_CONSTRAINT, KJ|RUBOCOP_RUBY_CONSTRAINT) and path-wires a local gem only when its checkout version satisfies the requirement; unsatisfied checkouts fall back to the registry declaration. ensure_local_gem_requirements_from_template re-injects the hash after the AST merge, which drops hash assignments absent from the destination.
+
 ### Changed
 
 ### Deprecated

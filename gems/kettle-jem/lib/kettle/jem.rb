@@ -6870,7 +6870,7 @@ module Kettle
         end
       end
       if strategy.empty? || strategy == "merge"
-        merged = merge_config_template_source(recipe, resolved, original, facts: facts, env: env)
+        merged = merge_config_template_source(recipe, resolved, original, facts: facts, env: env, project_root: project_root)
         merged = preserve_mise_project_settings(recipe, merged, original, project_root: project_root, facts: facts) if template_file_type(recipe) == :toml
         return finalize_template_source_content(recipe, sync_kettle_config_env_overrides(merged, env, project_root: project_root)) if recipe.fetch(:target_path) == KETTLE_CONFIG_PATH
 
@@ -7617,7 +7617,7 @@ module Kettle
       ensure_trailing_newline(lines.join("\n").gsub(/\n{3,}/, "\n\n").strip)
     end
 
-    def merge_config_template_source(recipe, template_content, destination_content, facts: nil, env: ENV)
+    def merge_config_template_source(recipe, template_content, destination_content, facts: nil, env: ENV, project_root: nil)
       file_type = template_file_type(recipe)
       trivial_outcome = Ast::Template::Strategies.trivial_merge_outcome(template_content, destination_content)
       if trivial_outcome == :empty_destination
@@ -7754,6 +7754,8 @@ module Kettle
 
       output = normalize_local_gemfile_nomono_bootstrap(output) if local_gemfile_template_recipe?(recipe)
       output = remove_gemfile_percent_w_entries(output, [facts.to_h.dig(:package, :name)]) if local_gemfile_template_recipe?(recipe)
+      output = ensure_local_gem_requirements_from_template(output, template_content) if local_gemfile_template_recipe?(recipe)
+
       return output if recipe.dig(:template_preference, :strategy).to_s == "accept_template"
       return output unless local_gemfile_template_recipe?(recipe)
 
@@ -8765,6 +8767,7 @@ module Kettle
         output = replace_source_range_lines(output, first_line, marker.fetch(:start_line) - 1, bootstrap) if first_line < marker.fetch(:start_line)
         output = remove_local_gemfile_nomono_loader_blocks_after_marker(output)
         output = remove_redundant_nomono_bundler_requires_after_marker(output)
+        output = apply_local_gem_exclusions(output)
         return ensure_trailing_newline(output.rstrip)
       end
 
@@ -8781,7 +8784,9 @@ module Kettle
         without_duplicates = require_records.reject { |record| record.equal?(first) }.sort_by { |record| -record.fetch(:start_line) }.reduce(output) do |memo, record|
           replace_source_range_lines(memo, record.fetch(:start_line), expand_line_range_through_following_blanks(memo, record.fetch(:end_line)), "")
         end
-        return replace_source_range_lines(without_duplicates, first.fetch(:start_line), first.fetch(:end_line), bootstrap)
+        output = replace_source_range_lines(without_duplicates, first.fetch(:start_line), first.fetch(:end_line), bootstrap)
+        output = apply_local_gem_exclusions(output)
+        return ensure_trailing_newline(output.rstrip)
       end
 
       if (record = local_gems_assignment_record(output))
@@ -8789,6 +8794,8 @@ module Kettle
       else
         ensure_trailing_newline([output.to_s.rstrip, bootstrap.rstrip].reject(&:empty?).join("\n\n"))
       end
+      output = apply_local_gem_exclusions(output)
+      ensure_trailing_newline(output.rstrip)
     end
 
     def local_gemfile_nomono_bootstrap_marker(content)
@@ -8972,6 +8979,67 @@ module Kettle
 
     def local_gems_assignment_record(content)
       word_array_assignment_record(content, :local_gems)
+    end
+
+    # Apply local gem exclusions from KETTLE_JEM_LOCAL_GEM_EXCLUSIONS env var
+    # to the local_gems word array in _local.gemfile templates.
+    def apply_local_gem_exclusions(content)
+      exclusions_env = ENV["KETTLE_JEM_LOCAL_GEM_EXCLUSIONS"]
+      return content if exclusions_env.nil? || exclusions_env.strip.empty?
+
+      exclusions = exclusions_env.split(",").map(&:strip).reject(&:empty?)
+      return content if exclusions.empty?
+
+      record = local_gems_assignment_record(content)
+      return content unless record
+
+      current_gems = record.fetch(:names)
+      filtered_gems = current_gems.reject { |gem| exclusions.include?(gem) }
+      return content if filtered_gems == current_gems
+
+      replace_word_array_assignment(content, :local_gems, filtered_gems)
+    end
+
+    # The AST merge can drop the template's local_gem_requirements hash when the
+    # destination predates it. The token-resolved template content is the source
+    # of truth for these requirements (the same facts style.gemfile declares),
+    # so re-inject the assignment from the template after the merge, replacing
+    # any stale copy in the merged output.
+    def ensure_local_gem_requirements_from_template(output, template_content)
+      template_record = local_variable_assignment_record(template_content, :local_gem_requirements)
+      return output unless template_record
+
+      replacement = template_record.fetch(:source)
+      output_record = local_variable_assignment_record(output, :local_gem_requirements)
+      if output_record
+        return output if output_record.fetch(:source) == replacement
+
+        replace_source_range_lines(output, output_record.fetch(:start_line), output_record.fetch(:end_line), replacement)
+      else
+        anchor = local_variable_assignment_record(output, :local_gems) ||
+          local_variable_assignment_record(output, :declared_gems)
+        return output unless anchor
+
+        lines = output.lines
+        lines.insert(anchor.fetch(:start_line) - 1, "#{replacement}\n\n")
+        ensure_trailing_newline(lines.join)
+      end
+    end
+
+    def local_variable_assignment_record(content, name)
+      result = prism_parse_success(content)
+      return unless result
+
+      node = result.value.breadth_first_search_all do |candidate|
+        candidate.is_a?(::Prism::LocalVariableWriteNode) && candidate.name == name
+      end.first
+      return unless node
+
+      {
+        source: content.lines[(node.location.start_line - 1)...node.location.end_line].join.chomp,
+        start_line: node.location.start_line,
+        end_line: node.location.end_line
+      }
     end
 
     def word_array_assignment(content, name)
