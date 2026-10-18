@@ -9,7 +9,7 @@
 Gem::Specification.new do |spec|
   spec.name = "config-merge"
   spec.version = Module.new.tap { |mod| Kernel.load("#{__dir__}/lib/config/merge/version.rb", mod) }::Config::Merge::Version::VERSION
-  spec.authors = ["TODO: Write your name"]
+  spec.authors = ["TODO: Write your name", "Peter H. Boling"]
   spec.email = ["floss@galtzo.com"]
 
   spec.summary = "🔧 TODO: Write a short summary, because RubyGems requires one."
