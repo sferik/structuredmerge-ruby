@@ -22,6 +22,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - ast-merge: Add a shared error contract with concise summaries, structured context, and cause-chain diagnostics that preserve original backtraces.
 
+- Add config-merge with validated YAML policies and base-aware option-file merging.
+
 ### Changed
 
 ### Deprecated

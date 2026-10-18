@@ -9,6 +9,7 @@ members:
   roots:
     - gems/tree_haver
     - gems/ast-merge
+    - gems/config-merge
     - gems/ast-crispr
     - gems/ast-crispr-ruby-prism
     - gems/ast-crispr-markdown-markly
@@ -47,6 +48,7 @@ members:
     hints:
       - tree_haver
       - ast-merge
+      - config-merge
       - ast-crispr
       - ast-crispr-ruby-prism
       - ast-crispr-markdown-markly
@@ -159,7 +161,7 @@ release:
   waves:
     - [tree_haver]
     - [ast-merge]
-    - [ast-crispr, bash-merge, binary-merge, go-merge, json-merge, markdown-merge, plain-merge, rbs-merge, ruby-merge, rust-merge, toml-merge, typescript-merge, yaml-merge]
+    - [ast-crispr, bash-merge, binary-merge, config-merge, go-merge, json-merge, markdown-merge, plain-merge, rbs-merge, ruby-merge, rust-merge, toml-merge, typescript-merge, yaml-merge]
     - [citrus-toml-merge, commonmarker-merge, dotenv-merge, html-merge, kramdown-merge, markly-merge, parslet-toml-merge, prism-merge, psych-merge, ast-template, zip-merge]
     - [ast-crispr-yaml-psych]
     - [ast-crispr-markdown-markly, ast-crispr-ruby-prism]

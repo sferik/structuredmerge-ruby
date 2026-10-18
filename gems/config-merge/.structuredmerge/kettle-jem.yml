@@ -163,14 +163,14 @@ ruby:
   # test/development dependency assumptions. This is intentionally separate
   # from the gemspec required_ruby_version, which describes the published
   # runtime contract. Effective CI minimum is max(gemspec minimum, this value).
-  test_minimum: "3.2.0"
+  test_minimum: "4.0.0"
 
 # RubyGems packaging/runtime shape.
 rubygems:
   # Published runtime Ruby floor used for generated gemspec metadata and README
   # compatibility text. Omit this to derive the value from the gemspec.
   # ENV override: KJ_MIN_RUBY
-  min_ruby: "3.2.0"
+  min_ruby: "4.0.0"
   # VersionGem loading pattern.
   # auto      - preserve an existing lib/<entrypoint>/version_gem.rb dedicated
   #             entrypoint; otherwise use the inline main-entrypoint pattern
@@ -412,7 +412,8 @@ readme:
 #   - When MIT (or AGPL), a PolyForm variant, AND LicenseRef-Big-Time-Public-License
 #     are all present, a use-case guide table is added to README and LICENSE.md.
 licenses:
-  - MIT
+  - AGPL-3.0-only
+  - PolyForm-Small-Business-1.0.0
 
 # Apache SkyWalking Eyes dependency license overrides.
 # Use these when license-eye cannot identify a dependency license from the

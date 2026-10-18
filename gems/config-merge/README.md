@@ -2,7 +2,7 @@
 
 # 🔧 Config::Merge
 
-[![Version][👽versioni]][👽version] [![Ruby Users Forum][✉️ruby-forum-top-img]][✉️ruby-forum] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: MIT][📄license-img]][📄license] [![Total downloads][👽dl-ranki]][👽dl-rank] [![CI Current][🚎11-c-wfi]][🚎11-c-wf]
+[![Version][👽versioni]][👽version] [![Ruby Users Forum][✉️ruby-forum-top-img]][✉️ruby-forum] [![GitHub tag (latest SemVer)][⛳️tag-img]][⛳️tag] [![License: AGPL-3.0-only OR PolyForm-Small-Business-1.0.0][📄license-img]][📄license] [![Total downloads][👽dl-ranki]][👽dl-rank] [![CI Current][🚎11-c-wfi]][🚎11-c-wf]
 
 `if ci_badges.map(&:color).detect { it != "green"}` ☝️ [let me know on Discord][✉️discord-invite] or [RubyForum][✉️ruby-forum], as I may have missed the notification.
 
@@ -21,6 +21,8 @@ I've summarized my thoughts in [this blog post](https://dev.to/galtzo/hostile-ta
 
 ## 🌻 Synopsis <a href="https://discord.gg/3qme4XHNKN"><img alt="Galtzo FLOSS Logo by Aboling0, CC BY-SA 4.0" src="https://logos.galtzo.com/assets/images/galtzo-floss/avatar-128px.svg" width="8%" align="right"/></a> <a href="https://ruby-toolbox.com"><img alt="ruby-lang Logo, Yukihiro Matsumoto, Ruby Visual Identity Team, CC BY-SA 2.5" src="https://logos.galtzo.com/assets/images/ruby-lang/avatar-128px.svg" width="8%" align="right"/></a>
 
+config-merge applies declared merge policies to line-oriented configuration files. It compares base, destination, and incoming versions by flag and argument, combining independent edits while reporting conflicting edits to singleton options. Policies are validated YAML and reference named normalizers; policy files do not execute Ruby code.
+
 ## 💡 Info you can shake a stick at
 
 | Tokens to Remember | [![Gem name][⛳️name-img]][⛳️gem-name] [![Gem namespace][⛳️namespace-img]][⛳️gem-namespace] |
@@ -29,15 +31,15 @@ I've summarized my thoughts in [this blog post](https://dev.to/galtzo/hostile-ta
 | Support & Community | [![Join Me on Daily.dev's RubyFriends][✉️ruby-friends-img]][✉️ruby-friends] [![Get help from RubyForum][✉️ruby-forum-img]][✉️ruby-forum] [![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite] [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork] [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor] |
 | Source | [![Source on GitLab.com][📜src-gl-img]][📜src-gl] [![Source on CodeBerg.org][📜src-cb-img]][📜src-cb] [![Source on GitHub.com][📜src-gh-img]][📜src-gh] [![The best SHA: dQw4w9WgXcQ!][🧮kloc-img]][🧮kloc] |
 | Documentation | [![Current release on RubyDoc.info][📜docs-cr-rd-img]][🚎yard-current] [![YARD on Galtzo.com][📜docs-head-rd-img]][🚎yard-head] [![Maintainer Blog][🚂maint-blog-img]][🚂maint-blog] [![GitLab Wiki][📜gl-wiki-img]][📜gl-wiki] [![GitHub Wiki][📜gh-wiki-img]][📜gh-wiki] |
-| Compliance | [![License: MIT][📄license-img]][📄license] [![Apache license compatibility: Category A][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
+| Compliance | [![License: AGPL-3.0-only OR PolyForm-Small-Business-1.0.0][📄license-img]][📄license] [![Apache license compatibility: Category X][📄license-compat-img]][📄license-compat] [![📄ilo-declaration-img]][📄ilo-declaration] [![Security Policy][🔐security-img]][🔐security] [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct] [![SemVer 2.0.0][📌semver-img]][📌semver] |
 | Style | [![Enforced Code Style Linter][💎rlts-img]][💎rlts] [![Keep-A-Changelog 1.0.0][📗keep-changelog-img]][📗keep-changelog] [![Gitmoji Commits][📌gitmoji-img]][📌gitmoji] [![Compatibility appraised by: appraisal2][💎appraisal2-img]][💎appraisal2] |
 | Maintainer 🎖️ | [![Follow Me on LinkedIn][💖🖇linkedin-img]][💖🖇linkedin] [![Follow Me on Ruby.Social][💖🐘ruby-mast-img]][💖🐘ruby-mast] [![Follow Me on Bluesky][💖🦋bluesky-img]][💖🦋bluesky] [![Contact Maintainer][🚂maint-contact-img]][🚂maint-contact] [![My technical writing][💖💁🏼‍♂️devto-img]][💖💁🏼‍♂️devto] |
 | `...` 💖 | [![Find Me on WellFound:][💖✌️wellfound-img]][💖✌️wellfound] [![Find Me on CrunchBase][💖💲crunchbase-img]][💖💲crunchbase] [![My LinkTree][💖🌳linktree-img]][💖🌳linktree] [![More About Me][💖💁🏼‍♂️aboutme-img]][💖💁🏼‍♂️aboutme] [🧊][💖🧊berg] [🐙][💖🐙hub] [🛖][💖🛖hut] [🧪][💖🧪lab] |
 
 ### Compatibility
 
-Compatible with MRI Ruby 3.2.0+, JRuby, and TruffleRuby.
-CI workflows and Appraisals are generated for MRI Ruby 3.2.0+.
+Compatible with MRI Ruby 4.0.0+, JRuby, and TruffleRuby.
+CI workflows and Appraisals are generated for MRI Ruby 4.0.0+.
 This test floor is configured by `ruby.test_minimum` in `.kettle-jem.yml` and
 may be higher than the gem's runtime compatibility floor when legacy Rubies are
 not practical for the current toolchain.
@@ -78,9 +80,56 @@ gem install config-merge
 
 ## ⚙️ Configuration
 
+A policy declares how a flag is identified, whether it can repeat, and how a conflict is handled. The bundled RSpec policy treats `--require` as a singleton option owned by the destination and merges repeatable options such as `--env` as separate records.
+
+```yaml
+name: rspec
+format: flag_file
+defaults:
+  cardinality: repeatable
+  on_conflict: union
+flags:
+  --require:
+    cardinality: single
+    on_conflict: ours
+    normalizer: identity
+```
+
+`ours` means the current or destination side. `theirs` means the incoming side. A rule can use `on_conflict: conflict` to leave divergent edits unresolved. Normalizers affect comparison only; rendering retains the option values from the selected source records. YAML is loaded with safe parsing, and unknown fields or normalizer names are rejected.
+
 ## 🔧 Basic Usage
 
-TODO: Write usage instructions here
+```ruby
+require "config/merge"
+
+policy = Config::Merge::BuiltInPolicies.fetch(:rspec)
+result = Config::Merge::FlagFile::ThreeWayMerger.new(
+  base: File.read(".rspec.base"),
+  ours: File.read(".rspec"),
+  theirs: File.read(".rspec.incoming"),
+  policy: policy
+).merge
+
+if result.success?
+  File.write(".rspec", result.output)
+else
+  warn "Unresolved option conflicts: #{result.conflicts.map(&:flag).join(', ')}"
+end
+```
+
+The RSpec policy preserves a destination-specific `--require rails_helper` while accepting independent template additions. `result.output` is `nil` when any conflict remains; `result.partial_output` contains the non-conflicting records for inspection.
+
+ProviderAdapter also delegates structural formats to existing ast-merge providers. Install the format provider separately; this example uses psych-merge:
+
+    require "config/merge"
+    require "psych/merge"
+
+    adapter = Config::Merge::ProviderAdapter.new(
+      family: :yaml, dialect: :yaml, backend: :psych, profile_id: :source_preserving
+    )
+    result = adapter.merge3(base: base_yaml, ours: destination_yaml, theirs: template_yaml)
+
+It returns the provider result unchanged, including diagnostics and source-preservation verification.
 
 ## 🔐 Security
 
@@ -103,7 +152,7 @@ For most applications, prefer the [Pessimistic Version Constraint][📌pvc] with
 For example:
 
 ```ruby
-spec.add_dependency("config-merge", "~> 0.0")
+spec.add_dependency("config-merge", "~> 7.0")
 ```
 
 <details markdown="1">
@@ -123,8 +172,10 @@ See [CHANGELOG.md][📌changelog] for a list of releases.
 
 ## 📄 License
 
-The gem is available as open source under the terms of
-the [MIT](https://github.com/structuredmerge/structuredmerge-ruby/blob/main/MIT.md) [![License: MIT][📄license-img]][📄license-ref].
+The gem is available under the following licenses: [AGPL-3.0-only](https://github.com/structuredmerge/structuredmerge-ruby/blob/main/AGPL-3.0-only.md), [PolyForm-Small-Business-1.0.0](https://github.com/structuredmerge/structuredmerge-ruby/blob/main/PolyForm-Small-Business-1.0.0.md).
+See [LICENSE.md][📄license] for details.
+
+If none of the available licenses suit your use case, please [contact us](mailto:floss@galtzo.com) to discuss a custom commercial license.
 
 [⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611&style=flat
 [⛳liberapay-bottom-img]: https://img.shields.io/liberapay/goal/pboling.svg?style=for-the-badge&logo=liberapay&color=a51611
@@ -237,10 +288,10 @@ the [MIT](https://github.com/structuredmerge/structuredmerge-ruby/blob/main/MIT.
 [🔐security-img]: https://img.shields.io/badge/security-policy-259D6C.svg?style=flat
 [📄copyright-notice-explainer]: https://opensource.stackexchange.com/questions/5778/why-do-licenses-such-as-the-mit-license-specify-a-single-year
 [📄license]: LICENSE.md
-[📄license-ref]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/MIT.md
-[📄license-img]: https://img.shields.io/badge/License-MIT-259D6C.svg
-[📄license-compat]: https://www.apache.org/legal/resolved.html#category-a
-[📄license-compat-img]: https://img.shields.io/badge/Apache_Compatible:_Category_A-%E2%9C%93-259D6C.svg?style=flat&logo=Apache
+[📄license-ref]: LICENSE.md
+[📄license-img]: https://img.shields.io/badge/License-AGPL--3.0--only_OR_PolyForm--Small--Business--1.0.0-259D6C.svg
+[📄license-compat]: https://www.apache.org/legal/resolved.html#category-x
+[📄license-compat-img]: https://img.shields.io/badge/Apache_Incompatible:_Category_X-%E2%9C%97-C0392B.svg?style=flat&logo=Apache
 [📄ilo-declaration]: https://www.ilo.org/declaration/lang--en/index.htm
 [📄ilo-declaration-img]: https://img.shields.io/badge/ILO_Fundamental_Principles-✓-259D6C.svg?style=flat
 [🚎yard-current]: http://rubydoc.info/gems/config-merge

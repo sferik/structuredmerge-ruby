@@ -9,14 +9,14 @@
 Gem::Specification.new do |spec|
   spec.name = "config-merge"
   spec.version = Module.new.tap { |mod| Kernel.load("#{__dir__}/lib/config/merge/version.rb", mod) }::Config::Merge::Version::VERSION
-  spec.authors = ["TODO: Write your name", "Peter H. Boling"]
+  spec.authors = ["Peter H. Boling"]
   spec.email = ["floss@galtzo.com"]
 
-  spec.summary = "🔧 TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "🔧 TODO: Write a longer description or delete this line."
+  spec.summary = "🔧 Policy-driven semantic configuration merging for Ruby"
+  spec.description = "🔧 Three-way configuration merging with declared per-format policies and named normalizers."
   spec.homepage = "https://github.com/structuredmerge/structuredmerge-ruby"
-  spec.licenses = ["MIT"]
-  spec.required_ruby_version = ">= 3.2.0"
+  spec.licenses = ["AGPL-3.0-only", "PolyForm-Small-Business-1.0.0"]
+  spec.required_ruby_version = ">= 4.0.0"
 
   # Linux distros often package gems and securely certify them independent
   #   of the official RubyGem certification process. Allowed via ENV["SKIP_GEM_SIGNING"]
@@ -95,17 +95,18 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Utilities
+  spec.add_dependency("ast-merge", "= #{spec.version}")
   spec.add_dependency("version_gem", "~> 1.1", ">= 1.1.15") # ruby >= 2.2.0
 
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
   #       visibility and discoverability.
   #       However, development dependencies in gemspec will install on
   #       all versions of Ruby that will run in CI.
-  #       This gem, and its gemspec runtime dependencies, will install on Ruby down to 3.2.0.
-  #       This gem, and its gemspec development dependencies, will install on Ruby down to 3.2.0.
+  #       This gem, and its gemspec runtime dependencies, will install on Ruby down to 4.0.0.
+  #       This gem, and its gemspec development dependencies, will install on Ruby down to 4.0.0.
   #       Thus, dev dependencies in gemspec must have
   #
-  #       required_ruby_version ">= 3.2.0" (or lower)
+  #       required_ruby_version ">= 4.0.0" (or lower)
   #
   #       Development dependencies that require strictly newer Ruby versions should be in a "gemfile",
   #       and preferably a modular one (see gemfiles/modular/*.gemfile).

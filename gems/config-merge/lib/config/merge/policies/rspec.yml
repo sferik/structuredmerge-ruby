@@ -1,0 +1,24 @@
+name: rspec
+format: flag_file
+defaults:
+  cardinality: repeatable
+  on_conflict: union
+flags:
+  --require:
+    cardinality: single
+    on_conflict: ours
+  --order:
+    cardinality: single
+    on_conflict: ours
+  --out:
+    cardinality: single
+    on_conflict: ours
+  --format:
+    cardinality: repeatable
+    on_conflict: union
+  --exclude-pattern:
+    cardinality: repeatable
+    on_conflict: union
+  --env:
+    cardinality: repeatable
+    on_conflict: union

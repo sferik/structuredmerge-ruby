@@ -210,8 +210,8 @@ files:
   README.md:
     recipe: template_source_application_README_md
     action: write
-    dest_sha256: 40579abdd01f55ecb5cd38a7935c03cf9a0e9811c9b7b7c28321b0168e0020bc
-    input_fingerprint: 00b76cf700861ba0e39a3127779aaf854465ae1fcaca46fd05d1571f0f2a8fda
+    dest_sha256: 4d3f2d810ea9f87813debe3a46f1160ad24cc52124ebeb654dc11812ddb8f4d0
+    input_fingerprint: b7a3d467d9d7408cbe94ca811b70f82986128d684ca4290ab2ca19c70a8f9d46
     template_sources:
     - README.md.example
   Rakefile:

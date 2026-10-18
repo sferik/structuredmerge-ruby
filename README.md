@@ -50,6 +50,7 @@ The family is intentionally layered:
 | --- | --- | --- |
 | [`tree_haver`][ruby-tree-haver] | Parser substrate | Parser backend registry, byte ranges, node wrappers, source locations, binary tree contracts, and backend selection helpers. |
 | [`ast-merge`][ruby-ast-merge] | Merge substrate | AST merge contracts, diagnostics, structural edit plans, review/replay vocabulary, nested merge orchestration, backend provider registration, and shared spec helpers. |
+| [`config-merge`][ruby-config-merge] | Configuration policies | Three-way option-file policies, named normalizers, and adapters to existing structural format providers. |
 | [`ast-template`][ruby-ast-template] | Template substrate | Template/session transport objects used by recipe tooling and language-specific templating layers. |
 | [`ast-merge-git`][ruby-ast-merge-git] | Git integration | Merge-driver, diff-driver, conflict inspection, language registry, and command plumbing for `smorg-rb`. |
 | [`smorg-rb`][ruby-smorg-rb] | Command package | Ruby implementation command packaging and executable entry points. |
@@ -242,6 +243,7 @@ Core and transformation gems:
 
 - [`tree_haver`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/tree_haver) - parser substrate, byte ranges, backend adapters, and binary tree contracts.
 - [`ast-merge`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-merge) - AST merge contracts, diagnostics, planning, review, replay, and nested-merge vocabulary.
+- [`config-merge`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/config-merge) - validated per-format configuration policies, flag-aware three-way merging, and named normalizers.
 - [`ast-template`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-template) - template/session transport contracts.
 - [`ast-crispr`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr) - generic AST edit recipes for generated blocks and template-owned regions.
 - [`ast-crispr-ruby-prism`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-ruby-prism) - Prism-backed Ruby source edits.
@@ -341,3 +343,5 @@ Bundler path gems are the default isolation mechanism inside this monorepo. When
 this repository needs to consume sibling workspace projects outside the monorepo
 itself, prefer `nomono`-driven Bundler wiring rather than manual Ruby load-path
 changes.
+
+[ruby-config-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/config-merge
