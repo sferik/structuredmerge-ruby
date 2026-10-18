@@ -1,0 +1,90 @@
+module Config
+  module Merge
+    class Error < StandardError
+    end
+
+    class NormalizerRegistry
+      class UnknownNormalizerError < ArgumentError
+      end
+
+      def self.register: (String | Symbol name, ?Proc callable, ?replace: bool) -> Symbol
+                       | (String | Symbol name, ?replace: bool) { (untyped) -> untyped } -> Symbol
+      def self.normalize: (String | Symbol name, untyped value) -> untyped
+      def self.registered?: (String | Symbol name) -> bool
+      def self.names: () -> Array[Symbol]
+    end
+
+    class Policy
+      class Rule
+        attr_reader cardinality: Symbol
+        attr_reader on_conflict: Symbol
+        attr_reader normalizer: Symbol
+      end
+
+      attr_reader name: String?
+      attr_reader format: String
+      attr_reader defaults: Rule
+      attr_reader flags: Hash[String, Rule]
+
+      def self.load: (String path) -> Policy
+      def initialize: (Hash[String, untyped] config) -> void
+      def rule_for: (String flag) -> Rule
+    end
+
+    module BuiltInPolicies
+      def self.names: () -> Array[Symbol]
+      def self.fetch: (String | Symbol name) -> Policy
+    end
+
+    module FlagFile
+      class Option
+        attr_reader flag: String
+        attr_reader value: String?
+        attr_reader raw: String
+        attr_reader line_number: Integer
+        attr_reader position: Integer
+        attr_reader binding: Symbol
+      end
+
+      class Document
+        attr_reader options: Array[Option]
+        attr_reader opaque_lines: Array[[Integer, Integer, String]]
+        attr_reader trailing_newline: bool
+      end
+
+      class Parser
+        class ParseError < ArgumentError
+        end
+
+        def parse: (String source) -> Document
+      end
+
+      class Conflict
+        attr_reader flag: String
+        attr_reader base: Array[Option]
+        attr_reader ours: Array[Option]
+        attr_reader theirs: Array[Option]
+      end
+
+      class Result
+        attr_reader output: String?
+        attr_reader conflicts: Array[Conflict]
+        attr_reader partial_output: String
+        def clean?: () -> bool
+        def success?: () -> bool
+      end
+
+      class ThreeWayMerger
+        def initialize: (base: String | Document, ours: String | Document, theirs: String | Document, policy: Policy) -> void
+        def merge: () -> Result
+      end
+    end
+  end
+end
+
+module Config::Merge
+  class ProviderAdapter
+    def initialize: (family: String | Symbol, ?dialect: String | Symbol, ?backend: String | Symbol, ?profile_id: String | Symbol, ?provider_id: String | Symbol) -> void
+    def merge3: (base: String, ours: String, theirs: String, ?metadata: Hash[Symbol, untyped]?) -> Hash[Symbol, untyped]
+  end
+end

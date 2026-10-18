@@ -32,6 +32,7 @@ warn StructuredMerge::FixtureRepository.report
 ].each { |require_path| require require_path }
 
 require_relative "../gems/ast-merge/spec/spec_helper"
+require_relative "../gems/config-merge/spec/spec_helper"
 require_relative "../gems/ast-merge-git/spec/spec_helper"
 require_relative "../gems/ast-crispr/spec/spec_helper"
 require_relative "../gems/ast-crispr-ruby-prism/spec/spec_helper"
