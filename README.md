@@ -63,6 +63,7 @@ The family is intentionally layered:
 | [`ast-crispr-ruby-prism`][ruby-ast-crispr-ruby-prism] | Ruby AST edits | [Prism][prism]-backed Ruby source edits, including require insertion and template-managed Ruby regions. |
 | [`ast-crispr-markdown-markly`][ruby-ast-crispr-markdown-markly] | Markdown AST edits | [Markly][markly]-backed Markdown block replacement and README recipe support. |
 | [`ast-crispr-toml`][ruby-ast-crispr-toml] | TOML AST edits | [toml-merge][ruby-toml-merge]-backed TOML table and dotted-key-path selection (mise.toml and friends). |
+| [`ast-crispr-yaml-psych`][ruby-ast-crispr-yaml-psych] | YAML AST edits | [psych-merge][ruby-psych-merge]-backed YAML mapping-entry and sequence-item selectors for structural edits. |
 
 ### Format Gems
 
@@ -116,7 +117,7 @@ tags are capability names, not package preferences.
 | `:ffi` | source-family gems | Uses [FFI][ffi] bindings to [libtree-sitter][tree-sitter]; suitable where the runtime and native library support the needed ABI. |
 | `:java` | source-family gems | Uses JVM tree-sitter bindings through [java-tree-sitter][java-tree-sitter] / [jtreesitter][jtreesitter] for JRuby-oriented parser runs. |
 | [Prism][prism] | `ruby-merge`, `prism-merge`, `ast-crispr-ruby-prism` | Ruby-native parser path for Ruby source and structured Ruby source edits. |
-| [Psych][psych] | `yaml-merge`, `psych-merge` | Ruby standard YAML parser/emitter path. |
+| [Psych][psych] | `yaml-merge`, `psych-merge`, `ast-crispr-yaml-psych` | Ruby standard YAML parser/emitter path, including structural YAML selectors. |
 | [RBS][rbs] | `rbs-merge` | Ruby signature parser path. |
 | [CommonMarker][commonmarker], [Markly][markly], [Kramdown][kramdown] | `markdown-merge` providers | Markdown parser families with different CommonMark/GFM/Ruby-native tradeoffs. |
 | [Citrus][citrus], [Parslet][parslet] | `toml-merge` providers, `ast-crispr-toml` | Pure-Ruby TOML parser families exposed as provider-specific TreeHaver backend paths. |
@@ -154,6 +155,7 @@ Legend: ✅ = works, ❌ = does not work, ❓ = not part of the supported runtim
 [ruby-ast-crispr-ruby-prism]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-ruby-prism
 [ruby-ast-crispr-markdown-markly]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-markdown-markly
 [ruby-ast-crispr-toml]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml
+[ruby-ast-crispr-yaml-psych]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-yaml-psych
 [ruby-plain-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/plain-merge
 [ruby-json-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/json-merge
 [ruby-yaml-merge]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/yaml-merge
@@ -244,6 +246,8 @@ Core and transformation gems:
 - [`ast-crispr`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr) - generic AST edit recipes for generated blocks and template-owned regions.
 - [`ast-crispr-ruby-prism`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-ruby-prism) - Prism-backed Ruby source edits.
 - [`ast-crispr-markdown-markly`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-markdown-markly) - Markly-backed Markdown source edits.
+- [`ast-crispr-toml`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml) - TOML table and dotted-key-path selectors.
+- [`ast-crispr-yaml-psych`](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-yaml-psych) - Psych-backed YAML mapping-entry and sequence-item selectors for structural edits.
 
 Format libraries:
 

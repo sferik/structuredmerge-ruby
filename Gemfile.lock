@@ -25,6 +25,14 @@ PATH
       version_gem (~> 1.1, >= 1.1.15)
 
 PATH
+  remote: gems/ast-crispr-yaml-psych
+  specs:
+    ast-crispr-yaml-psych (7.1.12)
+      ast-crispr (= 7.1.12)
+      psych-merge (= 7.1.12)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
   remote: gems/ast-crispr
   specs:
     ast-crispr (7.1.12)
@@ -742,6 +750,7 @@ DEPENDENCIES
   ast-crispr-markdown-markly!
   ast-crispr-ruby-prism!
   ast-crispr-toml!
+  ast-crispr-yaml-psych!
   ast-merge!
   ast-merge-git!
   ast-template!
@@ -830,6 +839,7 @@ CHECKSUMS
   ast-crispr-markdown-markly (7.1.12)
   ast-crispr-ruby-prism (7.1.12)
   ast-crispr-toml (7.1.12)
+  ast-crispr-yaml-psych (7.1.12)
   ast-merge (7.1.12)
   ast-merge-git (7.1.12)
   ast-template (7.1.12)

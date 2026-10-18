@@ -13,6 +13,7 @@ members:
     - gems/ast-crispr-ruby-prism
     - gems/ast-crispr-markdown-markly
     - gems/ast-crispr-toml
+    - gems/ast-crispr-yaml-psych
     - gems/ast-merge-git
     - gems/plain-merge
     - gems/bash-merge
@@ -50,6 +51,7 @@ members:
       - ast-crispr-ruby-prism
       - ast-crispr-markdown-markly
       - ast-crispr-toml
+      - ast-crispr-yaml-psych
       - ast-merge-git
       - plain-merge
       - bash-merge
@@ -159,6 +161,7 @@ release:
     - [ast-merge]
     - [ast-crispr, bash-merge, binary-merge, go-merge, json-merge, markdown-merge, plain-merge, rbs-merge, ruby-merge, rust-merge, toml-merge, typescript-merge, yaml-merge]
     - [citrus-toml-merge, commonmarker-merge, dotenv-merge, html-merge, kramdown-merge, markly-merge, parslet-toml-merge, prism-merge, psych-merge, ast-template, zip-merge]
+    - [ast-crispr-yaml-psych]
     - [ast-crispr-markdown-markly, ast-crispr-ruby-prism]
     - [ast-merge-git]
     - [kettle-jem]

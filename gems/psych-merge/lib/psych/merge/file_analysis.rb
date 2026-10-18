@@ -194,6 +194,42 @@ module Psych
         wrap_root_node(root)
       end
 
+      # Return each nested YAML mapping/sequence's direct structural owners as
+      # its own sibling group. Keeping groups separate is essential: layout
+      # gaps are meaningful only relative to siblings with the same parent.
+      #
+      # @return [Array<Array<NodeWrapper>>]
+      def structural_owner_groups
+        @structural_owner_groups ||= begin
+          root = root_node
+          groups = []
+          @structural_owner_metadata = {}
+          collect_structural_owner_groups(root, [], groups) if root
+          groups
+        end
+      end
+
+      # Metadata describing a wrapper's parent-level structural ownership.
+      #
+      # @param owner [NodeWrapper]
+      # @return [Hash, nil]
+      def structural_owner_metadata_for(owner)
+        structural_owner_groups
+        @structural_owner_metadata[owner.object_id]
+      end
+
+      # Return a layout attachment calculated against the owner's actual YAML
+      # siblings, including nested mapping values and sequence items.
+      #
+      # @param owner [NodeWrapper] structural YAML owner
+      # @return [Ast::Merge::Layout::Attachment]
+      def layout_attachment_for(owner, **options)
+        siblings = structural_owner_groups.find { |group| group.any? { |candidate| candidate.equal?(owner) } }
+        return super unless siblings
+
+        layout_augmenter(owners: siblings, **options).attachment_for(owner)
+      end
+
       # Build a passive shared comment attachment for an owner.
       #
       # @param owner [Object] Structural owner for the attachment
@@ -233,6 +269,30 @@ module Psych
       end
 
       private
+
+      def collect_structural_owner_groups(wrapper, parent_path, groups)
+        return unless wrapper
+
+        group_kind, children = if wrapper.mapping?
+                                 [:mapping_entry, wrapper.mapping_entries(comment_tracker: @comment_tracker).map(&:last)]
+                               elsif wrapper.sequence?
+                                 [:sequence_item, wrapper.sequence_items(comment_tracker: @comment_tracker)]
+                               else
+                                 [nil, []]
+                               end
+        return if children.empty?
+
+        groups << children
+        children.each_with_index do |child, index|
+          path = if group_kind == :mapping_entry
+                   parent_path + [child.key.to_s]
+                 else
+                   parent_path + [index]
+                 end
+          @structural_owner_metadata[child.object_id] = { kind: group_kind, index: (index if group_kind == :sequence_item), path: path.freeze }
+          collect_structural_owner_groups(child, path, groups)
+        end
+      end
 
       def mapping_entry_attachment(owner)
         augmenter_attachment = comment_augmenter(owners: [owner]).attachment_for(owner)
