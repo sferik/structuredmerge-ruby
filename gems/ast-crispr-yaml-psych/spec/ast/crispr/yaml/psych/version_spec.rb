@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "anonymous_loader"
-require "ast/crispr/yaml/psych"
+require "ast-crispr-yaml-psych"
 RSpec.describe Ast::Crispr::Yaml::Psych::Version do
   it_behaves_like "a Version module", described_class
 

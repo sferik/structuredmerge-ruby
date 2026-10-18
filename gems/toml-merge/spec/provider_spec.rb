@@ -6,6 +6,15 @@ require 'ast/merge/rspec/shared_examples'
 
 # rubocop:disable Metrics/BlockLength -- workflow fidelity and safety cases exercise one public contract
 RSpec.describe Toml::Merge::Provider do
+  before do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
+  end
+
   subject(:provider) { described_class.new }
 
   let(:base) { "# retained\nalpha = \"base\"\nbeta = 1\n" }

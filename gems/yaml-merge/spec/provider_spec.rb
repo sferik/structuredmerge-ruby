@@ -5,6 +5,15 @@ require 'ast/merge/rspec/shared_examples'
 
 # rubocop:disable Metrics/BlockLength -- workflow behavior and shared provider conformance form one surface
 RSpec.describe Yaml::Merge::Provider do
+  before do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
+  end
+
   subject(:provider) { described_class.new }
 
   let(:backend) { :'kreuzberg-language-pack' }

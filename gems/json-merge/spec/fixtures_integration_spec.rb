@@ -135,6 +135,12 @@ RSpec.describe Json::Merge do
   end
 
   it 'parses through an explicit JSON TreeHaver backend and rejects unsupported backends' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = json_fixture('structure_json')
     result = described_class.parse_json(
       fixture[:source],

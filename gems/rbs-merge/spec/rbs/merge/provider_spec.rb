@@ -337,6 +337,12 @@ RSpec.describe Rbs::Merge::Provider do
 
   context 'with the TSLP backend' do
     before do
+      skip_for(
+        engine: 'ruby',
+        versions: 'head',
+        reason: 'Ruby head is permanently unsupported by ' \
+          "tree_sitter_language_pack's released-ABI-only native gem policy"
+      )
       skip 'tree-sitter-rbs grammar is unavailable' unless TreeHaver::GrammarFinder.new(:rbs).available?
     end
 

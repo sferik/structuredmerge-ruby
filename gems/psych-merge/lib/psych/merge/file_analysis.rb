@@ -227,7 +227,7 @@ module Psych
         siblings = structural_owner_groups.find { |group| group.any? { |candidate| candidate.equal?(owner) } }
         return super unless siblings
 
-        layout_augmenter(owners: siblings, **options).attachment_for(owner)
+        structural_layout_attachment_for(owner, siblings, **options)
       end
 
       # Build a passive shared comment attachment for an owner.
@@ -269,6 +269,24 @@ module Psych
       end
 
       private
+      def structural_layout_attachment_for(owner, siblings, **options)
+        custom_end_line_for = options.key?(:end_line_for)
+        end_line_for = options.delete(:end_line_for) { method(:structural_layout_end_line_for) }
+        return layout_augmenter(owners: siblings, end_line_for: end_line_for, **options).attachment_for(owner) if
+          custom_end_line_for || !options.empty?
+
+        @structural_layout_augmenters ||= {}.compare_by_identity
+        augmenter = @structural_layout_augmenters[siblings] ||=
+          layout_augmenter(owners: siblings, end_line_for: end_line_for)
+        augmenter.attachment_for(owner)
+      end
+
+      def structural_layout_end_line_for(candidate)
+        end_line = candidate.node.end_line
+        end_line -= 1 while end_line > candidate.start_line && lines[end_line - 1].to_s.strip.empty?
+        end_line
+      end
+
 
       def collect_structural_owner_groups(wrapper, parent_path, groups)
         return unless wrapper

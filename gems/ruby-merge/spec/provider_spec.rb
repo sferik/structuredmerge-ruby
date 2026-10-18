@@ -34,6 +34,12 @@ RSpec.describe Ruby::Merge::Provider do
   end
 
   it 'routes merge2 through the shared Ruby substrate and selected TreeHaver backend' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = JSON.parse(
       File.read(
         File.expand_path(
@@ -57,6 +63,12 @@ RSpec.describe Ruby::Merge::Provider do
   end
 
   it 'returns byte-exact one-sided merge3 results and fails closed for unproven composites' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "class Demo\nend\n"
     theirs = "class Demo\n  def call = :ok\nend\n"
     exact = provider.merge3(base_source: base, ours_source: base, theirs_source: theirs, backend: :tslp)
@@ -76,6 +88,12 @@ RSpec.describe Ruby::Merge::Provider do
   end
 
   it 'reports malformed selected input instead of switching parser families' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     result = provider.merge2(
       incoming_source: "class Demo\n",
       current_source: "class Demo\nend\n",

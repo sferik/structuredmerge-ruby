@@ -282,6 +282,12 @@ RSpec.describe TreeHaver::Backends::Tslp do
   end
 
   it 'can parse through a real TSLP language when the installed binding exposes parser methods' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     begin
       require 'tree_sitter_language_pack'
     rescue LoadError
@@ -303,6 +309,12 @@ RSpec.describe TreeHaver::Backends::Tslp do
   end
 
   it 'normalizes JSON5 root and member names for portable JSON consumers' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     begin
       require 'tree_sitter_language_pack'
     rescue LoadError
@@ -330,6 +342,12 @@ RSpec.describe TreeHaver::Backends::Tslp do
   end
 
   it 'exposes real TSLP point locations through TreeHaver nodes when available' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     begin
       require 'tree_sitter_language_pack'
     rescue LoadError
@@ -354,6 +372,12 @@ RSpec.describe TreeHaver::Backends::Tslp do
   end
 
   it 'parses the source-family languages expected to use TSLP when available' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     begin
       require 'tree_sitter_language_pack'
     rescue LoadError

@@ -2,6 +2,17 @@
 
 # rubocop:disable Metrics/BlockLength -- complete executable provider contract is intentionally shared
 RSpec.shared_examples 'Ast::Merge::ProviderConformance' do
+  def skip_for_tslp_backend
+    return unless %w[tslp kreuzberg-language-pack].include?(provider_conformance.fetch(:backend).to_s)
+
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
+  end
+
   let(:provider_capabilities) { provider.capabilities }
   let(:provider_selectors) do
     {
@@ -31,6 +42,7 @@ RSpec.shared_examples 'Ast::Merge::ProviderConformance' do
   end
 
   it 'executes every advertised operation with its required source roles' do
+    skip_for_tslp_backend
     provider_conformance.fetch(:requests).each do |operation, request|
       result = Ast::Merge.dispatch_provider(operation, provider_selectors.merge(request))
 
@@ -53,6 +65,7 @@ RSpec.shared_examples 'Ast::Merge::ProviderConformance' do
   end
 
   it 'reports a source-role parse diagnostic' do
+    skip_for_tslp_backend if provider_conformance[:invalid_merge3]
     if provider_conformance[:invalid_merge3]
       invalid = provider_conformance.fetch(:invalid_merge3)
       result = Ast::Merge.dispatch_provider(:merge3, provider_selectors.merge(invalid))
@@ -65,6 +78,7 @@ RSpec.shared_examples 'Ast::Merge::ProviderConformance' do
   end
 
   it 'uses the base in an adversarial merge3 that merge2 substitution gets wrong' do
+    skip_for_tslp_backend
     adversarial = provider_conformance.fetch(:base_adversarial_merge3)
     proof = Ast::Merge::RSpec::ProviderConformance.new(
       provider: provider,
@@ -80,6 +94,7 @@ RSpec.shared_examples 'Ast::Merge::ProviderConformance' do
   end
 
   it 'reports source preservation, synthesis, reparsing, and semantic verification' do
+    skip_for_tslp_backend if provider_conformance[:synthesized_merge3]
     if provider_conformance[:synthesized_merge3]
       synthesis = provider_conformance.fetch(:synthesized_merge3)
       result = Ast::Merge.dispatch_provider(:merge3, provider_selectors.merge(synthesis.fetch(:request)))

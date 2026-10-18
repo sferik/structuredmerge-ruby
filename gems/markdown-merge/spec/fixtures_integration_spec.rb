@@ -81,6 +81,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-198 Markdown analysis fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('markdown', 'slice-198-analysis', 'headings-and-code-fences.json'))
 
     result = markdown_merge.parse_markdown(fixture[:source], fixture[:dialect], backend: 'kreuzberg-language-pack')
@@ -123,6 +129,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-721 Markdown provider parity fixture for the TSLP backend' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'markdown',
@@ -147,6 +159,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-199 Markdown matching fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('markdown', 'slice-199-matching', 'path-equality.json'))
 
     template = markdown_merge.parse_markdown(fixture[:template], fixture[:dialect], backend: 'kreuzberg-language-pack')
@@ -164,6 +182,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-286 Markdown merge fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('markdown', 'slice-286-merge', 'section-merge.json'))
 
     result = markdown_merge.merge_markdown(
@@ -211,6 +235,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-208 embedded-family fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('markdown', 'slice-208-embedded-families', 'code-fence-families.json'))
 
     analysis = markdown_merge.parse_markdown(fixture[:source], 'markdown', backend: 'kreuzberg-language-pack')
@@ -221,6 +251,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-212 discovered-surfaces fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('markdown', 'slice-212-discovered-surfaces', 'fenced-code-surfaces.json'))
 
     analysis = markdown_merge.parse_markdown(fixture[:source], 'markdown', backend: 'kreuzberg-language-pack')
@@ -231,6 +267,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-213 delegated child-operations fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join('markdown', 'slice-213-delegated-child-operations', 'fenced-code-child-operations.json')
     )
@@ -368,6 +410,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-290 nested merge fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join('markdown', 'slice-290-nested-merge', 'fenced-code-nested-merge.json')
     )
@@ -384,6 +432,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-298 reviewed nested merge fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join('markdown', 'slice-298-reviewed-nested-merge', 'fenced-code-reviewed-nested-merge.json')
     )
@@ -401,6 +455,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-309 reviewed nested review artifact application fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'markdown',
@@ -431,6 +491,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-311 reviewed nested review artifact rejection fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'markdown',
@@ -459,6 +525,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-313 reviewed nested review artifact envelope application fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'markdown',
@@ -489,6 +561,12 @@ RSpec.describe Markdown::Merge do
   end
 
   it 'conforms to the slice-315 reviewed nested review artifact envelope rejection fixture' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'markdown',

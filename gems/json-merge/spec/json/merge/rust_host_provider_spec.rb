@@ -126,6 +126,12 @@ RSpec.describe Json::Merge::RustHostProvider do
   end
 
   it 'preserves native semantic results across the JSON-family dialects' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     skip 'compiled Rust host unavailable' unless described_class.available?
 
     sources = {
@@ -173,6 +179,12 @@ RSpec.describe Json::Merge::RustHostProvider do
   end
 
   it 'matches native merge status and semantic output for exact and conflicting revisions' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     skip 'compiled Rust host unavailable' unless described_class.available?
 
     cases = [

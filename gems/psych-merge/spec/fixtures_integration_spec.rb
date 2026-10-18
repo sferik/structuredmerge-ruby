@@ -216,6 +216,12 @@ RSpec.describe Psych::Merge do
   end
 
   it 'rejects unsupported provider backend overrides' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     result = ::Psych::Merge.parse_yaml("root: value\n", 'yaml', backend: 'kreuzberg-language-pack')
     expect(result[:ok]).to be(false)
     expect(result[:diagnostics]).to eq(

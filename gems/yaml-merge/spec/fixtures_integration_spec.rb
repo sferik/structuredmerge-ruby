@@ -32,6 +32,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'conforms to the YAML parse, structure, matching, merge, and feature fixtures through the substrate backend' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     parse_fixture = yaml_fixture('parse_valid')
     structure_fixture = yaml_fixture('structure')
     matching_fixture = yaml_fixture('matching')
@@ -69,6 +75,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'conforms to the slice-171 YAML backend feature profile fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'diagnostics',
@@ -89,6 +101,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'conforms to the slice-172 YAML backend plan-context fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'diagnostics',
@@ -103,6 +121,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'merges mapping sequences with destination arrays winning conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     template = <<~YAML
       updates:
         - package-ecosystem: github-actions
@@ -134,6 +158,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'merges null scalar mapping values from template YAML' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     template = <<~YAML
       community_bridge:
       github: [acme]
@@ -152,6 +182,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'documents YAML formatting preservation fixture support for comments, anchors, aliases, documents, and sequences' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'yaml',
@@ -173,6 +209,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'conforms to the slice-183 YAML polyglot backend feature profile fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'diagnostics',
@@ -190,6 +232,12 @@ RSpec.describe Yaml::Merge do
   end
 
   it 'conforms to the slice-184 YAML polyglot backend plan-context fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(
       fixtures_root.join(
         'diagnostics',

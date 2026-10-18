@@ -27,6 +27,12 @@ RSpec.describe 'RBS shared kernel fixture' do
   end
 
   it 'matches the shared exact result through TSLP' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     skip 'tree-sitter-rbs grammar is unavailable' unless TreeHaver::GrammarFinder.new(:rbs).available?
 
     expect(merged_with(:tslp)).to eq(fixture.dig('merge', 'expected'))

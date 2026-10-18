@@ -188,6 +188,12 @@ RSpec.describe 'Ruby::Merge' do
   end
 
   it 'derives require imports from the TreeHaver Ruby parse tree', :tslp_ruby_import_records do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     result = RUBY_MERGE.merge_ruby("require \"set\"\n", "require \"json\"\n", 'ruby', merge_template_requires: true)
 
     expect(result[:ok]).to be(true)
@@ -335,6 +341,12 @@ RSpec.describe 'Ruby::Merge' do
   end
 
   it 'conforms to the Ruby family substrate fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     feature_fixture = read_json(
       fixtures_root.join('diagnostics', 'slice-214-ruby-family-feature-profile', 'ruby-feature-profile.json')
     )

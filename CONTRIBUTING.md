@@ -210,6 +210,22 @@ For targeted runs, disable the hard coverage threshold to avoid false failures:
 K_SOUP_COV_MIN_HARD=false bundle exec kettle-test spec/path/to/spec.rb
 ```
 
+### TSLP specs on Ruby head (required)
+
+Tree-sitter Language Pack (TSLP) uses native gems with a released Ruby ABI. Ruby head is
+permanently unsupported by that policy. Every spec that would invoke a TSLP-backed grammar
+must call this guard before invoking the parser, whether it selects TSLP directly or through
+a provider's default backend:
+
+
+
+```ruby
+skip_for(engine: "ruby", versions: "head", reason: "Ruby head is permanently unsupported by tree_sitter_language_pack's released-ABI-only native gem policy")
+```
+
+Apply this across every TSLP-backed grammar and backend in the StructuredMerge Ruby family.
+The `kreuzberg-language-pack` backend is an alias for TSLP and follows this same rule.
+
 ### Spec organization (required)
 
 - One spec file per class/module. For each class or module under `lib/`, keep all of its unit tests in a single spec file under `spec/` that mirrors the path and file name exactly: `lib/structuredmerge/ruby/my_class.rb` -> `spec/structuredmerge/ruby/my_class_spec.rb`.

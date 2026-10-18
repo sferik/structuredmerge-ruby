@@ -29,7 +29,7 @@ RSpec.describe Ast::Crispr::Yaml::Psych do
       owners = context.structural_owners(owner_scope: :nested_mapping_entries)
 
       expect(owners.map(&:key)).to include("os")
-      expect(owners.map(&:path)).to include(%w[jobs test strategy matrix include 0 os])
+      expect(owners.map(&:path)).to include(["jobs", "test", "strategy", "matrix", "include", 0, "os"])
     end
 
     it "exposes sequence items with their nested owner path and index" do

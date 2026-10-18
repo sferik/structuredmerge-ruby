@@ -84,6 +84,12 @@ RSpec.describe Rust::Merge do
   end
 
   it 'conforms to the promoted Rust merge3 provider fixtures' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     fixture = read_json(fixtures_root.join('rust', 'slice-1020-rust-merge3', 'rust-merge3.json'))
 
     fixture.fetch(:cases).each do |test_case|

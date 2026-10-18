@@ -374,6 +374,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact Go selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "package demo\n\nfunc Shared() {}\n"
     ours = "#{base}func Ours() {}\n"
     theirs = "#{base}func Theirs() {}\n"
@@ -404,6 +410,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact Rust selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "fn shared() {}\n"
     ours = "#{base}fn ours() {}\n"
     theirs = "#{base}fn theirs() {}\n"
@@ -434,6 +446,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact Bash selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "shared() { :; }\n"
     ours = "#{base}ours() { :; }\n"
     theirs = "#{base}theirs() { :; }\n"
@@ -464,6 +482,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact TypeScript selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "export function shared() {}\n"
     ours = "#{base}export function ours() {}\n"
     theirs = "#{base}export function theirs() {}\n"
@@ -620,6 +644,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact HTML selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "<main id=content>base</main>\n<footer id=footer>base</footer>\n"
     ours = "<main id=content>ours</main>\n<footer id=footer>base</footer>\n"
     theirs = "<main id=content>base</main>\n<footer id=footer>theirs</footer>\n"
@@ -778,6 +808,12 @@ RSpec.describe 'ast-merge-git executable' do
   end
 
   it 'runs the exact TOML workflow selector where baseline text merge conflicts' do
+    skip_for(
+      engine: 'ruby',
+      versions: 'head',
+      reason: 'Ruby head is permanently unsupported by ' \
+        "tree_sitter_language_pack's released-ABI-only native gem policy"
+    )
     base = "shared = true\n"
     ours = "shared = true\nours = 'left'\n"
     theirs = "shared = true\ntheirs = { enabled = true }\n"
