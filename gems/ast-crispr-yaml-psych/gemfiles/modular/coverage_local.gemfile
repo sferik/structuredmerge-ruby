@@ -14,25 +14,25 @@ nomono_locked_spec = nil
 if File.file?(nomono_lockfile)
   require "bundler"
   nomono_locked_spec = Bundler::LockfileParser
-                       .new(Bundler.read_file(nomono_lockfile))
-                       .specs
-                       .find { |spec| spec.name == "nomono" }
+    .new(Bundler.read_file(nomono_lockfile))
+    .specs
+    .find { |spec| spec.name == "nomono" }
 end
 nomono_local_loader = if nomono_locked_spec && nomono_locked_spec.source.is_a?(Bundler::Source::Path)
-                        File.expand_path(
-                          File.join(nomono_locked_spec.source.path, "lib", "nomono", "bundler"),
-                          File.dirname(nomono_lockfile)
-                        )
-                      end
+  File.expand_path(
+    File.join(nomono_locked_spec.source.path, "lib", "nomono", "bundler"),
+    File.dirname(nomono_lockfile)
+  )
+end
 if nomono_local_loader && File.file?("#{nomono_local_loader}.rb")
   require nomono_local_loader
 else
   if !nomono_already_activated || !nomono_requirement.satisfied_by?(nomono_already_activated.version)
     nomono_locked_installed = nomono_locked_spec &&
-                              Gem::Specification.find_all_by_name("nomono").any? { |spec| spec.version == nomono_locked_spec.version }
+      Gem::Specification.find_all_by_name("nomono").any? { |spec| spec.version == nomono_locked_spec.version }
     nomono_locked = nomono_locked_spec &&
-                    nomono_locked_installed &&
-                    nomono_requirement.satisfied_by?(nomono_locked_spec.version)
+      nomono_locked_installed &&
+      nomono_requirement.satisfied_by?(nomono_locked_spec.version)
     nomono_activation_requirements = ["= #{nomono_locked_spec.version}"] if nomono_locked
   end
   Kernel.send(:gem, "nomono", *nomono_activation_requirements)
@@ -46,16 +46,14 @@ kettle_dev_nomono_options = {
   vendored_gems_env: "VENDORED_GEMS",
   vendor_gem_dir_env: "VENDOR_GEM_DIR",
   debug_env: "KETTLE_DEV_DEBUG",
-  root: %w[src my kettle-dev]
+  root: ["src", "my", "kettle-dev"]
 }
 
 # export KETTLE_DEV_DEV=/path/to/my
 platform :mri do
   # Replace the gemspec dependency instead of declaring kettle-dev twice. Bundler
   # rejects duplicate declarations with different requirements or sources.
-  kettle_dev_dependency = instance_variable_get(:@dependencies).to_a.find do |dependency|
-    dependency.name == "kettle-dev"
-  end
+  kettle_dev_dependency = instance_variable_get(:@dependencies).to_a.find { |dependency| dependency.name == "kettle-dev" }
   kettle_dev_local_path = nomono_gems(
     gems: %w[kettle-dev],
     **kettle_dev_nomono_options
