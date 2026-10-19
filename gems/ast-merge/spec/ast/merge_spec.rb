@@ -2,35 +2,35 @@
 
 RSpec.describe Ast::Merge do
   describe Ast::Merge::Error do
-    it "keeps a concise summary, structured context, and the original cause diagnostics" do
+    it 'keeps a concise summary, structured context, and the original cause diagnostics' do
       original_backtrace = nil
       dependency_error = begin
-        raise LoadError, "native extension for Ruby ABI 4.1.0+5 is unavailable"
-      rescue LoadError => error
-        original_backtrace = error.backtrace
-        error
+        raise LoadError, 'native extension for Ruby ABI 4.1.0+5 is unavailable'
+      rescue LoadError => e
+        original_backtrace = e.backtrace
+        e
       end
 
       wrapped_error = begin
         Ast::Merge::Error.raise_with_cause(
-          "Could not read mise.toml; install a supported Ruby ABI build.",
+          'Could not read mise.toml; install a supported Ruby ABI build.',
           cause: dependency_error,
-          context: { path: "mise.toml", operation: :read }
+          context: { path: 'mise.toml', operation: :read }
         )
-      rescue Ast::Merge::Error => error
-        error
+      rescue Ast::Merge::Error => e
+        e
       end
 
-      expect(wrapped_error.summary).to eq("Could not read mise.toml; install a supported Ruby ABI build.")
+      expect(wrapped_error.summary).to eq('Could not read mise.toml; install a supported Ruby ABI build.')
       expect(wrapped_error.message).to eq(wrapped_error.summary)
-      expect(wrapped_error.context).to eq(path: "mise.toml", operation: :read)
+      expect(wrapped_error.context).to eq(path: 'mise.toml', operation: :read)
       expect(wrapped_error.cause).to equal(dependency_error)
       expect(wrapped_error.cause.backtrace).to eq(original_backtrace)
       expect(wrapped_error.diagnostic_chain.map { |entry| entry[:class] }).to eq(
-        ["Ast::Merge::Error", "LoadError"]
+        ['Ast::Merge::Error', 'LoadError']
       )
       expect(wrapped_error.render_diagnostic).to include(
-        "Caused by: LoadError: native extension for Ruby ABI 4.1.0+5 is unavailable",
+        'Caused by: LoadError: native extension for Ruby ABI 4.1.0+5 is unavailable',
         original_backtrace.first
       )
     end
