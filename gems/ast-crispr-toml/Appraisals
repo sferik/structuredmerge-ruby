@@ -30,6 +30,10 @@ plugin "appraisal2-rubocop", require: "appraisal2/rubocop", optional: true
 #
 
 appraise "unlocked_deps" do
+  # In monorepo templating/CI, resolve version-coupled family siblings from
+  # the local checkout; outside that env the modular file retains registry mode.
+  eval_gemfile "modular/templating.gemfile"
+
   # Seems to be an undeclared dependency of yard.
   # /opt/hostedtoolcache/Ruby/4.0.0/x64/lib/ruby/gems/4.0.0/gems/yard-0.9.38/lib/yard/parser/ruby/legacy/irb/slex.rb:13: warning: irb/notifier is found in irb, which is not part of the default gems since Ruby 4.0.0.
   # You can add irb to your Gemfile or gemspec to fix this error.
@@ -57,28 +61,34 @@ appraise "unlocked_deps" do
 end
 
 appraise "head" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/x_std_libs.gemfile"
 end
 
 appraise "current" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/x_std_libs.gemfile"
 end
 
 appraise "dep-heads" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/runtime_heads.gemfile"
 end
 
 appraise "audit" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/x_std_libs.gemfile"
 end
 
 appraise "coverage" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/coverage.gemfile"
   eval_gemfile "modular/optional.gemfile"
   eval_gemfile "modular/x_std_libs.gemfile"
 end
 
 appraise "style" do
+  eval_gemfile "modular/templating.gemfile"
   eval_gemfile "modular/style.gemfile"
   eval_gemfile "modular/x_std_libs.gemfile"
 end
