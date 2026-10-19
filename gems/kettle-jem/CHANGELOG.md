@@ -38,6 +38,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Monorepo member Gemfiles now wire every family sibling as a local path dependency, not just the dependency-reachable closure: monorepo CI must never resolve family members from the registry, whose published metadata conflicts with the local graph whenever the family is mid-release (version-coupled sibling pins target the next, unpublished version).
 
+- [kc] shape-aware-nomono-requirements: Scope all-sibling path wiring and automatic local lock normalization to monorepo topology, and forward project-fact requirements through eval_nomono_gems in generated Gemfiles.
+
 ### Security
 
 ## [7.1.33] - 2026-10-19

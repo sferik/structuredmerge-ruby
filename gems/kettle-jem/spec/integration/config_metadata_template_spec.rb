@@ -2805,7 +2805,17 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
       root = File.join(workspace, "adapter")
       sibling = File.join(workspace, "shared-core")
       leaf = File.join(workspace, "shared-leaf")
-      FileUtils.mkdir_p([root, sibling, leaf])
+      unrelated = File.join(workspace, "unrelated")
+      FileUtils.mkdir_p([root, sibling, leaf, unrelated])
+      write_tree(unrelated, {
+        "unrelated.gemspec" => <<~RUBY
+          Gem::Specification.new do |spec|
+            spec.name = "unrelated"
+            spec.version = "0.1.0"
+            spec.summary = "Unrelated repository"
+          end
+        RUBY
+      })
       write_tree(leaf, {
         "shared-leaf.gemspec" => <<~RUBY
           Gem::Specification.new do |spec|
@@ -2862,6 +2872,11 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
       expect(direct_block).to include("shared-core")
       expect(direct_block).to include("shared-leaf")
       expect(direct_block).not_to include("version_gem")
+      expect(direct_block).not_to include("unrelated")
+      expect(direct_block).to include('requirements: {"shared-core" => ["= 0.1.0"]}')
+      expect(report.dig(:facts, :project_runtime, :local_gem_requirements)).to include(
+        "shared-core" => ["= 0.1.0"]
+      )
       expect(direct_block).to include(
         'direct_sibling_templating = ENV.fetch("K_JEM_TEMPLATING", "false").casecmp("true").zero?'
       )
@@ -2965,7 +2980,17 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
       repo_root = File.join(workspace, "structuredmerge", "ruby")
       root = File.join(repo_root, "gems", "ast-merge")
       sibling = File.join(repo_root, "gems", "tree_haver")
-      FileUtils.mkdir_p([root, sibling])
+      unrelated = File.join(repo_root, "gems", "family-tool")
+      FileUtils.mkdir_p([root, sibling, unrelated])
+      write_tree(unrelated, {
+        "family-tool.gemspec" => <<~RUBY
+          Gem::Specification.new do |spec|
+            spec.name = "family-tool"
+            spec.version = "7.1.0"
+            spec.summary = "Unreachable family member"
+          end
+        RUBY
+      })
       write_tree(sibling, {
         "tree_haver.gemspec" => <<~RUBY
           Gem::Specification.new do |spec|
@@ -3009,6 +3034,7 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
         .split("# Templating", 2).first.to_s
 
       expect(direct_block).to include("tree_haver")
+      expect(direct_block).to include("family-tool")
       expect(direct_block).to include('path_env: "STRUCTUREDMERGE_DEV"')
       expect(direct_block).to include('root: ["src", "my", "structuredmerge", "ruby", "gems"]')
     end

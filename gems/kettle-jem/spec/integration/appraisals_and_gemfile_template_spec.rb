@@ -1759,6 +1759,44 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
     expect(template).not_to include("platform :mri do")
   end
 
+  it "renders local templating requirements from project dependency facts after merging" do
+    Dir.mktmpdir("local-template-requirements-", ENV.fetch("TMPDIR", nil)) do |root|
+      write_tree(root, {
+        "example.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example"
+            spec.version = "1.0.0"
+            spec.summary = "Example"
+            spec.add_dependency "kettle-dev", "~> 3.1", ">= 3.1.17"
+            spec.add_development_dependency "kettle-test", "~> 1.0"
+          end
+        RUBY
+        ".kettle-jem.yml" => <<~YAML,
+          files:
+            gemfiles/modular/templating_local.gemfile:
+              strategy: merge
+          templates:
+            root: packaged
+            apply: true
+            entries:
+              - gemfiles/modular/templating_local.gemfile
+        YAML
+        "gemfiles/modular/templating_local.gemfile" => <<~RUBY
+          structuredmerge_local_gems = %w[ast-merge]
+          local_gem_requirements = {"kettle-dev" => ["= 0.0.1"]}
+        RUBY
+      })
+
+      described_class.apply_project(root, env: {})
+      content = File.read(File.join(root, "gemfiles/modular/templating_local.gemfile"))
+
+      expect(content).to include('"kettle-dev" => ["~> 3.1", ">= 3.1.17"]')
+      expect(content).to include('"kettle-test" => ["~> 1.0"]')
+      expect(content).not_to include("= 0.0.1")
+      expect(content.scan("requirements: local_gem_requirements").length).to eq(2)
+    end
+  end
+
   it "loads nomono's Bundler DSL from a path-locked checkout" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
@@ -2150,6 +2188,7 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
       expect(content).to include("local_gem_requirements = {")
       expect(content).to include("local_gems_to_eval = local_gems.select do |gem|")
       expect(content).to include("reqs && local_gem_satisfies?(gem, reqs, dev_root)")
+      expect(content).to include("requirements: local_gem_requirements")
       expect(content).to include("declared_gems")
       expect(content).to include("gems: local_gems_to_eval")
       expect(content).to include('require "nomono/bundler"')

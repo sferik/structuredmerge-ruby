@@ -9017,6 +9017,7 @@ module Kettle
         replace_source_range_lines(output, output_record.fetch(:start_line), output_record.fetch(:end_line), replacement)
       else
         anchor = local_variable_assignment_record(output, :local_gems) ||
+          local_variable_assignment_record(output, :structuredmerge_local_gems) ||
           local_variable_assignment_record(output, :declared_gems)
         return output unless anchor
 
@@ -15533,7 +15534,8 @@ module Kettle
         project_root,
         gemspec_metadata,
         package_name: package_name,
-        local_modular_eval_paths: local_modular_eval_paths
+        local_modular_eval_paths: local_modular_eval_paths,
+        repository: repository
       )
       compact_hash(
         freeze_token: config.dig("defaults", "freeze_token").to_s.empty? ? "kettle-jem" : config.dig("defaults", "freeze_token").to_s,
@@ -15543,6 +15545,7 @@ module Kettle
         template_run_year: run_timestamp.year.to_s,
         kettle_dev_local_gems: kettle_dev_local_gems(config),
         local_gemfile_nomono_bootstrap: local_gemfile_nomono_bootstrap(package_name),
+        local_gem_requirements: gemspec_local_gem_requirements(gemspec_metadata),
         main_gemfile_kettle_family_gem: main_gemfile_kettle_family_gem(package_name),
         main_gemfile_nomono_bootstrap: main_gemfile_nomono_bootstrap(package_name),
         package_name: package_name.to_s,
@@ -15561,12 +15564,13 @@ module Kettle
           source_url: source_url,
           project_root: project_root,
           repository: repository,
+          requirements: gemspec_local_gem_requirements(gemspec_metadata),
           local_modular_eval_paths: local_modular_eval_paths.values.flatten
         )
       )
     end
 
-    def direct_sibling_runtime_gems(project_root, gemspec_metadata, package_name:, local_modular_eval_paths: {})
+    def direct_sibling_runtime_gems(project_root, gemspec_metadata, package_name:, local_modular_eval_paths: {}, repository: {})
       return [] unless project_root && gemspec_metadata.is_a?(Hash)
 
       sibling_root = File.expand_path("..", project_root.to_s)
@@ -15593,7 +15597,7 @@ module Kettle
       # unpublished version, and external tooling like kettle-family pulls
       # family members transitively). Wire all family members, not just the
       # dependency-reachable closure.
-      if File.directory?(sibling_root)
+      if repository_monorepo_subproject?(repository) && File.directory?(sibling_root)
         Dir.children(sibling_root).sort.each do |name|
           next if discovered.include?(name) || excluded.include?(name)
           next unless direct_sibling_directory_defines_gem?(File.join(sibling_root, name), name)
@@ -15666,6 +15670,19 @@ module Kettle
       end
     end
 
+    # Reuse the dependency objects in project facts. Never infer a requirement
+    # from a sibling's current version or scrape a rendered modular Gemfile.
+    def gemspec_local_gem_requirements(gemspec_metadata)
+      %i[runtime_dependencies development_dependencies].each_with_object({}) do |kind, requirements|
+        Array(gemspec_metadata[kind] || gemspec_metadata[kind.to_s]).each do |dependency|
+          next unless dependency.respond_to?(:name) && dependency.respond_to?(:requirements_list)
+
+          name = dependency.name.to_s
+          requirements[name] = (Array(requirements[name]) + dependency.requirements_list).uniq
+        end
+      end.sort.to_h
+    end
+
     def gemspec_runtime_dependency_names(gemspec_metadata)
       dependencies = Array(
         gemspec_metadata[:runtime_dependencies] || gemspec_metadata["runtime_dependencies"]
@@ -15678,7 +15695,7 @@ module Kettle
       end
     end
 
-    def main_gemfile_direct_sibling_block(gems, package_name:, source_url:, project_root:, repository: {}, local_modular_eval_paths: [])
+    def main_gemfile_direct_sibling_block(gems, package_name:, source_url:, project_root:, repository: {}, requirements: {}, local_modular_eval_paths: [])
       names = Array(gems).map(&:to_s).reject(&:empty?).uniq
       eval_paths = Array(local_modular_eval_paths).map(&:to_s).reject(&:empty?).uniq.sort
       return "" if names.empty? && eval_paths.empty?
@@ -15721,6 +15738,7 @@ module Kettle
 
             eval_nomono_gems(
               gems: direct_sibling_gems,
+              requirements: #{requirements.slice(*names).inspect},
               prefix: "#{prefix}",
               path_env: "#{dev_env}",
               root: #{root_literal}
@@ -15883,6 +15901,7 @@ module Kettle
         "KJ|TEMPLATE_RUN_YEAR" => project_runtime[:template_run_year].to_s,
         "KJ|KETTLE_DEV_LOCAL_GEMS" => project_runtime[:kettle_dev_local_gems].to_s,
         "KJ|LOCAL_GEMFILE_NOMONO_BOOTSTRAP" => project_runtime[:local_gemfile_nomono_bootstrap].to_s,
+        "KJ|LOCAL_GEM_REQUIREMENTS" => (project_runtime[:local_gem_requirements] || {}).inspect,
         "KJ|MAIN_GEMFILE_KETTLE_FAMILY_GEM" => project_runtime[:main_gemfile_kettle_family_gem].to_s,
         "KJ|MAIN_GEMFILE_NOMONO_BOOTSTRAP" => project_runtime[:main_gemfile_nomono_bootstrap].to_s,
         "KJ|MAIN_GEMFILE_DIRECT_SIBLING_BLOCK" => project_runtime[:main_gemfile_direct_sibling_block].to_s,

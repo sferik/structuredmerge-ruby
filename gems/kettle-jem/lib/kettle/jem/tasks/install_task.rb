@@ -49,7 +49,7 @@ module Kettle
           install_steps << appraisal_generate_step(project_root, env: setup_env, run_options: effective_run_options)
           install_steps << rubocop_gradual_autocorrect_step(project_root, env: setup_env, run_options: effective_run_options)
           install_steps << normalize_lockfile_platforms_step(project_root, env: setup_env, run_options: effective_run_options)
-          install_steps << normalize_lockfile_step(project_root, env: setup_env, run_options: effective_run_options)
+          install_steps << normalize_lockfile_step(project_root, env: setup_env, run_options: effective_run_options, repository: report.dig(:facts, :repository) || {})
           install_steps << bundled_handoff_step(project_root: project_root, env: env, run_options: effective_run_options)
           install_steps = execute_orchestration_steps(install_steps, project_root: project_root, env: setup_env, run_options: effective_run_options, command_runner: command_runner)
 
@@ -751,7 +751,7 @@ module Kettle
           stdout.lines.map(&:strip).include?(gem_name.to_s)
         end
 
-        def normalize_lockfile_step(project_root, env:, run_options: {})
+        def normalize_lockfile_step(project_root, env:, run_options: {}, repository: {})
           if Kettle::Jem::DecisionPolicy.value_to_boolean((run_options || {})[:skip_lock_normalization])
             return {
               name: "bundle_lock_normalization",
@@ -780,7 +780,7 @@ module Kettle
             name: "bundle_lock_normalization",
             command: lockfile_normalization_command(project_root),
             status: "ready",
-            env: normal_lockfile_env(project_root, env),
+            env: normal_lockfile_env(project_root, env, repository: repository),
             reason: "bundle_lock_update_preserving_platforms_without_templating_overrides"
           }
         end
@@ -982,7 +982,7 @@ module Kettle
           stdout.to_s.strip
         end
 
-        def normal_lockfile_env(project_root, env)
+        def normal_lockfile_env(project_root, env, repository: {})
           command_env = (env || {}).to_h.dup
           strip_inherited_bundler_activation!(command_env)
           command_env["K_JEM_TEMPLATING"] = "false"
@@ -991,7 +991,7 @@ module Kettle
           end
           gemfile = File.join(project_root.to_s, "Gemfile")
           command_env["BUNDLE_GEMFILE"] = gemfile if File.file?(gemfile)
-          apply_direct_sibling_lockfile_env!(project_root, command_env)
+          apply_direct_sibling_lockfile_env!(project_root, command_env, repository: repository)
           %w[
             BUNDLE_PATH
             BUNDLE_WITH
@@ -1002,7 +1002,9 @@ module Kettle
           command_env
         end
 
-        def apply_direct_sibling_lockfile_env!(project_root, command_env)
+        def apply_direct_sibling_lockfile_env!(project_root, command_env, repository: {})
+          return unless Kettle::Jem.send(:repository_monorepo_subproject?, repository)
+
           gemspec_path = Dir.glob(File.join(project_root.to_s, "*.gemspec")).min
           return unless gemspec_path
 
@@ -1012,7 +1014,8 @@ module Kettle
             :direct_sibling_runtime_gems,
             project_root,
             metadata,
-            package_name: package_name
+            package_name: package_name,
+            repository: repository
           )
           return if direct_sibling_gems.empty?
 

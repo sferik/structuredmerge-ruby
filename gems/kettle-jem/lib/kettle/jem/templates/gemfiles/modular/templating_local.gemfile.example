@@ -6,6 +6,9 @@
 
 {KJ|LOCAL_GEMFILE_NOMONO_BOOTSTRAP}
 
+# Declared dependency requirements, supplied by project facts.
+local_gem_requirements = {KJ|LOCAL_GEM_REQUIREMENTS}
+
 structuredmerge_local_gems = %w[
   tree_haver
   ast-merge
@@ -61,6 +64,7 @@ structuredmerge_local_gems_to_eval = structuredmerge_local_gems - %w[{KJ|PACKAGE
 if ENV.fetch("STRUCTUREDMERGE_DEV", "false").casecmp("false") != 0
   eval_nomono_gems(
     gems: structuredmerge_local_gems_to_eval,
+    requirements: local_gem_requirements,
     **structuredmerge_nomono_options
   )
 end
@@ -83,6 +87,7 @@ if ENV.fetch("KETTLE_DEV_DEV", "false").casecmp("false") != 0
 
   eval_nomono_gems(
     gems: kettle_dev_local_gems_to_eval,
+    requirements: local_gem_requirements,
     **kettle_dev_nomono_options
   )
 end
