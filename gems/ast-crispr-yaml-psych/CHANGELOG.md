@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
 ## [7.1.13] - 2026-08-31
 
 - TAG: [v7.1.13][7.1.13t]
