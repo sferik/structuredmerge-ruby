@@ -2,7 +2,7 @@
   ".simplecov:3227426949": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
   ],
-  "Rakefile:3025428983": [
+  "Rakefile:3840399541": [
     [18, 121, 17, "Layout/LineLength: Line is too long. [137/120]", 174264873],
     [87, 3, 1023, "Metrics/BlockLength: Block has too many lines. [32/25]", 54868638],
     [171, 121, 22, "Layout/LineLength: Line is too long. [142/120]", 1367093088],
@@ -22,10 +22,10 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
   ],
-  "gemfiles/modular/changelog.gemfile:2477451209": [
+  "gemfiles/modular/changelog.gemfile:3137846685": [
     [38, 7, 580, "Metrics/BlockNesting: Avoid more than 3 levels of block nesting.", 393701499]
   ],
-  "gemfiles/modular/coverage_local.gemfile:1900966370": [
+  "gemfiles/modular/coverage_local.gemfile:3339911340": [
     [53, 1, 1236, "Metrics/BlockLength: Block has too many lines. [27/25]", 3741021062]
   ],
   "gemfiles/modular/erb/r2/v3.0.gemfile:1688285565": [
@@ -73,6 +73,13 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
   ],
+  "gemfiles/modular/style_local.gemfile:4152700489": [
+    [50, 1, 882, "Metrics/AbcSize: Assignment Branch Condition size for `local_gem_satisfies?` is too high. [<6, 17, 12> 21.66/17]", 3860978908],
+    [50, 1, 882, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `local_gem_satisfies?` is too high. [12/7]", 3860978908],
+    [50, 1, 882, "Metrics/MethodLength: Method has too many lines. [14/10]", 3860978908],
+    [50, 1, 882, "Metrics/PerceivedComplexity: Perceived complexity for `local_gem_satisfies?` is too high. [12/8]", 3860978908],
+    [64, 23, 20, "Style/SafeNavigation: Use safe navigation (`&.`) instead of checking if an object exists before calling the method.", 1851388465]
+  ],
   "gemfiles/modular/webrick/r4/v1.9.gemfile:3092661193": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
   ],
@@ -96,10 +103,9 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177600]
   ],
-  "json-merge.gemspec:3976871115": [
+  "json-merge.gemspec:1191531211": [
     [16, 121, 6, "Layout/LineLength: Line is too long. [126/120]", 1168797721],
     [137, 121, 34, "Layout/LineLength: Line is too long. [154/120]", 4147388508],
-    [139, 121, 6, "Layout/LineLength: Line is too long. [126/120]", 2105564149],
     [148, 121, 50, "Layout/LineLength: Line is too long. [170/120]", 3888612416],
     [149, 121, 29, "Layout/LineLength: Line is too long. [149/120]", 981994949]
   ],
@@ -293,14 +299,14 @@
   "lib/json/merge/typed_core_provider.rb:3364070255": [
     [7, 5, 23, "Style/Documentation: Missing top-level documentation comment for `class Json::Merge::TypedCoreProvider`.", 2433895181]
   ],
-  "spec/fixtures_integration_spec.rb:30290616": [
-    [3, 1, 12599, "Metrics/BlockLength: Block has too many lines. [278/25]", 279067739],
-    [257, 3, 801, "Metrics/BlockLength: Block has too many lines. [27/25]", 716259872]
+  "spec/fixtures_integration_spec.rb:1865276692": [
+    [3, 1, 12798, "Metrics/BlockLength: Block has too many lines. [284/25]", 715121217],
+    [263, 3, 801, "Metrics/BlockLength: Block has too many lines. [27/25]", 716259872]
   ],
-  "spec/json/merge/rust_host_provider_spec.rb:4253037236": [
-    [5, 1, 8727, "Metrics/BlockLength: Block has too many lines. [196/25]", 1550084810],
-    [128, 3, 1545, "Metrics/BlockLength: Block has too many lines. [41/25]", 1444324098],
-    [175, 3, 1677, "Metrics/BlockLength: Block has too many lines. [46/25]", 3256067975]
+  "spec/json/merge/rust_host_provider_spec.rb:3700703636": [
+    [5, 1, 9125, "Metrics/BlockLength: Block has too many lines. [208/25]", 1550084810],
+    [128, 3, 1744, "Metrics/BlockLength: Block has too many lines. [47/25]", 1614987223],
+    [181, 3, 1876, "Metrics/BlockLength: Block has too many lines. [52/25]", 3389530426]
   ],
   "spec/reproducible_merge_spec.rb:133932627": [
     [5, 1, 1854, "Metrics/BlockLength: Block has too many lines. [40/25]", 671932104]
