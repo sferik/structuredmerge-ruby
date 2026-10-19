@@ -10,7 +10,7 @@
 
 `if ci_badges.map(&:color).all? { it == "green"}` 👇️ send money so I can do more of this. FLOSS maintenance is now my full-time job.
 
-[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors] [![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate at ko-fi.com][🖇kofi-img]][🖇kofi]
+[![Sponsor Me on Github][🖇sponsor-img]][🖇sponsor] [![Liberapay Goal Progress][⛳liberapay-img]][⛳liberapay] [![Donate on PayPal][🖇paypal-img]][🖇paypal] [![Buy me a coffee][🖇buyme-small-img]][🖇buyme] [![Donate at ko-fi.com][🖇kofi-img]][🖇kofi]
 
 <details markdown="1">
  <summary>👣 How will this project approach the September 2025 hostile takeover of RubyGems? 🚑️</summary>
@@ -69,62 +69,6 @@ The _amazing_ test matrix is powered by the kettle-dev stack.
 | [kettle-test](https://clickgems.clickhouse.com/dashboard/kettle-test) | [GitHub](https://github.com/kettle-dev/kettle-test) | standard test runner and coverage harness | [![Total downloads for kettle-test](https://img.shields.io/gem/dt/kettle-test.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/kettle-test) |
 | [rubocop-lts](https://clickgems.clickhouse.com/dashboard/rubocop-lts) | [GitHub](https://github.com/rubocop-lts/rubocop-lts) | Ruby-version-aware linting | [![Total downloads for rubocop-lts](https://img.shields.io/gem/dt/rubocop-lts.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/rubocop-lts) |
 | [turbo_tests2](https://clickgems.clickhouse.com/dashboard/turbo_tests2) | [GitHub](https://github.com/galtzo-floss/turbo_tests2) | parallel test execution | [![Total downloads for turbo_tests2](https://img.shields.io/gem/dt/turbo_tests2.svg?style=flat-square)](https://clickgems.clickhouse.com/dashboard/turbo_tests2) |
-
-</details>
-
-### Runtime and Platform Support
-
-Support tiers describe what this project's CI actually exercises, not what may
-work in an untested environment:
-
-- **Parallel support**: CI runs the test suite with multiple workers available.
-- **Unsupported**: the engine/platform combination is not covered by CI and is
- not a project compatibility claim.
-
-| Ruby engine/version | Linux | macOS | Windows | Notes |
-|---------------------|-------|-------|---------|-------|
-| MRI 4.0-4.0 | Parallel support | Unsupported | Unsupported | Versioned Ruby workflows run on Linux. |
-| MRI current | Parallel support | Parallel support | Unsupported | Current Ruby workflow covers the declared OS platforms. |
-| MRI head | Parallel support | Unsupported | Unsupported | CI is allowed to fail while Ruby is in development. |
-| JRuby (all CI lanes) | Parallel support | Unsupported | Unsupported | Engine workflows run on Linux; macOS and Windows are not exercised by CI. |
-| TruffleRuby (all CI lanes) | Parallel support | Unsupported | Unsupported | Never shipped a Windows build (zero Windows assets across 66 releases scanned 2026-10-10); setup-ruby hard-fails ([source](https://github.com/ruby/setup-ruby/blob/master/README.md)) |
-
-### Federated DVCS
-
-<details markdown="1">
- <summary>Find this repo on federated forges (Coming soon!)</summary>
-
-| Federated [DVCS][💎d-in-dvcs] Repository | Status | Issues | PRs | Wiki | CI |
-|-------------------------------------------------|-------------------------------------------|-------------------|------------------|-----------------|----------------|
-| 🧪 [structuredmerge/structuredmerge-ruby on GitLab][📜src-gl] | The Truth | [💚][🤝gl-issues] | [💚][🤝gl-pulls] | [💚][📜gl-wiki] | 🐭 Tiny Matrix |
-| 🧊 [structuredmerge/structuredmerge-ruby on CodeBerg][📜src-cb] | An Ethical Mirror ([Donate][🤝cb-donate]) | [💚][🤝cb-issues] | [💚][🤝cb-pulls] | ➖ | ⭕️ No Matrix |
-| 🐙 [structuredmerge/structuredmerge-ruby on GitHub][📜src-gh] | Another Mirror | [💚][🤝gh-issues] | [💚][🤝gh-pulls] | [💚][📜gh-wiki] | 💯 Full Matrix |
-
-</details>
-
-### Enterprise Support
-
-[![Tidelift](https://tidelift.com/badges/package/rubygems/ast-crispr-toml)](https://tidelift.com/subscription/pkg/rubygems-ast-crispr-toml?utm_source=rubygems-ast-crispr-toml&utm_medium=referral&utm_campaign=readme)
-
-Available as part of the Tidelift Subscription.
-
-<details markdown="1">
- <summary>Need enterprise-level guarantees?</summary>
-
-The maintainers of this and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
-
-[![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]
-
-- 💡Subscribe for support guarantees covering _all_ your FLOSS dependencies
-- 💡Tidelift is part of [Sonar][🏙️entsup-tidelift-sonar]
-- 💡Tidelift pays maintainers to maintain the software you depend on!<br/>📊`@`Pointy Haired Boss: An [enterprise support][🏙️entsup-tidelift] subscription is "[never gonna let you down][🧮kloc]", and *supports* open source maintainers
-
-Alternatively:
-
-- [![Ruby Users Forum][✉️ruby-forum-img]][✉️ruby-forum]
-- [![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite]
-- [![Get help from me on Upwork][👨🏼‍🏫expsup-upwork-img]][👨🏼‍🏫expsup-upwork]
-- [![Get help from me on Codementor][👨🏼‍🏫expsup-codementor-img]][👨🏼‍🏫expsup-codementor]
 
 </details>
 
@@ -202,30 +146,6 @@ We [![Keep A Changelog][📗keep-changelog-img]][📗keep-changelog] so if you m
 
 See [CONTRIBUTING.md][🤝contributing] for more detailed instructions.
 
-### 🚀 Release Instructions
-
-See [CONTRIBUTING.md][🤝contributing].
-
-### Code Coverage
-
-<details markdown="1">
-<summary>Coverage service badges</summary>
-
-</details>
-
-### 🪇 Code of Conduct
-
-Everyone interacting with this project's codebases, issue trackers,
-chat rooms and mailing lists agrees to follow the [![Contributor Covenant 2.1][🪇conduct-img]][🪇conduct].
-
-## 🌈 Contributors
-
-[![Contributors][🖐contributors-img]][🖐contributors]
-
-Made with [contributors-img][🖐contrib-rocks].
-
-Also see GitLab Contributors: [https://gitlab.com/structuredmerge/structuredmerge-ruby/-/graphs/main][🚎contributors-gl]
-
 ## 📌 Versioning
 
 This library follows [![Semantic Versioning 2.0.0][📌semver-img]][📌semver] for its public API where practical.
@@ -259,55 +179,9 @@ See [LICENSE.md][📄license] for details.
 
 If none of the available licenses suit your use case, please [contact us](mailto:floss@galtzo.com) to discuss a custom commercial license.
 
-### © Copyright
-
-See [LICENSE.md][📄license] for the official copyright notice.
-
-<details markdown="1">
-<summary>Copyright holders</summary>
-
-- Required Notice: Copyright (c) 2026 Peter H. Boling
-
-</details>
-
-## 🤑 A request for help
-
-Maintainers have teeth and need to pay their dentists.
-After getting laid off in an RIF in March, and encountering difficulty finding a new one,
-I began spending most of my time building open source tools.
-I'm hoping to be able to pay for my kids' health insurance this month,
-so if you value the work I am doing, I need your support.
-Please consider sponsoring me or the project.
-
-To join the community or get help, use the RubyForum or Discord.
-
-[![Ruby Users Forum][✉️ruby-forum-img]][✉️ruby-forum]
-[![Live Chat on Discord][✉️discord-invite-img-ftb]][✉️discord-invite]
-
-To say "thanks!" ☝️ Join the community or 👇️ send money.
-
-[![Sponsor galtzo-floss/ast-crispr-toml on Open Source Collective][🖇osc-all-bottom-img]][🖇osc] 💌 [![Sponsor me on GitHub Sponsors][🖇sponsor-bottom-img]][🖇sponsor] 💌 [![Sponsor me on Liberapay][⛳liberapay-bottom-img]][⛳liberapay] 💌 [![Donate on PayPal][🖇paypal-bottom-img]][🖇paypal]
-
-### Please give the project a star ⭐ ♥.
-
-Many parts of this project are actively managed by a [kettle-jem](https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/kettle-jem) smart template utilizing [StructuredMerge.org](https://structuredmerge.org) merge contracts.
-
-Thanks for RTFM. ☺️
-
 [⛳liberapay-img]: https://img.shields.io/liberapay/goal/pboling.svg?logo=liberapay&color=a51611&style=flat
 [⛳liberapay-bottom-img]: https://img.shields.io/liberapay/goal/pboling.svg?style=for-the-badge&logo=liberapay&color=a51611
 [⛳liberapay]: https://liberapay.com/pboling/donate
-[🖇osc-all-img]: https://img.shields.io/opencollective/all/galtzo-floss
-[🖇osc-sponsors-img]: https://img.shields.io/opencollective/sponsors/galtzo-floss
-[🖇osc-backers-img]: https://img.shields.io/opencollective/backers/galtzo-floss
-[🖇osc-backers]: https://opencollective.com/galtzo-floss#backer
-[🖇osc-backers-i]: https://opencollective.com/galtzo-floss/backers/badge.svg?style=flat
-[🖇osc-sponsors]: https://opencollective.com/galtzo-floss#sponsor
-[🖇osc-sponsors-i]: https://opencollective.com/galtzo-floss/sponsors/badge.svg?style=flat
-[🖇osc-all-bottom-img]: https://img.shields.io/opencollective/all/galtzo-floss?style=for-the-badge
-[🖇osc-sponsors-bottom-img]: https://img.shields.io/opencollective/sponsors/galtzo-floss?style=for-the-badge
-[🖇osc-backers-bottom-img]: https://img.shields.io/opencollective/backers/galtzo-floss?style=for-the-badge
-[🖇osc]: https://opencollective.com/galtzo-floss
 [🖇sponsor-img]: https://img.shields.io/badge/Sponsor_Me!-pboling.svg?style=social&logo=github
 [🖇sponsor-bottom-img]: https://img.shields.io/badge/Sponsor_Me!-pboling-blue?style=for-the-badge&logo=github
 [🖇sponsor]: https://github.com/sponsors/pboling
@@ -328,7 +202,6 @@ Thanks for RTFM. ☺️
 [✉️ruby-forum-top-img]: https://img.shields.io/discourse/topics?server=https%3A%2F%2Fwww.rubyforum.org&style=flat&logo=discourse&label=Ruby%20Users%20Forum
 [✉️ruby-forum-img]: https://img.shields.io/discourse/topics?server=https%3A%2F%2Fwww.rubyforum.org&style=for-the-badge&logo=discourse&label=Ruby%20Users%20Forum
 [✉️ruby-forum]: https://www.rubyforum.org/tag/structuredmerge
-
 [✇bundle-group-pattern]: https://gist.github.com/pboling/4564780
 [⛳️gem-namespace]: https://github.com/structuredmerge/structuredmerge-ruby/tree/main/gems/ast-crispr-toml
 [⛳️namespace-img]: https://img.shields.io/badge/namespace-Ast::Crispr::Toml-3C2D2D.svg?style=square&logo=ruby&logoColor=white
@@ -399,7 +272,6 @@ Thanks for RTFM. ☺️
 [🖐contrib-rocks]: https://contrib.rocks
 [🖐contributors]: https://github.com/structuredmerge/structuredmerge-ruby/graphs/contributors
 [🖐contributors-img]: https://contrib.rocks/image?repo=structuredmerge/structuredmerge-ruby
-[🚎contributors-gl]: https://gitlab.com/structuredmerge/structuredmerge-ruby/-/graphs/main
 [🪇conduct]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/CODE_OF_CONDUCT.md
 [🪇conduct-img]: https://img.shields.io/badge/Contributor_Covenant-2.1-259D6C.svg
 [📌pvc]: http://guides.rubygems.org/patterns/#pessimistic-version-constraint
@@ -422,7 +294,6 @@ Thanks for RTFM. ☺️
 [📄license-img]: https://img.shields.io/badge/License-AGPL--3.0--only_OR_PolyForm--Small--Business--1.0.0-259D6C.svg
 [📄license-compat]: https://www.apache.org/legal/resolved.html#category-x
 [📄license-compat-img]: https://img.shields.io/badge/Apache_Incompatible:_Category_X-%E2%9C%97-C0392B.svg?style=flat&logo=Apache
-
 [📄ilo-declaration]: https://www.ilo.org/declaration/lang--en/index.htm
 [📄ilo-declaration-img]: https://img.shields.io/badge/ILO_Fundamental_Principles-✓-259D6C.svg?style=flat
 [🚎yard-current]: http://rubydoc.info/gems/ast-crispr-toml
@@ -434,14 +305,3 @@ Thanks for RTFM. ☺️
 [💎appraisal2]: https://github.com/appraisal-rb/appraisal2
 [💎appraisal2-img]: https://img.shields.io/badge/appraised_by-appraisal2-34495e.svg?plastic&logo=ruby&logoColor=white
 [💎d-in-dvcs]: https://railsbling.com/posts/dvcs/put_the_d_in_dvcs/
-
-<!-- kettle-jem:metadata:start -->
-| Field | Value |
-|---|---|
-| Package | ast-crispr-toml |
-| Description | 🧬 TOML table and dotted-key-path selectors and edit helpers for ast-crispr, backed by toml-merge. |
-| Homepage | https://github.com/structuredmerge/structuredmerge-ruby |
-| Source | https://github.com/structuredmerge/structuredmerge-ruby |
-| License | `AGPL-3.0-only` OR `PolyForm-Small-Business-1.0.0` |
-| Funding | https://github.com/sponsors/pboling, https://ko-fi.com/pboling, https://liberapay.com/pboling/donate, https://opencollective.com/galtzo-floss, https://thanks.dev/u/gh/pboling, https://tidelift.com/funding/github/rubygems/ast-crispr-toml, https://www.buymeacoffee.com/pboling |
-<!-- kettle-jem:metadata:end -->

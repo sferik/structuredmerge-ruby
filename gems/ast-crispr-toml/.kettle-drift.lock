@@ -1,22 +1,4 @@
 {
-  "- ruby: \"ruby\"\nappraisal: \"current\"": [
-    {
-      "file": ".github/workflows/current.yml",
-      "lines": [
-        41,
-        47
-      ]
-    }
-  ],
-  "exec_cmd: \"kettle-test\"\nrubygems: latest": [
-    {
-      "file": ".github/workflows/current.yml",
-      "lines": [
-        44,
-        50
-      ]
-    }
-  ],
   "if respond_to?(:generator_only)\ngenerator_only do": [
     {
       "file": "Appraisal.root.gemfile",
