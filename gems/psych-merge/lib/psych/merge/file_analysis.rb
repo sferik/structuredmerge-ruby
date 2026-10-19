@@ -269,6 +269,7 @@ module Psych
       end
 
       private
+
       def structural_layout_attachment_for(owner, siblings, **options)
         custom_end_line_for = options.key?(:end_line_for)
         end_line_for = options.delete(:end_line_for) { method(:structural_layout_end_line_for) }
@@ -287,12 +288,12 @@ module Psych
         end_line
       end
 
-
       def collect_structural_owner_groups(wrapper, parent_path, groups)
         return unless wrapper
 
         group_kind, children = if wrapper.mapping?
-                                 [:mapping_entry, wrapper.mapping_entries(comment_tracker: @comment_tracker).map(&:last)]
+                                 [:mapping_entry,
+                                  wrapper.mapping_entries(comment_tracker: @comment_tracker).map(&:last)]
                                elsif wrapper.sequence?
                                  [:sequence_item, wrapper.sequence_items(comment_tracker: @comment_tracker)]
                                else
@@ -307,7 +308,8 @@ module Psych
                  else
                    parent_path + [index]
                  end
-          @structural_owner_metadata[child.object_id] = { kind: group_kind, index: (index if group_kind == :sequence_item), path: path.freeze }
+          @structural_owner_metadata[child.object_id] =
+            { kind: group_kind, index: (index if group_kind == :sequence_item), path: path.freeze }
           collect_structural_owner_groups(child, path, groups)
         end
       end

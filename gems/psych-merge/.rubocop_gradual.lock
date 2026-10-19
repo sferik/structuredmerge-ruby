@@ -2,7 +2,7 @@
   ".simplecov:2330981413": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
   ],
-  "Rakefile:1600592567": [
+  "Rakefile:1564879413": [
     [18, 121, 17, "Layout/LineLength: Line is too long. [137/120]", 174264873],
     [87, 3, 1023, "Metrics/BlockLength: Block has too many lines. [32/25]", 54868638],
     [171, 121, 22, "Layout/LineLength: Line is too long. [142/120]", 1367093088],
@@ -22,10 +22,10 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
   ],
-  "gemfiles/modular/changelog.gemfile:2477451209": [
+  "gemfiles/modular/changelog.gemfile:3137846685": [
     [38, 7, 580, "Metrics/BlockNesting: Avoid more than 3 levels of block nesting.", 393701499]
   ],
-  "gemfiles/modular/coverage_local.gemfile:1900966370": [
+  "gemfiles/modular/coverage_local.gemfile:3339911340": [
     [53, 1, 1236, "Metrics/BlockLength: Block has too many lines. [27/25]", 3741021062]
   ],
   "gemfiles/modular/erb/r2/v3.0.gemfile:1688285565": [
@@ -72,6 +72,13 @@
   "gemfiles/modular/stringio/vHEAD.gemfile:1045839691": [
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
+  ],
+  "gemfiles/modular/style_local.gemfile:4152700489": [
+    [50, 1, 882, "Metrics/AbcSize: Assignment Branch Condition size for `local_gem_satisfies?` is too high. [<6, 17, 12> 21.66/17]", 3860978908],
+    [50, 1, 882, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `local_gem_satisfies?` is too high. [12/7]", 3860978908],
+    [50, 1, 882, "Metrics/MethodLength: Method has too many lines. [14/10]", 3860978908],
+    [50, 1, 882, "Metrics/PerceivedComplexity: Perceived complexity for `local_gem_satisfies?` is too high. [12/8]", 3860978908],
+    [64, 23, 20, "Style/SafeNavigation: Use safe navigation (`&.`) instead of checking if an object exists before calling the method.", 1851388465]
   ],
   "gemfiles/modular/webrick/r4/v1.9.gemfile:3092661193": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
@@ -329,23 +336,29 @@
     [228, 7, 662, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `needs_quoting?` is too high. [10/7]", 172072954],
     [228, 7, 662, "Metrics/PerceivedComplexity: Perceived complexity for `needs_quoting?` is too high. [10/8]", 172072954]
   ],
-  "lib/psych/merge/file_analysis.rb:2915732648": [
-    [13, 5, 15087, "Metrics/ClassLength: Class has too many lines. [253/100]", 3755372144],
+  "lib/psych/merge/file_analysis.rb:2091279659": [
+    [13, 5, 18468, "Metrics/ClassLength: Class has too many lines. [309/100]", 687359423],
     [37, 7, 1080, "Metrics/MethodLength: Method has too many lines. [15/10]", 4243676919],
-    [203, 7, 533, "Metrics/MethodLength: Method has too many lines. [11/10]", 2772113363],
-    [237, 7, 998, "Metrics/AbcSize: Assignment Branch Condition size for `mapping_entry_attachment` is too high. [<5, 23, 7> 24.56/17]", 3001873728],
-    [237, 7, 998, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `mapping_entry_attachment` is too high. [8/7]", 3001873728],
-    [237, 7, 998, "Metrics/MethodLength: Method has too many lines. [13/10]", 3001873728],
-    [267, 7, 809, "Metrics/AbcSize: Assignment Branch Condition size for `full_line_comment_blocks_before` is too high. [<9, 16, 6> 19.31/17]", 2033268754],
-    [267, 7, 809, "Metrics/MethodLength: Method has too many lines. [22/10]", 2033268754],
-    [331, 7, 1353, "Metrics/AbcSize: Assignment Branch Condition size for `extract_freeze_blocks` is too high. [<12, 20, 12> 26.23/17]", 4244924302],
-    [331, 7, 1353, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `extract_freeze_blocks` is too high. [10/7]", 4244924302],
-    [331, 7, 1353, "Metrics/MethodLength: Method has too many lines. [27/10]", 4244924302],
-    [331, 7, 1353, "Metrics/PerceivedComplexity: Perceived complexity for `extract_freeze_blocks` is too high. [11/8]", 4244924302],
-    [372, 7, 1756, "Metrics/AbcSize: Assignment Branch Condition size for `integrate_nodes_and_freeze_blocks` is too high. [<11, 28, 19> 35.58/17]", 1233865722],
-    [372, 7, 1756, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `integrate_nodes_and_freeze_blocks` is too high. [18/7]", 1233865722],
-    [372, 7, 1756, "Metrics/MethodLength: Method has too many lines. [31/10]", 1233865722],
-    [372, 7, 1756, "Metrics/PerceivedComplexity: Perceived complexity for `integrate_nodes_and_freeze_blocks` is too high. [19/8]", 1233865722]
+    [218, 9, 43, "Lint/HashCompareByIdentity: Use `Hash#compare_by_identity` instead of using `object_id` for keys.", 56087322],
+    [239, 7, 533, "Metrics/MethodLength: Method has too many lines. [11/10]", 2772113363],
+    [291, 7, 1118, "Metrics/AbcSize: Assignment Branch Condition size for `collect_structural_owner_groups` is too high. [<6, 16, 12> 20.88/17]", 3000191540],
+    [291, 7, 1118, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `collect_structural_owner_groups` is too high. [9/7]", 3000191540],
+    [291, 7, 1118, "Metrics/MethodLength: Method has too many lines. [21/10]", 3000191540],
+    [291, 7, 1118, "Metrics/PerceivedComplexity: Perceived complexity for `collect_structural_owner_groups` is too high. [11/8]", 3000191540],
+    [311, 11, 145, "Lint/HashCompareByIdentity: Use `Hash#compare_by_identity` instead of using `object_id` for keys.", 2549881430],
+    [317, 7, 998, "Metrics/AbcSize: Assignment Branch Condition size for `mapping_entry_attachment` is too high. [<5, 23, 7> 24.56/17]", 3001873728],
+    [317, 7, 998, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `mapping_entry_attachment` is too high. [8/7]", 3001873728],
+    [317, 7, 998, "Metrics/MethodLength: Method has too many lines. [13/10]", 3001873728],
+    [347, 7, 809, "Metrics/AbcSize: Assignment Branch Condition size for `full_line_comment_blocks_before` is too high. [<9, 16, 6> 19.31/17]", 2033268754],
+    [347, 7, 809, "Metrics/MethodLength: Method has too many lines. [22/10]", 2033268754],
+    [411, 7, 1353, "Metrics/AbcSize: Assignment Branch Condition size for `extract_freeze_blocks` is too high. [<12, 20, 12> 26.23/17]", 4244924302],
+    [411, 7, 1353, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `extract_freeze_blocks` is too high. [10/7]", 4244924302],
+    [411, 7, 1353, "Metrics/MethodLength: Method has too many lines. [27/10]", 4244924302],
+    [411, 7, 1353, "Metrics/PerceivedComplexity: Perceived complexity for `extract_freeze_blocks` is too high. [11/8]", 4244924302],
+    [452, 7, 1756, "Metrics/AbcSize: Assignment Branch Condition size for `integrate_nodes_and_freeze_blocks` is too high. [<11, 28, 19> 35.58/17]", 1233865722],
+    [452, 7, 1756, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `integrate_nodes_and_freeze_blocks` is too high. [18/7]", 1233865722],
+    [452, 7, 1756, "Metrics/MethodLength: Method has too many lines. [31/10]", 1233865722],
+    [452, 7, 1756, "Metrics/PerceivedComplexity: Perceived complexity for `integrate_nodes_and_freeze_blocks` is too high. [19/8]", 1233865722]
   ],
   "lib/psych/merge/freeze_node.rb:3007012923": [
     [33, 21, 127, "Metrics/ParameterLists: Avoid parameter lists longer than 5 parameters. [6/5]", 1948779238]
@@ -395,18 +408,17 @@
     [243, 7, 635, "Metrics/MethodLength: Method has too many lines. [14/10]", 1970994061],
     [277, 7, 1176, "Metrics/MethodLength: Method has too many lines. [27/10]", 3083136477]
   ],
-  "psych-merge.gemspec:958328869": [
+  "psych-merge.gemspec:228954021": [
     [138, 121, 34, "Layout/LineLength: Line is too long. [154/120]", 4147388508],
-    [140, 121, 6, "Layout/LineLength: Line is too long. [126/120]", 2105564149],
     [149, 121, 50, "Layout/LineLength: Line is too long. [170/120]", 3888612416],
     [150, 121, 29, "Layout/LineLength: Line is too long. [149/120]", 981994949]
   ],
-  "spec/fixtures_integration_spec.rb:1717446685": [
-    [3, 1, 9786, "Metrics/BlockLength: Block has too many lines. [222/25]", 1649396447],
+  "spec/fixtures_integration_spec.rb:1257522609": [
+    [3, 1, 9985, "Metrics/BlockLength: Block has too many lines. [228/25]", 3598710876],
     [16, 3, 1302, "Metrics/BlockLength: Block has too many lines. [32/25]", 1546514966],
     [52, 3, 2159, "Metrics/BlockLength: Block has too many lines. [28/25]", 270765486],
     [109, 3, 1594, "Metrics/BlockLength: Block has too many lines. [41/25]", 568154065],
-    [227, 3, 1413, "Metrics/BlockLength: Block has too many lines. [29/25]", 1847754351]
+    [233, 3, 1413, "Metrics/BlockLength: Block has too many lines. [29/25]", 1847754351]
   ],
   "spec/integration/core_parser_host_spec.rb:538088973": [
     [5, 1, 11037, "Metrics/BlockLength: Block has too many lines. [169/25]", 3923851609],
