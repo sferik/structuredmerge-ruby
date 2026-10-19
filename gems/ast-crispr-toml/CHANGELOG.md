@@ -102,3 +102,15 @@ Please file a bug if you notice a violation of semantic versioning.
   lockfile parser failures on Git and path dependencies.
 
 ### Security
+
+## [7.1.13] - 2026-08-31
+
+- TAG: [v7.1.13][7.1.13t]
+
+### Changed
+
+- Historical release notes are unavailable in this changelog.
+
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...HEAD
+[7.1.13]: https://github.com/structuredmerge/structuredmerge-ruby/compare/0aae485e7ca20583b73f8c146f467a64e526ca41...v7.1.13
+[7.1.13t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.13
