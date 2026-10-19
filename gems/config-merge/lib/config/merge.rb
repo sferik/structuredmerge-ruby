@@ -2,7 +2,6 @@
 
 require "ast/merge"
 require "version_gem"
-require_relative "merge/version"
 require_relative "merge/normalizer_registry"
 require_relative "merge/policy"
 require_relative "merge/built_in_policies"
@@ -10,6 +9,7 @@ require_relative "merge/flag_file/option"
 require_relative "merge/flag_file/parser"
 require_relative "merge/flag_file/result"
 require_relative "merge/flag_file/three_way_merger"
+require_relative "merge/version"
 
 module Config
   module Merge
@@ -18,8 +18,8 @@ module Config
   end
 end
 
+require_relative "merge/provider_adapter"
+
 Config::Merge::Version.class_eval do
   extend VersionGem::Basic
 end
-
-require_relative "merge/provider_adapter"
