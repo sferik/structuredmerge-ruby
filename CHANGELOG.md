@@ -20,10 +20,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- ast-merge: Add a shared error contract with concise summaries, structured context, and cause-chain diagnostics that preserve original backtraces.
-
-- Add config-merge with validated YAML policies and base-aware option-file merging.
-
 ### Changed
 
 ### Deprecated
@@ -33,6 +29,19 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [7.1.13] - 2026-10-19
+
+- TAG: [v7.1.13][7.1.13t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Added
+
+- ast-merge: Add a shared error contract with concise summaries, structured context, and cause-chain diagnostics that preserve original backtraces.
+
+- Add config-merge with validated YAML policies and base-aware option-file merging.
 
 ## [7.1.12] - 2026-10-17
 
@@ -889,7 +898,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.12...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...HEAD
+[7.1.13]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.12...v7.1.13
+[7.1.13t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.13
 [7.1.12]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.11...v7.1.12
 [7.1.12t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.12
 [7.1.11]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.10...v7.1.11
