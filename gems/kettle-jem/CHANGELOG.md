@@ -20,14 +20,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- Version gate for local gemfile wiring: _local.gemfile now declares local_gem_requirements from the same template facts style.gemfile uses (KJ|RUBOCOP_LTS_CONSTRAINT, KJ|RUBOCOP_RUBY_CONSTRAINT) and path-wires a local gem only when its checkout version satisfies the requirement; unsatisfied checkouts fall back to the registry declaration. ensure_local_gem_requirements_from_template re-injects the hash after the AST merge, which drops hash assignments absent from the destination.
-
 ### Changed
-
-- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
-  - kettle-changelog (>= 1.0.12 -> >= 1.0.13)
-  - kettle-dev (>= 3.1.15 -> >= 3.1.18)
-  - kettle-family (>= 1.3.11 -> >= 1.3.22)
 
 ### Deprecated
 
@@ -36,6 +29,24 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [7.1.33] - 2026-10-19
+
+- TAG: [v7.1.33][7.1.33t]
+- COVERAGE: 93.42% -- 11362/12162 lines in 17 files
+- BRANCH COVERAGE: 77.04% -- 4891/6349 branches in 17 files
+- 19.80% documented
+
+### Added
+
+- Version gate for local gemfile wiring: _local.gemfile now declares local_gem_requirements from the same template facts style.gemfile uses (KJ|RUBOCOP_LTS_CONSTRAINT, KJ|RUBOCOP_RUBY_CONSTRAINT) and path-wires a local gem only when its checkout version satisfies the requirement; unsatisfied checkouts fall back to the registry declaration. ensure_local_gem_requirements_from_template re-injects the hash after the AST merge, which drops hash assignments absent from the destination.
+
+### Changed
+
+- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+  - kettle-changelog (>= 1.0.12 -> >= 1.0.13)
+  - kettle-dev (>= 3.1.15 -> >= 3.1.18)
+  - kettle-family (>= 1.3.11 -> >= 1.3.22)
 
 ## [7.1.32] - 2026-10-17
 
@@ -2307,7 +2318,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.33...HEAD
+[7.1.33]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...v7.1.33
+[7.1.33t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.33
 [7.1.32]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...v7.1.32
 [7.1.32t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.32
 [7.1.31]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.30...v7.1.31
