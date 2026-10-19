@@ -35,7 +35,7 @@ elsif ENV.fetch('STRUCTUREDMERGE_CORE_PUBLISHED', 'false').casecmp('true').zero?
 end
 
 # Local workspace dependency wiring for *_local.gemfile overrides
-gem 'nomono', '~> 1.1', '>= 1.1.6', require: false # ruby >= 3.2.0
+gem 'nomono', '~> 1.1', '>= 1.1.8', require: false # ruby >= 3.2.0
 
 # Direct sibling dependencies (env-switched via STRUCTUREDMERGE_DEV)
 direct_sibling_gems = %w[

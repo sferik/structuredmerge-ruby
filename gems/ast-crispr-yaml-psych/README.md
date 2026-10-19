@@ -45,3 +45,22 @@ The selector identifies the second item under `jobs.test.strategy.matrix.include
 ## Development
 
 Run the gem's specs from this directory with `bundle exec kettle-test`. The monorepo root Gemfile includes the gem for family-level development.
+
+## 🔐 Security
+
+See [SECURITY.md][🔐security].
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md][🤝contributing] for more detailed instructions.
+
+See [CODE_OF_CONDUCT.md][🪇conduct].
+
+## 📌 Changelog
+
+See [CHANGELOG.md][📌changelog] for a list of releases.
+
+[🤝contributing]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/CONTRIBUTING.md
+[🪇conduct]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/CODE_OF_CONDUCT.md
+[📌changelog]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/CHANGELOG.md
+[🔐security]: https://github.com/structuredmerge/structuredmerge-ruby/blob/main/SECURITY.md
