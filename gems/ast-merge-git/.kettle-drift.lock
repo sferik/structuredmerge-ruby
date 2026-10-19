@@ -1,0 +1,164 @@
+{
+  "bash-merge\nbinary-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        49,
+        76
+      ]
+    }
+  ],
+  "binary-merge\ncitrus-toml-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        50,
+        77
+      ]
+    }
+  ],
+  "citrus-toml-merge\ncommonmarker-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        51,
+        78
+      ]
+    }
+  ],
+  "dotenv-merge\ngo-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        54,
+        80
+      ]
+    }
+  ],
+  "go-merge\nhtml-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        55,
+        81
+      ]
+    }
+  ],
+  "html-merge\njson-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        56,
+        82
+      ]
+    }
+  ],
+  "kramdown-merge\nmarkdown-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        59,
+        84
+      ]
+    }
+  ],
+  "markdown-merge\nmarkly-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        60,
+        85
+      ]
+    }
+  ],
+  "markly-merge\nparslet-toml-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        61,
+        86
+      ]
+    }
+  ],
+  "parslet-toml-merge\nplain-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        62,
+        87
+      ]
+    }
+  ],
+  "plain-merge\nprism-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        63,
+        88
+      ]
+    }
+  ],
+  "prism-merge\npsych-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        64,
+        89
+      ]
+    }
+  ],
+  "psych-merge\nrbs-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        65,
+        90
+      ]
+    }
+  ],
+  "rbs-merge\nruby-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        66,
+        91
+      ]
+    }
+  ],
+  "ruby-merge\nrust-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        67,
+        92
+      ]
+    }
+  ],
+  "toml-merge\ntypescript-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        70,
+        94
+      ]
+    }
+  ],
+  "typescript-merge\nyaml-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        71,
+        95
+      ]
+    }
+  ],
+  "yaml-merge\nzip-merge": [
+    {
+      "file": "Gemfile",
+      "lines": [
+        72,
+        96
+      ]
+    }
+  ]
+}
