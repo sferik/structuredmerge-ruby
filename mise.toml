@@ -91,7 +91,9 @@ run = "bundle exec kettle-family bump --execute"
 [tasks.changelog]
 description = "Add a structured entry to a member Unreleased changelog"
 raw = true
-run = "bundle exec kettle-family add-changelog --execute"
+# Inline scope: entries from this task target this family's shared changelog.
+# MISE_CONFIG_ROOT is the directory containing this mise.toml.
+run = "env K_CHANGELOG_PATH=\"$MISE_CONFIG_ROOT/CHANGELOG.md\" -- bundle exec kettle-family add-changelog --execute"
 
 [tasks.clean]
 raw = true
