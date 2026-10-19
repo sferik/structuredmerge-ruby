@@ -190,14 +190,14 @@ files:
     recipe: template_source_application_simplecov
     action: write
     dest_sha256: ee544f488aed2cb115d9776cf3413deaf0e35788aa1deb4b381d444a4f1140d8
-    input_fingerprint: 3eeeef02ea14c7a509530e575ef51c20a9f89045d8c7ca7ebddf79d38af0571a
+    input_fingerprint: e5825916398a48f3bc847cece88a937503c67a81fc30b22d99ef31b88de2cce4
     template_sources:
     - ".simplecov.example"
   AGPL-3.0-only.md:
     recipe: template_source_application_AGPL_3_0_only_md
     action: write
     dest_sha256: d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee
-    input_fingerprint: d7971aa66a0426112ddc55d0f3168155a65ffc1d359d09a3f9f99c764e69f8ae
+    input_fingerprint: 543265e23d854f12a505aca0fc52fec76d39a9503757767ada07ba3b61db2789
     template_sources:
     - AGPL-3.0-only.md.example
   Gemfile:
@@ -211,35 +211,35 @@ files:
     recipe: template_source_application_LICENSE_md
     action: write
     dest_sha256: f6188bfd474a636d2a526420ebb411250faa447d94c9b9ccee097128ce4101b5
-    input_fingerprint: f3abda15a059418c821739a3f9f1d65576aaf413e032cac26c7881094ce64fa1
+    input_fingerprint: 0dbff94db67ac5990baac8515cde6fca0a613ea0faac9cddc82d0d2ed0b11be2
     template_sources:
     - LICENSE.md.example
   PolyForm-Small-Business-1.0.0.md:
     recipe: template_source_application_PolyForm_Small_Business_1_0_0_md
     action: write
     dest_sha256: 2f81e317d36f83a199c9fa10bcb250775fd90510303eaeb15aac2d8f0c1fc2d6
-    input_fingerprint: df799b4180481a1dea2240677bbbe8d36ef1a67e58000cfbe7194a342fbb4532
+    input_fingerprint: 55555a00a37637ba72ab566c9598269d75c4a03acd21dfa6a44be5f5d5f8a409
     template_sources:
     - PolyForm-Small-Business-1.0.0.md.example
   README.md:
     recipe: template_source_application_README_md
     action: write
     dest_sha256: 897a821170fc96e62821bd949f6e7fc30453fc7707f88388c9e3026dbb79d391
-    input_fingerprint: 0e00308496271b3c01c04b95c9dc792676f369d885220a953e3dea89fcb79648
+    input_fingerprint: 573b673bf7cd72436cd7f93bde193bf0c820e9a2191079773745907dc7ee2d37
     template_sources:
     - README.md.example
   Rakefile:
     recipe: template_source_application_Rakefile
     action: write
-    dest_sha256: a23ef97c3212b0cacf1c45379fd1ae1d264370ea2bf8abcbb705334d28719827
-    input_fingerprint: ac15720394e913c839f349ea3c97e26185fed37f0e59663357c94c4f0b6c2626
+    dest_sha256: f77620a1a6d57e4df369dffc99d51b4534fa1156d438989b0917453e909a68ba
+    input_fingerprint: 1c5d991f18497871c21a5fe11d5acb5eb13345b41fab38da2591692fd497b555
     template_sources:
     - Rakefile.example
   certs/pboling.pem:
     recipe: template_source_application_certs_pboling_pem
     action: write
     dest_sha256: 18956f60643666cc181e2743b3b3691bec08c5326f514f60af54d0cdb9ebc554
-    input_fingerprint: fefbc8ce93e52e8b5d92cd6aecee97394ee5a6c75f9110efb5c5b45ea761f49f
+    input_fingerprint: a72ea522c7a642a60884738b31c0ac07bef38cc2529ef36576ae6462fe06c7f1
     template_sources:
     - certs/pboling.pem.example
   gemfiles/modular/benchmark/r4/v0.5.gemfile:
@@ -532,8 +532,8 @@ files:
   lib/tree_haver/version.rb:
     recipe: template_source_application_lib_tree_haver_version_rb
     action: write
-    dest_sha256: ddec42fc080a0d1708e6884beea1a956d7e3ee0217d00726b30b4b86bf5b117f
-    input_fingerprint: 42196c0afb2d9377cb0bc69ad6479953824b14890563a27e0cb9e4bee4d27578
+    dest_sha256: f99d871622e120808b569d071280f566dfb0978c2606fbabb203be77020403b7
+    input_fingerprint: 53e8cb249a75dceaa6aa980fbcf6376fdd4f71f899b5b87de3818419006da561
     template_sources:
     - lib/gem/version.rb.example
   mise.toml:
@@ -547,14 +547,14 @@ files:
     recipe: template_source_application_sig_tree_haver_rbs
     action: write
     dest_sha256: fd0747212750a45b23c85a132091b6d4f88b12b834d4a8aebe936d3b9dd9f515
-    input_fingerprint: 46ecf6460183a3da2da56565d6f34f3076ac93e7c7748105428426ba27f6b4ab
+    input_fingerprint: 502586d8cb8977b1c28af18accc160336d7d5b610c72868052c5a94300698856
     template_sources:
     - sig/gem.rbs.example
   spec/spec_helper.rb:
     recipe: template_source_application_spec_spec_helper_rb
     action: write
     dest_sha256: 68b255358aa18b7ba3a5a6873d365c9218697742325ddac54a671bd26efb884e
-    input_fingerprint: f97d634ac7790610d356deb2b2fb0ab34d347dab1534b17838b47a04fdafd8ef
+    input_fingerprint: c10753783ea1d40c15f69814239e259a3b802b8c93026952248eab570efd159f
     template_sources:
     - spec/spec_helper.rb.example
   tree_haver.gemspec:
