@@ -39,8 +39,39 @@ gem 'nomono', '~> 1.1', '>= 1.1.8', require: false # ruby >= 3.2.0
 
 # Direct sibling dependencies (env-switched via STRUCTUREDMERGE_DEV)
 direct_sibling_gems = %w[
+  ast-crispr-markdown-markly
+  ast-crispr-ruby-prism
+  ast-crispr-toml
+  ast-crispr-yaml-psych
   ast-merge
+  ast-merge-git
+  ast-template
+  bash-merge
+  binary-merge
+  citrus-toml-merge
+  commonmarker-merge
+  config-merge
+  dotenv-merge
+  go-merge
+  html-merge
+  json-merge
+  kettle-jem
+  kramdown-merge
+  markdown-merge
+  markly-merge
+  parslet-toml-merge
+  plain-merge
+  prism-merge
+  psych-merge
+  rbs-merge
+  ruby-merge
+  rust-merge
+  smorg-rb
+  toml-merge
   tree_haver
+  typescript-merge
+  yaml-merge
+  zip-merge
 ]
 direct_sibling_dev = ENV.fetch('STRUCTUREDMERGE_DEV', '')
 direct_sibling_local =
