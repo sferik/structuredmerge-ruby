@@ -39,7 +39,8 @@ RSpec.describe Ast::Template::TokenApplication do
         expected_tokens = expected[:error].fetch(:tokens).map(&:to_s)
         error = nil
         begin
-          described_class.apply_tokens(input, replacements, config: config, namespace: namespace, scan_unresolved: scan_unresolved)
+          described_class.apply_tokens(input, replacements, config: config, namespace: namespace,
+                                                            scan_unresolved: scan_unresolved)
         rescue Ast::Template::TokenApplication::UnresolvedTokensError => e
           error = e
         end
@@ -49,7 +50,8 @@ RSpec.describe Ast::Template::TokenApplication do
           expect(error.message).to include("{#{token}}")
         end
       else
-        output = described_class.apply_tokens(input, replacements, config: config, namespace: namespace, scan_unresolved: scan_unresolved)
+        output = described_class.apply_tokens(input, replacements, config: config, namespace: namespace,
+                                                                   scan_unresolved: scan_unresolved)
         expect(output).to eq(expected.fetch(:output))
       end
     end
@@ -71,7 +73,7 @@ RSpec.describe Ast::Template::TokenApplication do
 
   describe '.stringify_replacements' do
     it 'stringifies keys and values' do
-      expect(described_class.stringify_replacements({:'KJ|N' => 3})).to eq({'KJ|N' => '3'})
+      expect(described_class.stringify_replacements({ 'KJ|N': 3 })).to eq({ 'KJ|N' => '3' })
     end
   end
 end

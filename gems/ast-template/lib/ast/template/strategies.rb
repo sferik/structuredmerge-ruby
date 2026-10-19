@@ -13,7 +13,7 @@ module Ast
     module Strategies
       # The four strategy names a destination config may declare.
       STRATEGIES = %w[merge keep_destination raw_copy accept_template].freeze
-      DEFAULT_STRATEGY = "merge"
+      DEFAULT_STRATEGY = 'merge'
 
       module_function
 
@@ -25,9 +25,9 @@ module Ast
       # @param overrides [Array<Hash>] per-path strategy overrides
       # @param path [String] logical destination path
       # @return [String] the effective strategy
-      def resolve(default: DEFAULT_STRATEGY, overrides: [], path:)
-        override = Array(overrides).find { |entry| (entry[:path] || entry["path"]) == path }
-        strategy = override && (override[:strategy] || override["strategy"])
+      def resolve(path:, default: DEFAULT_STRATEGY, overrides: [])
+        override = Array(overrides).find { |entry| (entry[:path] || entry['path']) == path }
+        strategy = override && (override[:strategy] || override['strategy'])
         strategy.to_s.empty? ? default : strategy.to_s
       end
 
@@ -43,25 +43,25 @@ module Ast
       # @return [Hash] {execution_action:, write_action:, status:, content:}
       def plan_entry(strategy:, template_content:, destination_content:)
         strategy = strategy.to_s
-        return keep_decision if strategy == "keep_destination"
+        return keep_decision if strategy == 'keep_destination'
 
         absent = destination_content.nil?
-        if strategy == "merge"
+        if strategy == 'merge'
           trivial = trivial_merge_outcome(template_content, destination_content)
           return keep_decision if trivial == :identical
-          return write_decision("merge_prepared_content", absent, template_content) if trivial == :empty_destination
+          return write_decision('merge_prepared_content', absent, template_content) if trivial == :empty_destination
         end
 
         # accept_template and merge-of-differences both write prepared content;
         # for merge-of-differences the content is the merger's, not ours.
-        content = (strategy == "merge") ? nil : template_content
+        content = strategy == 'merge' ? nil : template_content
         write_decision(execution_action_for(strategy), absent, content)
       end
 
       # Whether the strategy leaves the destination untouched. Absent
       # destinations are not created under keep_destination.
       def keep_destination?(strategy)
-        strategy.to_s == "keep_destination"
+        strategy.to_s == 'keep_destination'
       end
 
       # The merge short-circuits that never invoke a merger:
@@ -76,16 +76,16 @@ module Ast
       end
 
       def keep_decision
-        {execution_action: "keep", write_action: "keep", status: "keep", content: nil}
+        { execution_action: 'keep', write_action: 'keep', status: 'keep', content: nil }
       end
 
       def write_decision(execution_action, create, content)
-        action = create ? "create" : "update"
-        {execution_action: execution_action, write_action: action, status: action, content: content}
+        action = create ? 'create' : 'update'
+        { execution_action: execution_action, write_action: action, status: action, content: content }
       end
 
       def execution_action_for(strategy)
-        (strategy == "raw_copy") ? "raw_copy" : "merge_prepared_content"
+        strategy == 'raw_copy' ? 'raw_copy' : 'merge_prepared_content'
       end
     end
   end

@@ -15,9 +15,15 @@ module Ast
       Adapter = Struct.new(:gem_name, :require_path, :invoke)
 
       DEFAULT_ADAPTERS = {
-        yaml: Adapter.new("psych-merge", "psych/merge", ->(t, d, **opts) { Psych::Merge.merge_yaml(t, d, "yaml", **opts) }),
-        toml: Adapter.new("citrus-toml-merge", "citrus/toml/merge", ->(t, d, **opts) { Citrus::Toml::Merge.merge_toml(t, d, "toml", **opts) }),
-        markdown: Adapter.new("markdown-merge", "markdown/merge", ->(t, d, **opts) { Markdown::Merge.merge_markdown(t, d, "markdown", **opts) })
+        yaml: Adapter.new('psych-merge', 'psych/merge', lambda { |t, d, **opts|
+          Psych::Merge.merge_yaml(t, d, 'yaml', **opts)
+        }),
+        toml: Adapter.new('citrus-toml-merge', 'citrus/toml/merge', lambda { |t, d, **opts|
+          Citrus::Toml::Merge.merge_toml(t, d, 'toml', **opts)
+        }),
+        markdown: Adapter.new('markdown-merge', 'markdown/merge', lambda { |t, d, **opts|
+          Markdown::Merge.merge_markdown(t, d, 'markdown', **opts)
+        })
       }.freeze
 
       @adapters = {}
@@ -28,7 +34,7 @@ module Ast
         # merger result hash ({ok:, output:, diagnostics:}).
         def register(file_type, callable = nil, &block)
           adapter = callable || block
-          raise ArgumentError, "adapter callable required" unless adapter.respond_to?(:call)
+          raise ArgumentError, 'adapter callable required' unless adapter.respond_to?(:call)
 
           adapters[file_type.to_sym] = adapter
         end

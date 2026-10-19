@@ -54,7 +54,7 @@ RSpec.describe 'slice-1043 file-type detection and merge dispatch' do
     end
 
     it 'lets a consumer register an adapter for a policy type' do
-      described_class.register(:gemspec) { |t, d, **_opts| {ok: true, output: "#{t}|#{d}", diagnostics: []} }
+      described_class.register(:gemspec) { |t, d, **_opts| { ok: true, output: "#{t}|#{d}", diagnostics: [] } }
 
       result = described_class.dispatch(:gemspec, 'a', 'b')
 

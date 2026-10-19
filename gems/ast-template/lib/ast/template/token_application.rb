@@ -39,7 +39,8 @@ module Ast
       # @raise [UnresolvedTokensError] unresolved namespaced tokens remain
       def apply_tokens(content, replacements, config:, namespace:, scan_unresolved: true)
         document = Token::Resolver::Document.new(content.to_s, config: config)
-        resolved = Token::Resolver::Resolve.new(on_missing: :keep).resolve(document, stringify_replacements(replacements))
+        resolved = Token::Resolver::Resolve.new(on_missing: :keep).resolve(document,
+                                                                           stringify_replacements(replacements))
         return resolved unless scan_unresolved
 
         unresolved = unresolved_namespaced_tokens(resolved, config: config, namespace: namespace)
@@ -54,10 +55,14 @@ module Ast
       # @return [Array<String>]
       def unresolved_namespaced_tokens(content, config:, namespace:)
         Token::Resolver::Document.new(content.to_s, config: config)
-          .token_keys
-          .select { |key| key.split(config.separators.first, 2).first == namespace }
-          .uniq
-          .sort
+                                 .token_keys
+                                 .select do |key|
+          key.split(
+            config.separators.first, 2
+          ).first == namespace
+        end
+                                                        .uniq
+                                                        .sort
       end
 
       # Normalize replacements for the resolver: string keys and values.
