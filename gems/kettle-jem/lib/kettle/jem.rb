@@ -62,7 +62,7 @@ module Kettle
     # set in place before Bundler is allowed to evaluate that destination.
     TEMPLATE_MANAGED_DEPENDENCIES = [
       {name: PACKAGE_NAME, requirements: ["~> 7.1", ">= 7.1.28"], bootstrap: false},
-      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.10"], bootstrap: true},
+      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.12"], bootstrap: true},
       {name: "kettle-dev", requirements: ["~> 3.1", ">= 3.1.18"], bootstrap: true},
       {
         name: "kettle-changelog",
@@ -5122,7 +5122,7 @@ module Kettle
         {name: "bundler-audit", source: %(gem "bundler-audit", "~> 0.9.3"\n)},
         {name: "kettle-dev", source: %(gem "kettle-dev", "~> 3.1", ">= 3.1.18"\n)},
         {name: "kettle-drift", source: %(gem "kettle-drift", "~> 1.0", ">= 1.0.17"\n)},
-        {name: "kettle-family", source: %(gem "kettle-family", "~> 1.3", ">= 1.3.22"\n)},
+        {name: "kettle-family", source: %(gem "kettle-family", "~> 1.3", ">= 1.3.23"\n)},
         {name: PACKAGE_NAME, source: kettle_jem_dependency_source},
         {name: "kettle-test", source: %(gem "kettle-test", "~> 2.0", ">= 2.0.27"\n)},
         {name: "rake", source: %(gem "rake", "~> 13.0"\n)},
@@ -15934,7 +15934,7 @@ module Kettle
     def main_gemfile_kettle_family_gem(package_name)
       return "" if package_name.to_s == "kettle-family"
 
-      %(gem "kettle-family", "~> 1.3", ">= 1.3.22"\n)
+      %(gem "kettle-family", "~> 1.3", ">= 1.3.23"\n)
     end
 
     def main_gemfile_nomono_bootstrap(package_name)
@@ -15947,7 +15947,7 @@ module Kettle
     end
 
     def nomono_gemfile_declaration
-      %(gem "nomono", "~> 1.1", ">= 1.1.10", require: false # ruby >= 3.2.0)
+      %(gem "nomono", "~> 1.1", ">= 1.1.12", require: false # ruby >= 3.2.0)
     end
 
     def local_gemfile_nomono_bootstrap(_package_name)
@@ -15959,7 +15959,7 @@ module Kettle
         # Bootstrapping nomono here cannot rely on a plain `gem "nomono", ...` line.
         # Bundler records that dependency during Gemfile evaluation, but it does not
         # activate that exact version before the immediate `require "nomono/bundler"`.
-        nomono_activation_requirements = ["~> 1.1", ">= 1.1.10"]
+        nomono_activation_requirements = ["~> 1.1", ">= 1.1.12"]
         nomono_requirement = Gem::Requirement.new(nomono_activation_requirements)
         nomono_already_activated = Gem.loaded_specs["nomono"]
         nomono_lockfile = File.expand_path(#{lockfile_path.inspect}, __dir__)
