@@ -70,20 +70,7 @@ if ENV.fetch("STRUCTUREDMERGE_DEV", "false").casecmp("false") != 0
 end
 
 if ENV.fetch("KETTLE_DEV_DEV", "false").casecmp("false") != 0
-  # Replace the gemspec dependency instead of declaring kettle-dev twice. Bundler
-  # rejects duplicate declarations with different requirements or sources.
-  kettle_dev_dependency = instance_variable_get(:@dependencies).to_a.find { |dependency| dependency.name == "kettle-dev" }
-  kettle_dev_local_path = nomono_gems(
-    gems: %w[kettle-dev],
-    **kettle_dev_nomono_options
-  ).fetch("kettle-dev", nil)
-  if kettle_dev_dependency && kettle_dev_local_path
-    instance_variable_get(:@dependencies).delete(kettle_dev_dependency)
-    gem kettle_dev_dependency.name, *kettle_dev_dependency.requirements_list, path: kettle_dev_local_path
-  end
-
-  declared_gems = instance_variable_get(:@dependencies).to_a.map(&:name)
-  kettle_dev_local_gems_to_eval = kettle_dev_local_gems - %w[{KJ|PACKAGE_NAME}] - declared_gems
+  kettle_dev_local_gems_to_eval = kettle_dev_local_gems - %w[{KJ|PACKAGE_NAME}]
 
   eval_nomono_gems(
     gems: kettle_dev_local_gems_to_eval,

@@ -5,6 +5,8 @@
 
 {KJ|LOCAL_GEMFILE_NOMONO_BOOTSTRAP}
 
+local_gem_requirements = {KJ|LOCAL_GEM_REQUIREMENTS}
+
 local_gems = %w[{KJ|KETTLE_DEV_LOCAL_GEMS}]
 kettle_dev_nomono_options = {
   prefix: "KETTLE_DEV",
@@ -17,29 +19,18 @@ kettle_dev_nomono_options = {
 
 # export KETTLE_DEV_DEV=/path/to/my
 platform :mri do
-  # Replace the gemspec dependency instead of declaring kettle-dev twice. Bundler
-  # rejects duplicate declarations with different requirements or sources.
-  kettle_dev_dependency = instance_variable_get(:@dependencies).to_a.find { |dependency| dependency.name == "kettle-dev" }
-  kettle_dev_local_path = nomono_gems(
-    gems: %w[kettle-dev],
-    **kettle_dev_nomono_options
-  ).fetch("kettle-dev", nil)
-  if kettle_dev_dependency && kettle_dev_local_path
-    instance_variable_get(:@dependencies).delete(kettle_dev_dependency)
-    gem kettle_dev_dependency.name, *kettle_dev_dependency.requirements_list, path: kettle_dev_local_path
-  end
-
-  declared_gems = instance_variable_get(:@dependencies).to_a.map(&:name)
-  local_gems_to_eval = local_gems - %w[{KJ|PACKAGE_NAME}] - declared_gems
+  local_gems_to_eval = local_gems - %w[{KJ|PACKAGE_NAME}]
 
   eval_nomono_gems(
     gems: local_gems_to_eval,
+    requirements: local_gem_requirements,
     **kettle_dev_nomono_options
   )
 
   if ENV.fetch("GALTZO_FLOSS_DEV", "false").casecmp("false") != 0
     eval_nomono_gems(
       gems: %w[turbo_tests2],
+      requirements: local_gem_requirements,
       prefix: "GALTZO_FLOSS",
       path_env: "GALTZO_FLOSS_DEV",
       vendored_gems_env: "GALTZO_FLOSS_VENDORED_GEMS",

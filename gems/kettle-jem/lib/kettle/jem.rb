@@ -62,7 +62,7 @@ module Kettle
     # set in place before Bundler is allowed to evaluate that destination.
     TEMPLATE_MANAGED_DEPENDENCIES = [
       {name: PACKAGE_NAME, requirements: ["~> 7.1", ">= 7.1.28"], bootstrap: false},
-      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.8"], bootstrap: true},
+      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.10"], bootstrap: true},
       {name: "kettle-dev", requirements: ["~> 3.1", ">= 3.1.18"], bootstrap: true},
       {
         name: "kettle-changelog",
@@ -8764,6 +8764,10 @@ module Kettle
       if marker && activation_assignments.any?
         first_line = activation_assignments.map { |node| node.location.start_line }.min
         first_line = preceding_comment_block_start_line(output.lines, first_line)
+        requirements_record = local_variable_assignment_record(output, :local_gem_requirements)
+        if requirements_record&.fetch(:start_line)&.between?(first_line, marker.fetch(:start_line) - 1)
+          bootstrap = "#{bootstrap}#{requirements_record.fetch(:source)}\n\n"
+        end
         output = replace_source_range_lines(output, first_line, marker.fetch(:start_line) - 1, bootstrap) if first_line < marker.fetch(:start_line)
         output = remove_local_gemfile_nomono_loader_blocks_after_marker(output)
         output = remove_redundant_nomono_bundler_requires_after_marker(output)
@@ -15943,7 +15947,7 @@ module Kettle
     end
 
     def nomono_gemfile_declaration
-      %(gem "nomono", "~> 1.1", ">= 1.1.8", require: false # ruby >= 3.2.0)
+      %(gem "nomono", "~> 1.1", ">= 1.1.10", require: false # ruby >= 3.2.0)
     end
 
     def local_gemfile_nomono_bootstrap(_package_name)
@@ -15955,7 +15959,7 @@ module Kettle
         # Bootstrapping nomono here cannot rely on a plain `gem "nomono", ...` line.
         # Bundler records that dependency during Gemfile evaluation, but it does not
         # activate that exact version before the immediate `require "nomono/bundler"`.
-        nomono_activation_requirements = ["~> 1.1", ">= 1.1.8"]
+        nomono_activation_requirements = ["~> 1.1", ">= 1.1.10"]
         nomono_requirement = Gem::Requirement.new(nomono_activation_requirements)
         nomono_already_activated = Gem.loaded_specs["nomono"]
         nomono_lockfile = File.expand_path(#{lockfile_path.inspect}, __dir__)

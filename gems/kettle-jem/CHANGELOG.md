@@ -40,6 +40,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - [kc] shape-aware-nomono-requirements: Scope all-sibling path wiring and automatic local lock normalization to monorepo topology, and forward project-fact requirements through eval_nomono_gems in generated Gemfiles.
 
+- [kc] shared-nomono-overrides: Use Nomono 1.1.10 shared overrides instead of template-side dependency replacement in local coverage and templating Gemfiles; preserve fact requirements during repeated bootstrap normalization.
+
 ### Security
 
 ## [7.1.33] - 2026-10-19

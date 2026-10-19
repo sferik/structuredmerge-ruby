@@ -1738,20 +1738,16 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
       "structuredmerge_local_gems_to_eval = structuredmerge_local_gems - %w[{KJ|PACKAGE_NAME}] - declared_gems"
     )
     expect(template).to include(
-      "gem kettle_dev_dependency.name, *kettle_dev_dependency.requirements_list, path: kettle_dev_local_path"
+      "kettle_dev_local_gems_to_eval = kettle_dev_local_gems - %w[{KJ|PACKAGE_NAME}]"
     )
     expect(coverage_template).to include(
-      "gem kettle_dev_dependency.name, *kettle_dev_dependency.requirements_list, path: kettle_dev_local_path"
-    )
-    expect(template).to include(
-      "kettle_dev_local_gems_to_eval = kettle_dev_local_gems - %w[{KJ|PACKAGE_NAME}] - declared_gems"
-    )
-    expect(coverage_template).to include(
-      "local_gems_to_eval = local_gems - %w[{KJ|PACKAGE_NAME}] - declared_gems"
+      "local_gems_to_eval = local_gems - %w[{KJ|PACKAGE_NAME}]"
     )
     [template, coverage_template].each do |gemfile_template|
       expect(gemfile_template.scan("kettle_dev_nomono_options =").length).to eq(1)
-      expect(gemfile_template.scan("**kettle_dev_nomono_options").length).to eq(2)
+      expect(gemfile_template.scan("**kettle_dev_nomono_options").length).to eq(1)
+      expect(gemfile_template).to include("requirements: local_gem_requirements")
+      expect(gemfile_template).not_to include("@dependencies", "kettle_dev_local_path", "declared_gems")
     end
     expect(template.scan('vendored_gems_env: "VENDORED_GEMS"').length).to eq(1)
     expect(template.scan('vendor_gem_dir_env: "VENDOR_GEM_DIR"').length).to eq(1)
@@ -1871,15 +1867,16 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
           gems.to_h { |name| [name, File.join(ENV.fetch("KETTLE_DEV_DEV"), name)] }
         end
 
-        def eval_nomono_gems(gems:, **)
+        def eval_nomono_gems(gems:, requirements: {}, **)
           nomono_gems(gems: gems).each do |name, path|
-            gem name, path: path
+            gem name, *Array(requirements[name]), path: path
           end
         end
       RUBY
       coverage_local_gemfile = coverage_template
         .gsub("{KJ|LOCAL_GEMFILE_NOMONO_BOOTSTRAP}", nomono_dsl_stub)
         .gsub("{KJ|KETTLE_DEV_LOCAL_GEMS}", "kettle-dev")
+        .gsub("{KJ|LOCAL_GEM_REQUIREMENTS}", {"kettle-dev" => ["~> 3.0", ">= 3.0.34"]}.inspect)
         .gsub("{KJ|PACKAGE_NAME}", "example")
 
       write_tree(root, {
