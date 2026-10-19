@@ -15586,6 +15586,22 @@ module Kettle
         pending.concat(gemspec_runtime_dependency_names(sibling_metadata))
       end
 
+      # A monorepo of sibling gems must resolve every sibling from local
+      # paths, never from the registry: published registry metadata for
+      # released siblings conflicts with the local graph whenever the family
+      # is mid-release (version-coupled sibling pins target the next,
+      # unpublished version, and external tooling like kettle-family pulls
+      # family members transitively). Wire all family members, not just the
+      # dependency-reachable closure.
+      if File.directory?(sibling_root)
+        Dir.children(sibling_root).sort.each do |name|
+          next if discovered.include?(name) || excluded.include?(name)
+          next unless direct_sibling_directory_defines_gem?(File.join(sibling_root, name), name)
+
+          discovered << name
+        end
+      end
+
       discovered.reject { |name| excluded.include?(name) }
     end
 
