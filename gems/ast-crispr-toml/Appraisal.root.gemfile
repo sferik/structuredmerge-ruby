@@ -22,6 +22,21 @@ if respond_to?(:generator_only)
     end
   end
 end
+# kettle-jem:freeze
+# The gemspec pins version-locked monorepo siblings exactly (e.g.
+# toml-merge = <lockstep version>), which no registry carries before the
+# lockstep release publishes. Appraisal's root resolution runs under plain
+# Bundler, where generator_only is unavailable, so wire the siblings from
+# the local checkout through the modular templating gemfile whenever the
+# family dev env is engaged. Without that env the modular file retains
+# registry mode, and published siblings resolve normally.
+unless respond_to?(:generator_only)
+  if ENV.fetch("K_JEM_TEMPLATING", "false").casecmp("true").zero? ||
+     !ENV.fetch("STRUCTUREDMERGE_DEV", "").strip.empty?
+    eval_gemfile "gemfiles/modular/templating.gemfile"
+  end
+end
+# kettle-jem:unfreeze
 # The style toolchain includes dependencies that require Ruby 3.3 or newer.
 if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.3")
   if respond_to?(:generator_only)
