@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Recognize linked Git worktrees of the local RuboCop-LTS checkout and skip redundant branch switching during templating.
+
 ### Security
 
 ## [7.1.35] - 2026-10-20

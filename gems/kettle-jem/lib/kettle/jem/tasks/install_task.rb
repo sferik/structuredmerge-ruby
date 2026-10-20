@@ -928,7 +928,7 @@ module Kettle
           end
 
           checkout = File.join(local_root, "rubocop-lts")
-          if project_root && same_path?(project_root, checkout)
+          if project_root && (same_path?(project_root, checkout) || same_git_repository?(project_root, checkout))
             return {
               name: "rubocop_lts_local_branch",
               status: "skipped",
@@ -961,6 +961,21 @@ module Kettle
 
         def same_path?(left, right)
           Kettle::Dev::Paths.same?(left.to_s, right.to_s)
+        end
+
+        def same_git_repository?(left, right)
+          left_common_dir = git_common_dir(left)
+          right_common_dir = git_common_dir(right)
+          left_common_dir && right_common_dir && same_path?(left_common_dir, right_common_dir)
+        end
+
+        def git_common_dir(path)
+          stdout, _stderr, status = Open3.capture3("git", "-C", path.to_s, "rev-parse", "--git-common-dir")
+          return unless status.success?
+
+          File.expand_path(stdout.to_s.strip, path.to_s)
+        rescue Errno::ENOENT
+          nil
         end
 
         def rubocop_lts_local_root(env)
