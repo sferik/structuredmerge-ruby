@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.34] - 2026-10-20
+
+- TAG: [v7.1.34][7.1.34t]
+- COVERAGE: 93.45% -- 11380/12178 lines in 17 files
+- BRANCH COVERAGE: 77.09% -- 4907/6365 branches in 17 files
+- 19.84% documented
+
+### Changed
+
 - [kc] kettle-jem/prepare: updated 10 project files:
   - dependencies (10)
 
@@ -35,13 +52,6 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-family (>= 1.3.22 -> >= 1.3.25)
   - nomono (>= 1.1.10 -> >= 1.1.14)
 
-- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
-  - ruby/setup-ruby v1.329.0 (651ff0d62c5c79bed6d53ec518387aae20e72c1a) -> v1.331.0 (824c0e29fdfc7d689c191c27acc969d2d04b7dd8)
-
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Monorepo member Gemfiles now wire every family sibling as a local path dependency, not just the dependency-reachable closure: monorepo CI must never resolve family members from the registry, whose published metadata conflicts with the local graph whenever the family is mid-release (version-coupled sibling pins target the next, unpublished version).
@@ -49,8 +59,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - [kc] shape-aware-nomono-requirements: Scope all-sibling path wiring and automatic local lock normalization to monorepo topology, and forward project-fact requirements through eval_nomono_gems in generated Gemfiles.
 
 - [kc] shared-nomono-overrides: Use Nomono 1.1.10 shared overrides instead of template-side dependency replacement in local coverage and templating Gemfiles; preserve fact requirements during repeated bootstrap normalization.
-
-### Security
 
 ## [7.1.33] - 2026-10-19
 
@@ -2340,7 +2348,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.33...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.34...HEAD
+[7.1.34]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.33...v7.1.34
+[7.1.34t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.34
 [7.1.33]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...v7.1.33
 [7.1.33t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.33
 [7.1.32]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.31...v7.1.32

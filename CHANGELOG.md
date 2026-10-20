@@ -20,6 +20,25 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.14] - 2026-10-20
+
+- TAG: [v7.1.14][7.1.14t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Added
+
 - kettle-jem-template-20260720-005 - README Support & Community links now
   include RubyForum.
 - kettle-jem-template-20260726-001 - Projects now include YARD lint
@@ -47,14 +66,6 @@ Please file a bug if you notice a violation of semantic versioning.
   use ClickGems instead of BestGems.
 - Generated Ruby workflows now use clearer setup-ruby-flash planning and can
   prepare appraisal-only jobs without installing the main Gemfile bundle.
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [7.1.13] - 2026-10-19
 
@@ -924,7 +935,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.14...HEAD
+[7.1.14]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...v7.1.14
+[7.1.14t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.14
 [7.1.13]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.12...v7.1.13
 [7.1.13t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.13
 [7.1.12]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.11...v7.1.12
