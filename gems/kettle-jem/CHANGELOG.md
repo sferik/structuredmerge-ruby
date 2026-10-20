@@ -28,9 +28,18 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- Match direct-versus-modular dependency decisions across a modular Gemfile and its _local.gemfile counterpart.
-
 ### Security
+
+## [7.1.35] - 2026-10-20
+
+- TAG: [v7.1.35][7.1.35t]
+- COVERAGE: 93.46% -- 11385/12182 lines in 17 files
+- BRANCH COVERAGE: 77.09% -- 4907/6365 branches in 17 files
+- 19.87% documented
+
+### Fixed
+
+- Match direct-versus-modular dependency decisions across a modular Gemfile and its _local.gemfile counterpart.
 
 ## [7.1.34] - 2026-10-20
 
@@ -2350,7 +2359,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.34...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.35...HEAD
+[7.1.35]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.34...v7.1.35
+[7.1.35t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.35
 [7.1.34]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.33...v7.1.34
 [7.1.34t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.34
 [7.1.33]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.32...v7.1.33
