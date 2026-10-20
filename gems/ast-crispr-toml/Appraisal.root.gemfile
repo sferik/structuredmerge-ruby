@@ -32,7 +32,7 @@ end
 # registry mode, and published siblings resolve normally.
 unless respond_to?(:generator_only)
   if ENV.fetch("K_JEM_TEMPLATING", "false").casecmp("true").zero? ||
-     !ENV.fetch("STRUCTUREDMERGE_DEV", "").strip.empty?
+      !ENV.fetch("STRUCTUREDMERGE_DEV", "").strip.empty?
     eval_gemfile "gemfiles/modular/templating.gemfile"
   end
 end
