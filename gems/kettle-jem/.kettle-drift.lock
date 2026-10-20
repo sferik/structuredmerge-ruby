@@ -1,11 +1,20 @@
 {
+  "- [kc] kettle-jem/prepare: updated 10 project files:\n- dependencies (10)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        25,
+        367
+      ]
+    }
+  ],
   "- [kc] kettle-jem/template: updated 3 project files:\n- code and tests (1)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
         28,
-        578,
-        727
+        588,
+        737
       ]
     }
   ],
@@ -13,8 +22,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        596,
-        664
+        606,
+        674
       ]
     }
   ],
@@ -22,9 +31,9 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        579,
-        728,
-        818
+        589,
+        738,
+        828
       ]
     }
   ],
@@ -32,8 +41,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        597,
-        665
+        607,
+        675
       ]
     }
   ],
@@ -41,8 +50,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        598,
-        666
+        608,
+        676
       ]
     }
   ],
@@ -50,8 +59,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        580,
-        729
+        590,
+        739
       ]
     }
   ],
@@ -59,8 +68,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        599,
-        667
+        609,
+        677
       ]
     }
   ],
@@ -69,8 +78,8 @@
       "file": "CHANGELOG.md",
       "lines": [
         30,
-        114,
-        820
+        124,
+        830
       ]
     }
   ],
@@ -78,8 +87,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        600,
-        668
+        610,
+        678
       ]
     }
   ],
@@ -87,8 +96,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        601,
-        669
+        611,
+        679
       ]
     }
   ],
