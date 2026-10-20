@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength -- line-range behavior is one cohesive contract
 RSpec.describe Ast::Merge::LineRangeSupport do
   Location = Struct.new(:start_line, :end_line, keyword_init: true)
-  Point = Struct.new(:row, keyword_init: true)
-
   class LineRangeHarness
     include Ast::Merge::LineRangeSupport
 
@@ -34,7 +33,8 @@ RSpec.describe Ast::Merge::LineRangeSupport do
   end
 
   it 'reads tree-sitter point line ranges' do
-    object = Struct.new(:start_point, :end_point).new(Point.new(row: 16), Point.new(row: 18))
+    point = Ast::Merge::SpecSupport::TreeSitterPoint
+    object = Struct.new(:start_point, :end_point).new(point.new(16), point.new(18))
 
     expect(harness.object_start_line(object)).to eq(17)
     expect(harness.object_end_line(object)).to eq(19)
@@ -57,3 +57,4 @@ RSpec.describe Ast::Merge::LineRangeSupport do
     expect(harness.source_line_at(analysis, 1)).to eq('raw line')
   end
 end
+# rubocop:enable Metrics/BlockLength

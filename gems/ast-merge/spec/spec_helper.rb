@@ -27,6 +27,7 @@ require 'kettle/test/rspec'
 require 'ast/merge'
 
 require_relative 'support/testable_node'
+require_relative 'support/tree_sitter_point'
 
 # Load registry/helper support before RSpec dependency filters are configured.
 # The ast-merge suite owns cross-gem fixtures, so it must predeclare the adapter

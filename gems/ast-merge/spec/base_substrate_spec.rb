@@ -66,7 +66,6 @@ RSpec.describe 'Ast::Merge restored Ruby provider substrate' do
     end
   end
 
-  Point = Struct.new(:row)
   TestNode = Struct.new(:type, :start_point, :end_point, :start_byte, :end_byte)
 
   class SubstrateNodeWrapper < Ast::Merge::NodeWrapperBase
@@ -153,7 +152,8 @@ RSpec.describe 'Ast::Merge restored Ruby provider substrate' do
 
   it 'keeps conflict resolver policy and node wrapper extension points available to providers' do
     resolver = SubstrateResolver.new(template_analysis: :template, dest_analysis: :destination, preference: :template)
-    node = TestNode.new('pair', Point.new(0), Point.new(0), 0, 5)
+    point = Ast::Merge::SpecSupport::TreeSitterPoint
+    node = TestNode.new('pair', point.new(0), point.new(0), 0, 5)
     wrapper = SubstrateNodeWrapper.new(
       node,
       lines: ['alpha'],
