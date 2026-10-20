@@ -32,7 +32,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-dev (>= 3.1.18 -> >= 3.1.19)
-  - kettle-family (>= 1.3.22 -> >= 1.3.24)
+  - kettle-family (>= 1.3.22 -> >= 1.3.25)
   - nomono (>= 1.1.10 -> >= 1.1.14)
 
 ### Deprecated
