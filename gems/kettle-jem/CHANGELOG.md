@@ -35,6 +35,9 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-family (>= 1.3.22 -> >= 1.3.25)
   - nomono (>= 1.1.10 -> >= 1.1.14)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - ruby/setup-ruby v1.329.0 (651ff0d62c5c79bed6d53ec518387aae20e72c1a) -> v1.331.0 (824c0e29fdfc7d689c191c27acc969d2d04b7dd8)
+
 ### Deprecated
 
 ### Removed
