@@ -152,8 +152,7 @@ RSpec.describe 'Ast::Merge restored Ruby provider substrate' do
 
   it 'keeps conflict resolver policy and node wrapper extension points available to providers' do
     resolver = SubstrateResolver.new(template_analysis: :template, dest_analysis: :destination, preference: :template)
-    point = Ast::Merge::SpecSupport::TreeSitterPoint
-    node = TestNode.new('pair', point.new(0), point.new(0), 0, 5)
+    node = TestNode.new('pair', TreeHaver::RSpec::Point.new(0, 0), TreeHaver::RSpec::Point.new(0, 0), 0, 5)
     wrapper = SubstrateNodeWrapper.new(
       node,
       lines: ['alpha'],
