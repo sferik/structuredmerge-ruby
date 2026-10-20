@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Match direct-versus-modular dependency decisions across a modular Gemfile and its _local.gemfile counterpart.
+
 ### Security
 
 ## [7.1.34] - 2026-10-20

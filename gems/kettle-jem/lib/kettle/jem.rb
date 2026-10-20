@@ -9875,15 +9875,26 @@ module Kettle
       entries.any? do |entry|
         entry["gem"] == conflict.fetch(:name) &&
           entry["direct"] == conflict.fetch(:direct) &&
-          entry["modular"] == conflict.fetch(:modular)
+          modular_dependency_paths_match?(entry["modular"], conflict.fetch(:modular))
       end
+    end
+
+    # Local modular Gemfiles are environment-selected counterparts of the
+    # released modular Gemfile. Treat their paths as one logical decision key;
+    # otherwise a decision for style.gemfile will not cover style_local.gemfile.
+    def modular_dependency_paths_match?(left, right)
+      normalize_modular_dependency_path(left) == normalize_modular_dependency_path(right)
+    end
+
+    def normalize_modular_dependency_path(path)
+      path.to_s.sub(/_local\.gemfile\z/, ".gemfile")
     end
 
     def modular_dependency_conflict_decided?(decisions, conflict)
       decisions.any? do |decision|
         decision.fetch("gem") == conflict.fetch(:name) &&
           decision.fetch("direct") == conflict.fetch(:direct) &&
-          decision.fetch("modular") == conflict.fetch(:modular) &&
+          modular_dependency_paths_match?(decision.fetch("modular"), conflict.fetch(:modular)) &&
           case decision.fetch("action")
           when "remove_modular_gem", "remove_x_std_lib_eval", "remove_direct_gem"
             true

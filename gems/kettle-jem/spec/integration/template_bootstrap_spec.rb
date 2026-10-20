@@ -68,6 +68,33 @@ RSpec.describe Kettle::Jem, "template selection and bootstrap behavior" do
     end
   end
 
+  it "matches direct-versus-modular decisions to local modular Gemfile counterparts" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-local-modular-dependency-decision", tmp_root) do |root|
+      write_tree(root, {
+        ".structuredmerge/kettle-jem.yml" => <<~YAML
+          dependency_conflicts:
+            reviewed: true
+            resolve:
+              - gem: rubocop-packaging
+                direct: rubocop-lts.gemspec
+                modular: gemfiles/modular/style.gemfile
+                action: keep_both
+                reason: "The gemspec and style Gemfile both intentionally load the plugin."
+        YAML
+      })
+      reports = [
+        {relative_path: "rubocop-lts.gemspec", final_content: %(spec.add_development_dependency("rubocop-packaging", "~> 0.6", ">= 0.6.0")\n)},
+        {relative_path: "gemfiles/modular/style_local.gemfile", final_content: %(gem "rubocop-packaging"\n)}
+      ]
+
+      expect {
+        described_class.validate_modular_dependency_conflicts!(root, reports)
+      }.not_to raise_error
+    end
+  end
+
   it "warns when a removal entry cites a gemspec that no longer declares the gem" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
