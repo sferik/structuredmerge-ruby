@@ -108,7 +108,6 @@ module Ast
           def layout_attachment_for(document, owner, **options)
             document.ast.layout_attachment_for(owner.wrapper, **options)
           end
-
         end
 
         module Selectors

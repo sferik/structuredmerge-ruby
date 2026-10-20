@@ -69,7 +69,8 @@ RSpec.describe Ast::Crispr::Yaml::Psych do
         path: %w[jobs test strategy matrix include],
         index: 1
       )
-      result = Ast::Crispr::Delete.result(content: source, target: selector, source_label: ".github/workflows/current.yml")
+      result = Ast::Crispr::Delete.result(content: source, target: selector,
+                                          source_label: ".github/workflows/current.yml")
 
       expect(result).to be_success
       expect(result.updated_content).to include("ubuntu-latest")

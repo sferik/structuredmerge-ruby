@@ -1,7 +1,7 @@
 # kettle-jem:freeze
-# To retain chunks of comments & code during ast-merge templating:
+# To retain chunks of comments & code during ast-crispr-yaml-psych templating:
 # Wrap custom sections with freeze markers (e.g., as above and below this comment chunk).
-# ast-merge will then preserve content between those markers across template runs.
+# ast-crispr-yaml-psych will then preserve content between those markers across template runs.
 # kettle-jem:unfreeze
 
 # Minimum coverage thresholds are set by kettle-soup-cover.
@@ -11,9 +11,9 @@
 #   and in 2 places in .github/workflows/coverage.yml.
 SimpleCov.configure do
   if SimpleCov::Configuration.instance_methods.include?(:cover)
-    cover 'lib/**/*.rb', 'lib/**/*.rake', 'exe/*.rb'
+    cover "lib/**/*.rb", "lib/**/*.rake", "exe/*.rb"
   else
-    track_files '{lib/**/*.rb,lib/**/*.rake,exe/*.rb}'
+    track_files "{lib/**/*.rb,lib/**/*.rake,exe/*.rb}"
   end
-  cover 'lib/**/*.rb', 'lib/**/*.rake', 'exe/*.rb'
+  cover "lib/**/*.rb", "lib/**/*.rake", "exe/*.rb"
 end
