@@ -34,6 +34,15 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - kettle-jem-deps-floor: removed the rubocop-minitest FLOOR_HOLDS entry. standard 1.57 requires rubocop ~> 1.91, so rubocop-minitest 0.41.0 (rubocop >= 1.89) is resolvable again and the floor is no longer held.
 
+- [kc] kettle-jem/prepare: updated 7 project files:
+  - dependencies (7)
+
+- [kc] kettle-jem/template: updated 5 project files:
+  - code and tests (1)
+  - dependencies (2)
+  - other (1)
+  - workflows (1)
+
 ### Deprecated
 
 ### Removed

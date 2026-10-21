@@ -3,8 +3,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        76,
-        413
+        132,
+        469
       ]
     }
   ],
@@ -12,9 +12,9 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        79,
-        634,
-        783
+        135,
+        690,
+        839
       ]
     }
   ],
@@ -22,8 +22,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        652,
-        720
+        708,
+        776
       ]
     }
   ],
@@ -31,8 +31,17 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        28,
-        873
+        80,
+        929
+      ]
+    }
+  ],
+  "- [kc] kettle-jem/template: updated 5 project files:\n- code and tests (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        40,
+        472
       ]
     }
   ],
@@ -40,9 +49,18 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        635,
-        784,
-        874
+        691,
+        840,
+        930
+      ]
+    }
+  ],
+  "- code and tests (1)\n- dependencies (2)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        41,
+        81
       ]
     }
   ],
@@ -50,8 +68,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        653,
-        721
+        709,
+        777
       ]
     }
   ],
@@ -59,8 +77,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        654,
-        722
+        710,
+        778
       ]
     }
   ],
@@ -68,8 +86,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        636,
-        785
+        692,
+        841
       ]
     }
   ],
@@ -77,8 +95,17 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        655,
-        723
+        711,
+        779
+      ]
+    }
+  ],
+  "- dependencies (2)\n- other (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        42,
+        82
       ]
     }
   ],
@@ -86,9 +113,9 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        81,
-        170,
-        876
+        137,
+        226,
+        932
       ]
     }
   ],
@@ -96,8 +123,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        656,
-        724
+        712,
+        780
       ]
     }
   ],
@@ -105,8 +132,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        657,
-        725
+        713,
+        781
       ]
     }
   ],
