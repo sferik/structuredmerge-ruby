@@ -15687,13 +15687,21 @@ module Kettle
 
     # Reuse the dependency objects in project facts. Never infer a requirement
     # from a sibling's current version or scrape a rendered modular Gemfile.
+    # Exact pins (= x.y.z) are intentionally dropped: the destination's own
+    # gemspec declares them dynamically (e.g. "= #{spec.version}"), so the
+    # `gemspec` directive in the main Gemfile enforces them on every Bundler
+    # run. A materialized literal copy goes stale on the next family version
+    # bump and breaks bundle resolution (prepare_lockfiles) before templating
+    # can refresh it. Flexible constraints (floors) are kept: they survive
+    # bumps and feed local_gem_satisfies?-style gates.
     def gemspec_local_gem_requirements(gemspec_metadata)
       %i[runtime_dependencies development_dependencies].each_with_object({}) do |kind, requirements|
         Array(gemspec_metadata[kind] || gemspec_metadata[kind.to_s]).each do |dependency|
           next unless dependency.respond_to?(:name) && dependency.respond_to?(:requirements_list)
 
           name = dependency.name.to_s
-          requirements[name] = (Array(requirements[name]) + dependency.requirements_list).uniq
+          flexible = (Array(requirements[name]) + dependency.requirements_list).uniq.reject { |req| req.to_s.start_with?("=") }
+          requirements[name] = flexible unless flexible.empty?
         end
       end.sort.to_h
     end

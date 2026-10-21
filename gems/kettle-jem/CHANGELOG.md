@@ -30,6 +30,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - VersionGem bootstrap: emit a compact `%w[version.rb version_gem.rb]` paths loader in the managed version coverage example so generated specs satisfy the default `RSpec/ExampleLength` (Max: 5), and rewrite both previously emitted multi-line array forms (with or without trailing comma) to the compact form on templating.
 
+- Stop materializing exact sibling version pins (= x.y.z) into generated Gemfile and modular *_local.gemfile nomono requirement hashes. The destination's own gemspec already enforces those constraints dynamically via the gemspec directive, so the literal copies only went stale on family version bumps and broke bundle resolution (prepare_lockfiles) before templating could refresh them. Flexible constraints (floors) are still materialized.
+
 ### Security
 
 ## [7.1.36] - 2026-10-20

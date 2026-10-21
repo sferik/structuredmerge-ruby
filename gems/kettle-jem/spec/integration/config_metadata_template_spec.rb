@@ -2873,9 +2873,15 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
       expect(direct_block).to include("shared-leaf")
       expect(direct_block).not_to include("version_gem")
       expect(direct_block).not_to include("unrelated")
-      expect(direct_block).to include('requirements: {"shared-core" => ["= 0.1.0"]}')
+      # Exact sibling pins (= x.y.z) are intentionally NOT materialized: the
+      # gemspec directive enforces them dynamically on every Bundler run, and a
+      # literal copy goes stale on the next family version bump, breaking
+      # bundle resolution before templating can refresh it.
+      expect(direct_block).to include("requirements: {}")
+      expect(direct_block).not_to include('"= 0.1.0"')
+      expect(report.dig(:facts, :project_runtime, :local_gem_requirements)).not_to have_key("shared-core")
       expect(report.dig(:facts, :project_runtime, :local_gem_requirements)).to include(
-        "shared-core" => ["= 0.1.0"]
+        "version_gem" => [">= 1"]
       )
       expect(direct_block).to include(
         'direct_sibling_templating = ENV.fetch("K_JEM_TEMPLATING", "false").casecmp("true").zero?'

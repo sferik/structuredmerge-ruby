@@ -1784,6 +1784,7 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
             spec.version = "1.0.0"
             spec.summary = "Example"
             spec.add_dependency "kettle-dev", "~> 3.1", ">= 3.1.17"
+            spec.add_dependency "lockstep-sibling", "= 1.0.0"
             spec.add_development_dependency "kettle-test", "~> 1.0"
           end
         RUBY
@@ -1809,6 +1810,9 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
       expect(content).to include('"kettle-dev" => ["~> 3.1", ">= 3.1.17"]')
       expect(content).to include('"kettle-test" => ["~> 1.0"]')
       expect(content).not_to include("= 0.0.1")
+      # Exact pins are not materialized: the gemspec directive enforces them
+      # dynamically, and a literal copy would go stale on the next version bump.
+      expect(content).not_to include("lockstep-sibling")
       expect(content.scan("requirements: local_gem_requirements").length).to eq(2)
     end
   end
