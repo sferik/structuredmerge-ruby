@@ -720,8 +720,8 @@ RSpec.describe Kettle::Jem do
       version_spec = File.read(File.join(root, "spec/kettle/family/version_spec.rb"))
       expect(version_spec).to include('require "anonymous_loader"')
       expect(version_spec).to include('require "kettle-family"')
-      expect(version_spec).to include('File.expand_path("../../../lib/kettle/family/version.rb", __dir__)')
-      expect(version_spec).to include('File.expand_path("../../../lib/kettle/family/version_gem.rb", __dir__)')
+      expect(version_spec).to include('dir = File.expand_path("../../../lib/kettle/family", __dir__)')
+      expect(version_spec).to include("paths = %w[version.rb version_gem.rb].map { |file| File.join(dir, file) }")
       expect(version_spec).to include("anonymous_namespace = AnonymousLoader.load(files: paths)")
       expect(version_spec).to include(
         "expect(anonymous_namespace::Kettle::Family::Version::VERSION).to eq(described_class::VERSION)"
@@ -839,8 +839,8 @@ RSpec.describe Kettle::Jem do
         )
       )
       version_spec = File.read(File.join(root, "spec/stone_checksums/version_spec.rb"))
-      expect(version_spec).to include('File.expand_path("../../lib/stone_checksums/version.rb", __dir__)')
-      expect(version_spec).to include('File.expand_path("../../lib/stone_checksums/version_gem.rb", __dir__)')
+      expect(version_spec).to include('dir = File.expand_path("../../lib/stone_checksums", __dir__)')
+      expect(version_spec).to include("paths = %w[version.rb version_gem.rb].map { |file| File.join(dir, file) }")
       expect(version_spec).to include("anonymous_namespace = AnonymousLoader.load(files: paths)")
       expect(version_spec).not_to include("AnonymousLoader.load(files: path)")
     end
@@ -903,8 +903,8 @@ RSpec.describe Kettle::Jem do
       expect(version_spec).to include('require "anonymous_loader"')
       expect(version_spec).to include('require "stone_checksums/version_gem"')
       expect(version_spec).to include("RSpec.describe StoneChecksums::Version do")
-      expect(version_spec).to include('File.expand_path("../../lib/stone_checksums/version.rb", __dir__)')
-      expect(version_spec).to include('File.expand_path("../../lib/stone_checksums/version_gem.rb", __dir__)')
+      expect(version_spec).to include('dir = File.expand_path("../../lib/stone_checksums", __dir__)')
+      expect(version_spec).to include("paths = %w[version.rb version_gem.rb].map { |file| File.join(dir, file) }")
       expect(version_spec).to include("anonymous_namespace = AnonymousLoader.load(files: paths)")
       expect(version_spec).to include(
         "expect(anonymous_namespace::StoneChecksums::Version::VERSION).to eq(described_class::VERSION)"
@@ -1173,8 +1173,8 @@ RSpec.describe Kettle::Jem do
       expect(version_spec).to include('require "anonymous_loader"')
       expect(version_spec).to include('require "nomono/version_gem"')
       expect(version_spec).to include("RSpec.describe Nomono::Version do")
-      expect(version_spec).to include('File.expand_path("../../lib/nomono/version.rb", __dir__)')
-      expect(version_spec).to include('File.expand_path("../../lib/nomono/version_gem.rb", __dir__)')
+      expect(version_spec).to include('dir = File.expand_path("../../lib/nomono", __dir__)')
+      expect(version_spec).to include("paths = %w[version.rb version_gem.rb].map { |file| File.join(dir, file) }")
       expect(version_spec).to include("anonymous_namespace = AnonymousLoader.load(files: paths)")
       expect(version_spec).to include(
         "expect(anonymous_namespace::Nomono::Version::VERSION).to eq(described_class::VERSION)"

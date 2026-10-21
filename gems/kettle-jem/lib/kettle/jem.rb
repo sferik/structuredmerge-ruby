@@ -16406,11 +16406,13 @@ module Kettle
       version_path = version_spec_relative_version_path(version_spec_path, entrypoint_require)
       version_gem_path = version_spec_relative_version_gem_path(version_spec_path, entrypoint_require)
       path_loader = if include_version_gem_path
+        # Compact form: the whole example must stay within the default
+        # RSpec/ExampleLength Max of 5 counted lines, because destination
+        # dogfood configs (e.g. rubocop-lts-rspec) lint specs with shipped
+        # configs that do not disable that cop.
         <<~RUBY.chomp
-          paths = [
-            File.expand_path("#{version_path}", __dir__),
-            File.expand_path("#{version_gem_path}", __dir__)
-          ].select { |path| File.file?(path) }
+          dir = File.expand_path("#{File.dirname(version_path)}", __dir__)
+          paths = %w[version.rb version_gem.rb].map { |file| File.join(dir, file) }.select { |path| File.file?(path) }
           anonymous_namespace = AnonymousLoader.load(files: paths)
         RUBY
       else
@@ -16419,15 +16421,36 @@ module Kettle
           anonymous_namespace = AnonymousLoader.load(files: path)
         RUBY
       end
-      legacy_path_loader = <<~RUBY.chomp
-        path = File.expand_path("#{version_path}", __dir__)
-        anonymous_namespace = AnonymousLoader.load(files: path)
-      RUBY
-      indented_path_loader = path_loader.lines.map { |line| "    #{line}" }.join
-      indented_legacy_path_loader = legacy_path_loader.lines.map { |line| "    #{line}" }.join
-      return content.sub(indented_legacy_path_loader, indented_path_loader) if content.include?(indented_legacy_path_loader)
+      # Older emitted forms, rewritten on templating. The multi-line array was
+      # emitted both without and with a trailing comma (some destinations
+      # autocorrected to consistent_comma style); most specific first.
+      legacy_path_loaders = [
+        <<~RUBY.chomp,
+          paths = [
+            File.expand_path("#{version_path}", __dir__),
+            File.expand_path("#{version_gem_path}", __dir__),
+          ].select { |path| File.file?(path) }
+          anonymous_namespace = AnonymousLoader.load(files: paths)
+        RUBY
+        <<~RUBY.chomp,
+          paths = [
+            File.expand_path("#{version_path}", __dir__),
+            File.expand_path("#{version_gem_path}", __dir__)
+          ].select { |path| File.file?(path) }
+          anonymous_namespace = AnonymousLoader.load(files: paths)
+        RUBY
+        <<~RUBY.chomp
+          path = File.expand_path("#{version_path}", __dir__)
+          anonymous_namespace = AnonymousLoader.load(files: path)
+        RUBY
+      ]
+      indented_path_loader = indent_spec_lines(path_loader)
+      legacy_path_loaders.each do |legacy_path_loader|
+        indented_legacy_path_loader = indent_spec_lines(legacy_path_loader)
+        return content.sub(indented_legacy_path_loader, indented_path_loader) if content.include?(indented_legacy_path_loader)
 
-      return content.sub(legacy_path_loader, path_loader) if content.include?(legacy_path_loader)
+        return content.sub(legacy_path_loader, path_loader) if content.include?(legacy_path_loader)
+      end
 
       return content if version_spec_anonymous_loader_call?(content)
 
@@ -16465,6 +16488,10 @@ module Kettle
     def version_spec_relative_version_gem_path(version_spec_path, entrypoint_require)
       spec_depth = File.dirname(version_spec_path.to_s).split(File::SEPARATOR).count { |part| !part.empty? }
       "#{"../" * spec_depth}lib/#{entrypoint_require}/version_gem.rb"
+    end
+
+    def indent_spec_lines(text)
+      text.lines.map { |line| "    #{line}" }.join
     end
 
     def legacy_rbs_signature_paths(project_root, entrypoint_require)

@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- VersionGem bootstrap: emit a compact `%w[version.rb version_gem.rb]` paths loader in the managed version coverage example so generated specs satisfy the default `RSpec/ExampleLength` (Max: 5), and rewrite both previously emitted multi-line array forms (with or without trailing comma) to the compact form on templating.
+
 ### Security
 
 ## [7.1.36] - 2026-10-20
