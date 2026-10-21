@@ -28,8 +28,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- Bound JRuby dep-heads bundle and Cargo build concurrency and cap the worker JVM heap.
-
 ### Security
 
 ## [7.1.15] - 2026-10-21

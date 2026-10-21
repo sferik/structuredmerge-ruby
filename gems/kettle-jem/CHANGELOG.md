@@ -48,6 +48,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Include ast-crispr-toml in generated local StructuredMerge Gemfiles so Kettle-family and sibling TOML versions resolve from the same checkout.
 
+- Bound JRuby dep-heads bundle and native-extension build concurrency to prevent memory exhaustion on constrained runners
+
 ### Security
 
 ## [7.1.36] - 2026-10-20
