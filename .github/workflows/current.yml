@@ -30,7 +30,7 @@ jobs:
       release_mode: ${{ steps.changed-gems.outputs.release_mode }}
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - name: Validate typed core workflow contract
@@ -130,7 +130,7 @@ jobs:
       STRUCTUREDMERGE_CI_DEP_HEADS: "false"
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Clone sibling fixtures repo
         shell: bash
         run: |
@@ -144,7 +144,7 @@ jobs:
           test "$(git -C ../fixtures rev-parse HEAD)" = "${fixtures_revision}"
           git -C ../fixtures merge-base --is-ancestor "${fixtures_revision}" "refs/remotes/origin/${fixtures_branch}"
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
           bundler-cache: false
@@ -198,12 +198,12 @@ jobs:
       CARGO_TARGET_DIR: ${{ github.workspace }}/kernel/tmp/typed-core-target
     steps:
       - name: Checkout Ruby provider candidate
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: native-ruby
           persist-credentials: false
       - name: Checkout kernel HEAD
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: structuredmerge/structuredmerge
           ref: main
@@ -213,11 +213,11 @@ jobs:
         working-directory: kernel
         run: git rev-parse HEAD
       - name: Setup Rust
-        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8
         with:
           toolchain: stable
       - name: Setup Ruby
-        uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
+        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
         with:
           ruby-version: "4.0"
           bundler-cache: false
@@ -295,7 +295,7 @@ jobs:
             --provider-support-dir tmp/psych-provider-support 2>&1 | tee tmp/psych-native-provider.log
       - name: Upload native-provider evidence
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: psych-native-provider-head
           path: |
@@ -306,7 +306,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
       - name: Upload typed core export
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: structuredmerge-core-head
           path: kernel/tmp/core-export/*
@@ -337,7 +337,7 @@ jobs:
       STRUCTUREDMERGE_CI_DEP_HEADS: "true"
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Clone sibling fixtures repo
         shell: bash
         run: |
@@ -351,7 +351,7 @@ jobs:
           test "$(git -C ../fixtures rev-parse HEAD)" = "${fixtures_revision}"
           git -C ../fixtures merge-base --is-ancestor "${fixtures_revision}" "refs/remotes/origin/${fixtures_branch}"
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
           bundler-cache: false
@@ -406,7 +406,7 @@ jobs:
       STRUCTUREDMERGE_CI_DEP_HEADS: "false"
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Clone sibling fixtures repo
         shell: bash
         run: |
@@ -420,7 +420,7 @@ jobs:
           test "$(git -C ../fixtures rev-parse HEAD)" = "${fixtures_revision}"
           git -C ../fixtures merge-base --is-ancestor "${fixtures_revision}" "refs/remotes/origin/${fixtures_branch}"
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
           bundler-cache: false
@@ -486,7 +486,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Clone sibling fixtures repo
         shell: bash
         run: |
@@ -500,7 +500,7 @@ jobs:
           test "$(git -C ../fixtures rev-parse HEAD)" = "${fixtures_revision}"
           git -C ../fixtures merge-base --is-ancestor "${fixtures_revision}" "refs/remotes/origin/${fixtures_branch}"
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: ruby
           bundler-cache: false
@@ -537,7 +537,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - name: Clone benchmark corpus
@@ -554,7 +554,7 @@ jobs:
           test "$(git -C ../benchmark-fixtures rev-parse HEAD)" = "${revision}"
           test "$(git -C ../benchmark-fixtures rev-parse "refs/tags/${tag}^{commit}")" = "${revision}"
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: ruby
           bundler-cache: false
@@ -639,7 +639,7 @@ jobs:
           exit "${benchmark_status}"
       - name: Upload benchmark report
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: structuredmerge-dev-benchmark-${{ github.sha }}
           path: gems/ast-merge-git/tmp/ci-benchmark/report.json
@@ -653,9 +653,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Ruby
-        uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
+        uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
         with:
           ruby-version: ruby
           bundler-cache: false
@@ -690,9 +690,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Ruby
-        uses: appraisal-rb/setup-ruby-flash@925395edf973d2dc0a629919f407f3547a03d4b5 # v2.1
+        uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: ruby
           bundler-cache: false
