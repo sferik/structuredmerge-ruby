@@ -17,6 +17,7 @@ template_state:
     - kettle-jem.gemspec
     kettle-jem/template:
     - ".github/workflows/auto-assign.yml"
+    - ".github/workflows/ci.yml"
     - ".simplecov"
     - Rakefile
     - gemfiles/modular/coverage_local.gemfile

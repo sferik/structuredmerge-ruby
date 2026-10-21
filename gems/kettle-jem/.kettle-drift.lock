@@ -3,8 +3,8 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        132,
-        469
+        133,
+        470
       ]
     }
   ],
@@ -12,59 +12,13 @@
     {
       "file": "CHANGELOG.md",
       "lines": [
-        135,
-        690,
-        839
+        136,
+        691,
+        840
       ]
     }
   ],
   "- [kc] kettle-jem/template: updated 398 project files:\n- code and tests (20)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        708,
-        776
-      ]
-    }
-  ],
-  "- [kc] kettle-jem/template: updated 4 project files:\n- code and tests (1)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        80,
-        929
-      ]
-    }
-  ],
-  "- [kc] kettle-jem/template: updated 5 project files:\n- code and tests (1)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        40,
-        472
-      ]
-    }
-  ],
-  "- code and tests (1)\n- dependencies (1)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        691,
-        840,
-        930
-      ]
-    }
-  ],
-  "- code and tests (1)\n- dependencies (2)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        41,
-        81
-      ]
-    }
-  ],
-  "- code and tests (20)\n- configuration (12)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -73,34 +27,26 @@
       ]
     }
   ],
-  "- configuration (12)\n- dependencies (147)": [
+  "- [kc] kettle-jem/template: updated 4 project files:\n- code and tests (1)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
-        710,
-        778
+        81,
+        930
       ]
     }
   ],
-  "- dependencies (1)\n- other (1)": [
+  "- code and tests (1)\n- dependencies (1)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
         692,
-        841
+        841,
+        931
       ]
     }
   ],
-  "- dependencies (147)\n- documentation (9)": [
-    {
-      "file": "CHANGELOG.md",
-      "lines": [
-        711,
-        779
-      ]
-    }
-  ],
-  "- dependencies (2)\n- other (1)": [
+  "- code and tests (1)\n- dependencies (2)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -109,17 +55,34 @@
       ]
     }
   ],
-  "- documentation (1)\n- other (1)": [
+  "- code and tests (20)\n- configuration (12)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
-        137,
-        226,
-        932
+        710,
+        778
       ]
     }
   ],
-  "- documentation (9)\n- other (123)": [
+  "- configuration (12)\n- dependencies (147)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        711,
+        779
+      ]
+    }
+  ],
+  "- dependencies (1)\n- other (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        693,
+        842
+      ]
+    }
+  ],
+  "- dependencies (147)\n- documentation (9)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
@@ -128,12 +91,40 @@
       ]
     }
   ],
-  "- other (123)\n- workflows (87)": [
+  "- dependencies (2)\n- other (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        43,
+        83
+      ]
+    }
+  ],
+  "- documentation (1)\n- other (1)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        138,
+        227,
+        933
+      ]
+    }
+  ],
+  "- documentation (9)\n- other (123)": [
     {
       "file": "CHANGELOG.md",
       "lines": [
         713,
         781
+      ]
+    }
+  ],
+  "- other (123)\n- workflows (87)": [
+    {
+      "file": "CHANGELOG.md",
+      "lines": [
+        714,
+        782
       ]
     }
   ],
