@@ -24,6 +24,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-dev (>= 3.1.20 -> >= 3.1.21)
+  - rubocop-minitest (>= 0.40.0 -> >= 0.41.0)
 
 - [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
   - github/codeql-action/analyze v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
