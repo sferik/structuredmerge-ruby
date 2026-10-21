@@ -680,6 +680,65 @@ RSpec.describe Kettle::Jem, "appraisal helpers and template tokens" do
     end
   end
 
+  it "regenerates .licenserc.yaml wholesale, dropping stale version-pinned overrides" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-license-eye-resync", tmp_root) do |root|
+      write_tree(root, {
+        "example.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example"
+            spec.summary = "Example gem"
+            spec.authors = ["Jane Q Public"]
+            spec.email = ["jane@example.test"]
+            spec.licenses = ["MIT"]
+          end
+        RUBY
+        ".licenserc.yaml" => <<~YAML,
+          header:
+            license:
+              spdx-id: "MIT"
+
+          dependency:
+            files:
+              - Gemfile.lock
+            licenses:
+              - name: "simplecov-rcov"
+                version: "0.3.7"
+                license: "MIT"
+              - name: "standard"
+                version: "1.56.0"
+                license: "MIT"
+        YAML
+        ".kettle-jem.yml" => <<~YAML
+          licenses:
+            - MIT
+          license_eye:
+            dependency_licenses:
+              - name: simplecov-rcov
+                version: 0.3.7
+                license: MIT
+              - name: standard
+                license: MIT
+          templates:
+            root: packaged
+            apply: true
+            entries:
+              - .licenserc.yaml
+        YAML
+      })
+
+      plan = described_class.plan_project(root, env: {})
+      licenserc_report = plan[:recipe_reports].find do |report|
+        report.fetch(:relative_path) == ".licenserc.yaml"
+      end
+
+      final_content = licenserc_report.fetch(:final_content)
+      expect(final_content).to include('- name: "standard"')
+      expect(final_content).not_to include('"1.56.0"')
+    end
+  end
+
   it "formats README metadata SPDX license identifiers as code spans" do
     block = described_class.readme_metadata_block(
       package: {

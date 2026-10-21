@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- kettle-jem: force `accept_template` strategy for `.licenserc.yaml` — it is fully generated from `license_eye` config tokens, and merge semantics kept stale version-pinned dependency overrides forever, breaking destination license-eye workflows after gem bumps
+
 ### Security
 
 ## [7.1.38] - 2026-10-21

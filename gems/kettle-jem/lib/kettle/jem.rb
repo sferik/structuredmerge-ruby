@@ -18956,6 +18956,12 @@ module Kettle
           set_template_file_strategy!(result, target, "accept_template")
         end
       end
+      # .licenserc.yaml is fully generated from the license_eye config tokens;
+      # nothing in it is destination-owned. Merge semantics would preserve
+      # stale entries forever (e.g. a version-pinned dependency override that
+      # silently stops matching after the gem bumps), so force wholesale
+      # regeneration — the same policy as the fully-generated sig/**/*.rbs files.
+      set_template_file_strategy!(result, ".licenserc.yaml", "accept_template")
       result
     end
 
