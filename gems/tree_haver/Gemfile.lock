@@ -585,8 +585,8 @@ GEM
       ruby_version (~> 1.0)
     rspec-stubbed_env (1.0.17)
     rspec-support (3.13.7)
-    rspec_junit_formatter (0.6.2)
-      rspec-core (>= 2, < 4, != 2.12.0)
+    rspec_junit_formatter (0.7.0)
+      rspec-core (>= 3.13, < 4)
     rubocop (1.91.0)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -992,7 +992,7 @@ CHECKSUMS
   rspec-pending_for (0.1.28) sha256=c499acef2b528398ee7441d48930d536e6bf4301d7f8e2b9ac78e204fea9eef3
   rspec-stubbed_env (1.0.17) sha256=6e31613aa6b742b08de461b9f08147c0ffa6ad9c013181e31e784df731d0dc52
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
-  rspec_junit_formatter (0.6.2)
+  rspec_junit_formatter (0.7.0)
   rubocop (1.91.0) sha256=9c82b7bf391c5d7e3798c5b9996e22a1fe3bd7468e351dfdeb96140c058296d0
   rubocop-ast (1.50.0) sha256=b9ca88300da0803ee222ad20cdb30494c0a784eed06fdc35d254b06d662788db
   rubocop-capybara (2.23.0) sha256=f9ea1ba3a7561ee8e88cf76fc378ce517ce5327155f305ee7b5c2500e5aee357
