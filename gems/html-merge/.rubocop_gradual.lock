@@ -2,7 +2,7 @@
   ".simplecov:1139357164": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
   ],
-  "Rakefile:1208061426": [
+  "Rakefile:2928614138": [
     [18, 121, 17, "Layout/LineLength: Line is too long. [137/120]", 174264873],
     [87, 3, 1023, "Metrics/BlockLength: Block has too many lines. [32/25]", 3698014046],
     [171, 121, 22, "Layout/LineLength: Line is too long. [142/120]", 1367093088],
@@ -22,11 +22,11 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
   ],
-  "gemfiles/modular/changelog.gemfile:2108258342": [
+  "gemfiles/modular/changelog.gemfile:4068778976": [
     [38, 7, 580, "Metrics/BlockNesting: Avoid more than 3 levels of block nesting.", 138732187]
   ],
-  "gemfiles/modular/coverage_local.gemfile:889897282": [
-    [43, 121, 386, "Layout/LineLength: Line is too long. [506/120]", 3640528860]
+  "gemfiles/modular/coverage_local.gemfile:917879026": [
+    [43, 121, 297, "Layout/LineLength: Line is too long. [417/120]", 2493246224]
   ],
   "gemfiles/modular/erb/r2/v3.0.gemfile:2530925405": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
@@ -73,15 +73,15 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177542]
   ],
-  "gemfiles/modular/style_local.gemfile:3073704803": [
+  "gemfiles/modular/style_local.gemfile:1670274213": [
     [57, 1, 882, "Metrics/AbcSize: Assignment Branch Condition size for `local_gem_satisfies?` is too high. [<6, 17, 12> 21.66/17]", 2533005820],
     [57, 1, 882, "Metrics/CyclomaticComplexity: Cyclomatic complexity for `local_gem_satisfies?` is too high. [12/7]", 2533005820],
     [57, 1, 882, "Metrics/MethodLength: Method has too many lines. [14/10]", 2533005820],
     [57, 1, 882, "Metrics/PerceivedComplexity: Perceived complexity for `local_gem_satisfies?` is too high. [12/8]", 2533005820],
     [71, 23, 20, "Style/SafeNavigation: Use safe navigation (`&.`) instead of checking if an object exists before calling the method.", 1851388465]
   ],
-  "gemfiles/modular/templating_local.gemfile:3557629892": [
-    [44, 121, 386, "Layout/LineLength: Line is too long. [506/120]", 3640528860]
+  "gemfiles/modular/templating_local.gemfile:3751673620": [
+    [44, 121, 297, "Layout/LineLength: Line is too long. [417/120]", 2493246224]
   ],
   "gemfiles/modular/webrick/r4/v1.9.gemfile:295256425": [
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177602]
@@ -106,7 +106,7 @@
     [1, 1, 0, "Naming/FileName: The name of this source file (`vHEAD.gemfile`) should use snake_case.", 5381],
     [1, 1, 1, "Style/FrozenStringLiteralComment: Missing frozen string literal comment.", 177600]
   ],
-  "html-merge.gemspec:3183195895": [
+  "html-merge.gemspec:3631085366": [
     [131, 121, 34, "Layout/LineLength: Line is too long. [154/120]", 4147388508],
     [142, 121, 50, "Layout/LineLength: Line is too long. [170/120]", 3888612416],
     [143, 121, 29, "Layout/LineLength: Line is too long. [149/120]", 981994949]
