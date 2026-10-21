@@ -952,6 +952,26 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
     expect(packaged_workflow).to include("          bundle install --jobs 1")
   end
 
+  it "documents TruffleRuby's two-worker cap as memory protection, not serial execution" do
+    workflow_paths = %w[
+      truffle.yml
+      truffleruby-22.3.yml
+      truffleruby-23.1.yml
+      truffleruby-24.2.yml
+      truffleruby-25.0.yml
+      truffleruby-33.0.yml
+    ]
+
+    workflows = workflow_paths.map do |name|
+      File.read(project_root.join("lib/kettle/jem/templates/.github/workflows/#{name}.example"))
+    end
+
+    expect(workflows).to all(include("TURBO_TESTS2_MAX_PROCESSES: 2"))
+    expect(workflows).to all(include("memory exhaustion, not parallelism"))
+    expect(workflows).to all(include("retain two workers rather than disabling parallel execution"))
+    expect(workflows).not_to include(a_string_including("keep\n  # this lane serial"))
+  end
+
   it "serializes RSpec status cache steps in generated CI workflows" do
     ci = {
       default_branch: "main",

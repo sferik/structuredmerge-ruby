@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Correct TruffleRuby CI template comments: cap workers at two to bound memory use, not to force serial execution.
+
 ### Security
 
 ## [7.1.14] - 2026-10-20
