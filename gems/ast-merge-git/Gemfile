@@ -146,7 +146,7 @@ if direct_sibling_gems.any? &&
 
     eval_nomono_gems(
       gems: direct_sibling_gems,
-      requirements: { 'ast-merge' => ['= 7.1.14'], 'tree_haver' => ['= 7.1.14'] },
+      requirements: {  },
       prefix: 'STRUCTUREDMERGE',
       path_env: 'STRUCTUREDMERGE_DEV',
       root: %w[src my structuredmerge ruby gems]

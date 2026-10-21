@@ -109,8 +109,7 @@ if direct_sibling_gems.any? &&
 
     eval_nomono_gems(
       gems: direct_sibling_gems,
-      requirements: { 'ast-merge' => ['= 7.1.14'], 'ast-merge-git' => ['= 7.1.14'], 'bash-merge' => ['= 7.1.14'],
-                      'dotenv-merge' => ['= 7.1.14'], 'go-merge' => ['= 7.1.14'], 'html-merge' => ['= 7.1.14'], 'json-merge' => ['= 7.1.14'], 'kettle-jem' => ['~> 7.1', '>= 7.1.28'], 'markdown-merge' => ['= 7.1.14'], 'plain-merge' => ['= 7.1.14'], 'prism-merge' => ['= 7.1.14'], 'psych-merge' => ['= 7.1.14'], 'rbs-merge' => ['= 7.1.14'], 'rust-merge' => ['= 7.1.14'], 'toml-merge' => ['= 7.1.14'], 'typescript-merge' => ['= 7.1.14'] },
+      requirements: { 'kettle-jem' => ['~> 7.1', '>= 7.1.28'] },
       prefix: 'STRUCTUREDMERGE',
       path_env: 'STRUCTUREDMERGE_DEV',
       root: %w[src my structuredmerge ruby gems]
