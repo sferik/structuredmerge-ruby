@@ -25,6 +25,12 @@ Please file a bug if you notice a violation of semantic versioning.
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-dev (>= 3.1.20 -> >= 3.1.21)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - github/codeql-action/analyze v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
+  - github/codeql-action/autobuild v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
+  - github/codeql-action/init v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
+  - pozil/auto-assign-issue v4.0.1 (af6beea6bdf1e8eb373f061c5bc168681fc6d011) -> v4.0.2 (bec9ebf443592887b8f9bed643afafdfd3f62f1d)
+
 ### Deprecated
 
 ### Removed
