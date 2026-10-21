@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.37] - 2026-10-21
+
+- TAG: [v7.1.37][7.1.37t]
+- COVERAGE: 93.45% -- 11396/12195 lines in 17 files
+- BRANCH COVERAGE: 77.08% -- 4909/6369 branches in 17 files
+- 19.89% documented
+
+### Changed
+
 - [kc] kettle-jem/prepare: updated 6 project files:
   - dependencies (6)
 
@@ -36,10 +53,6 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-dev (>= 3.1.19 -> >= 3.1.20)
   - kettle-family (>= 1.3.25 -> >= 1.3.28)
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - VersionGem bootstrap: emit a compact `%w[version.rb version_gem.rb]` paths loader in the managed version coverage example so generated specs satisfy the default `RSpec/ExampleLength` (Max: 5), and rewrite both previously emitted multi-line array forms (with or without trailing comma) to the compact form on templating.
@@ -49,8 +62,6 @@ Please file a bug if you notice a violation of semantic versioning.
 - Include ast-crispr-toml in generated local StructuredMerge Gemfiles so Kettle-family and sibling TOML versions resolve from the same checkout.
 
 - Bound JRuby dep-heads bundle and native-extension build concurrency to prevent memory exhaustion on constrained runners
-
-### Security
 
 ## [7.1.36] - 2026-10-20
 
@@ -2392,7 +2403,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.36...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.37...HEAD
+[7.1.37]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.36...v7.1.37
+[7.1.37t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.37
 [7.1.36]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.35...v7.1.36
 [7.1.36t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.36
 [7.1.35]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.34...v7.1.35

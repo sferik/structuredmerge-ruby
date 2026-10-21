@@ -70,7 +70,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 and <a href="https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html">yes</a>, platform and engine support are part of the <a href="https://github.com/semver/semver/issues/716#issuecomment-869336139">public API</a>.<br>
 Please file a bug if you notice a violation of semantic versioning.</p>
 
-<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.36...HEAD">Unreleased</a></h2>
+<h2 id="unreleased"><a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.37...HEAD">Unreleased</a></h2>
 
 <h3 id="added">Added</h3>
 
@@ -84,6 +84,59 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 
 <h3 id="security">Security</h3>
 
+<h2 id="7137---2026-10-21">
+<a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.36...v7.1.37">7.1.37</a> - 2026-10-21</h2>
+
+<ul>
+  <li>TAG: <a href="https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.37">v7.1.37</a>
+</li>
+  <li>COVERAGE: 93.45% – 11396/12195 lines in 17 files</li>
+  <li>BRANCH COVERAGE: 77.08% – 4909/6369 branches in 17 files</li>
+  <li>19.89% documented</li>
+</ul>
+
+<h3 id="changed-1">Changed</h3>
+
+<ul>
+  <li>[kc] kettle-jem/prepare: updated 6 project files:
+    <ul>
+      <li>dependencies (6)</li>
+    </ul>
+  </li>
+  <li>[kc] kettle-jem/template: updated 4 project files:
+    <ul>
+      <li>code and tests (1)</li>
+      <li>dependencies (2)</li>
+      <li>other (1)</li>
+    </ul>
+  </li>
+  <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+    <ul>
+      <li>appraisal2 (&gt;= 3.2.5 -&gt; &gt;= 3.2.6)</li>
+      <li>appraisal2-rubocop (&gt;= 1.0.4 -&gt; &gt;= 1.0.5)</li>
+      <li>kettle-dev (&gt;= 3.1.19 -&gt; &gt;= 3.1.20)</li>
+      <li>kettle-family (&gt;= 1.3.25 -&gt; &gt;= 1.3.28)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="fixed-1">Fixed</h3>
+
+<ul>
+  <li>
+    <p>VersionGem bootstrap: emit a compact <code>%w[version.rb version_gem.rb]</code> paths loader in the managed version coverage example so generated specs satisfy the default <code>RSpec/ExampleLength</code> (Max: 5), and rewrite both previously emitted multi-line array forms (with or without trailing comma) to the compact form on templating.</p>
+  </li>
+  <li>
+    <p>Stop materializing exact sibling version pins (= x.y.z) into generated Gemfile and modular *_local.gemfile nomono requirement hashes. The destination’s own gemspec already enforces those constraints dynamically via the gemspec directive, so the literal copies only went stale on family version bumps and broke bundle resolution (prepare_lockfiles) before templating could refresh them. Flexible constraints (floors) are still materialized.</p>
+  </li>
+  <li>
+    <p>Include ast-crispr-toml in generated local StructuredMerge Gemfiles so Kettle-family and sibling TOML versions resolve from the same checkout.</p>
+  </li>
+  <li>
+    <p>Bound JRuby dep-heads bundle and native-extension build concurrency to prevent memory exhaustion on constrained runners</p>
+  </li>
+</ul>
+
 <h2 id="7136---2026-10-20">
 <a href="https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.35...v7.1.36">7.1.36</a> - 2026-10-20</h2>
 
@@ -95,7 +148,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.90% documented</li>
 </ul>
 
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-2">Fixed</h3>
 
 <ul>
   <li>Recognize linked Git worktrees of the local RuboCop-LTS checkout and skip redundant branch switching during templating.</li>
@@ -112,7 +165,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.87% documented</li>
 </ul>
 
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-3">Fixed</h3>
 
 <ul>
   <li>Match direct-versus-modular dependency decisions across a modular Gemfile and its _local.gemfile counterpart.</li>
@@ -129,7 +182,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.84% documented</li>
 </ul>
 
-<h3 id="changed-1">Changed</h3>
+<h3 id="changed-2">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem/prepare: updated 10 project files:
@@ -153,7 +206,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-4">Fixed</h3>
 
 <ul>
   <li>
@@ -194,7 +247,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   </li>
 </ul>
 
-<h3 id="changed-2">Changed</h3>
+<h3 id="changed-3">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -217,7 +270,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.72% documented</li>
 </ul>
 
-<h3 id="fixed-4">Fixed</h3>
+<h3 id="fixed-5">Fixed</h3>
 
 <ul>
   <li>
@@ -239,7 +292,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.72% documented</li>
 </ul>
 
-<h3 id="changed-3">Changed</h3>
+<h3 id="changed-4">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -273,7 +326,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.72% documented</li>
 </ul>
 
-<h3 id="changed-4">Changed</h3>
+<h3 id="changed-5">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -304,7 +357,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>Dependency floors raised: turbo_tests2 4.0.0 (drops parallel_tests for runtime_groups) in the template gemspec and managed-floors registry</li>
 </ul>
 
-<h3 id="fixed-5">Fixed</h3>
+<h3 id="fixed-6">Fixed</h3>
 
 <ul>
   <li>
@@ -379,7 +432,7 @@ engine support needs.</p>
   </li>
 </ul>
 
-<h3 id="changed-5">Changed</h3>
+<h3 id="changed-6">Changed</h3>
 
 <ul>
   <li>Require kettle-rb <code>&gt;= 0.1.14</code> (security floor data).</li>
@@ -458,7 +511,7 @@ them, but are no longer forced on every bundle. This also stops <code>commonmark
 native extension from being compiled, which fails on ruby-head.</li>
 </ul>
 
-<h3 id="fixed-6">Fixed</h3>
+<h3 id="fixed-7">Fixed</h3>
 
 <ul>
   <li>
@@ -582,7 +635,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="changed-6">Changed</h3>
+<h3 id="changed-7">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -610,7 +663,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="changed-7">Changed</h3>
+<h3 id="changed-8">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -638,7 +691,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Curated Bundler binstub generation now includes <code>rubocop-gradual</code>.</li>
 </ul>
 
-<h3 id="changed-8">Changed</h3>
+<h3 id="changed-9">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -661,7 +714,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-7">Fixed</h3>
+<h3 id="fixed-8">Fixed</h3>
 
 <ul>
   <li>
@@ -692,7 +745,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.14% documented</li>
 </ul>
 
-<h3 id="changed-9">Changed</h3>
+<h3 id="changed-10">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -713,7 +766,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.14% documented</li>
 </ul>
 
-<h3 id="changed-10">Changed</h3>
+<h3 id="changed-11">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -723,7 +776,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-8">Fixed</h3>
+<h3 id="fixed-9">Fixed</h3>
 
 <ul>
   <li>
@@ -748,7 +801,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.13% documented</li>
 </ul>
 
-<h3 id="changed-11">Changed</h3>
+<h3 id="changed-12">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -758,7 +811,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-9">Fixed</h3>
+<h3 id="fixed-10">Fixed</h3>
 
 <ul>
   <li>
@@ -786,7 +839,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="fixed-10">Fixed</h3>
+<h3 id="fixed-11">Fixed</h3>
 
 <ul>
   <li>
@@ -808,7 +861,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-12">Changed</h3>
+<h3 id="changed-13">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -830,7 +883,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-13">Changed</h3>
+<h3 id="changed-14">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -852,7 +905,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-14">Changed</h3>
+<h3 id="changed-15">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -874,7 +927,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-15">Changed</h3>
+<h3 id="changed-16">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -895,7 +948,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-11">Fixed</h3>
+<h3 id="fixed-12">Fixed</h3>
 
 <ul>
   <li>
@@ -917,7 +970,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-16">Changed</h3>
+<h3 id="changed-17">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -934,7 +987,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-12">Fixed</h3>
+<h3 id="fixed-13">Fixed</h3>
 
 <ul>
   <li>Apply StructuredMerge local template dependencies on the active development platform.</li>
@@ -951,7 +1004,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-17">Changed</h3>
+<h3 id="changed-18">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -972,7 +1025,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-13">Fixed</h3>
+<h3 id="fixed-14">Fixed</h3>
 
 <ul>
   <li>
@@ -1003,7 +1056,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-18">Changed</h3>
+<h3 id="changed-19">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -1037,7 +1090,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-19">Changed</h3>
+<h3 id="changed-20">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -1063,7 +1116,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-14">Fixed</h3>
+<h3 id="fixed-15">Fixed</h3>
 
 <ul>
   <li>
@@ -1085,7 +1138,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.96% documented</li>
 </ul>
 
-<h3 id="changed-20">Changed</h3>
+<h3 id="changed-21">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem/template: updated 796 project files:
@@ -1105,7 +1158,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-15">Fixed</h3>
+<h3 id="fixed-16">Fixed</h3>
 
 <ul>
   <li>
@@ -1133,7 +1186,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-21">Changed</h3>
+<h3 id="changed-22">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -1154,7 +1207,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.95% documented</li>
 </ul>
 
-<h3 id="changed-22">Changed</h3>
+<h3 id="changed-23">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem/template: updated 398 project files:
@@ -1177,7 +1230,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Raise first-party dependency minimums to their latest released versions.</li>
 </ul>
 
-<h3 id="fixed-16">Fixed</h3>
+<h3 id="fixed-17">Fixed</h3>
 
 <ul>
   <li>
@@ -1199,7 +1252,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.92% documented</li>
 </ul>
 
-<h3 id="changed-23">Changed</h3>
+<h3 id="changed-24">Changed</h3>
 
 <ul>
   <li>
@@ -1255,7 +1308,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-17">Fixed</h3>
+<h3 id="fixed-18">Fixed</h3>
 
 <ul>
   <li>
@@ -1283,7 +1336,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Gemspec author metadata now expands existing authors with Git-derived copyright holders and consolidates configured author aliases, while applying the documented default machine-account filter.</li>
 </ul>
 
-<h3 id="changed-24">Changed</h3>
+<h3 id="changed-25">Changed</h3>
 
 <ul>
   <li>
@@ -1309,7 +1362,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-25">Changed</h3>
+<h3 id="changed-26">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -1331,7 +1384,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-26">Changed</h3>
+<h3 id="changed-27">Changed</h3>
 
 <ul>
   <li>[kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
@@ -1366,7 +1419,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.97% documented</li>
 </ul>
 
-<h3 id="changed-27">Changed</h3>
+<h3 id="changed-28">Changed</h3>
 
 <ul>
   <li>
@@ -1407,7 +1460,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Make the repository-local kettle-jem-deps-floor executable bootstrap the consistent StructuredMerge development bundle before loading parser dependencies.</li>
 </ul>
 
-<h3 id="fixed-18">Fixed</h3>
+<h3 id="fixed-19">Fixed</h3>
 
 <ul>
   <li>
@@ -1432,7 +1485,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.00% documented</li>
 </ul>
 
-<h3 id="changed-28">Changed</h3>
+<h3 id="changed-29">Changed</h3>
 
 <ul>
   <li>
@@ -1459,7 +1512,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>Main templating commands now record an aggregate Changed entry through kettle-changelog only when template files change, while transfer replay uses kettle-changelog’s structural merger.</li>
 </ul>
 
-<h3 id="fixed-19">Fixed</h3>
+<h3 id="fixed-20">Fixed</h3>
 
 <ul>
   <li>Restore source-checkout loading for the repository-local dependency-floor and workflow-pin maintenance tools.</li>
@@ -1476,7 +1529,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.01% documented</li>
 </ul>
 
-<h3 id="changed-29">Changed</h3>
+<h3 id="changed-30">Changed</h3>
 
 <ul>
   <li>
@@ -1487,7 +1540,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-20">Fixed</h3>
+<h3 id="fixed-21">Fixed</h3>
 
 <ul>
   <li>
@@ -1544,7 +1597,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="changed-30">Changed</h3>
+<h3 id="changed-31">Changed</h3>
 
 <ul>
   <li>
@@ -1564,7 +1617,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   </li>
 </ul>
 
-<h3 id="fixed-21">Fixed</h3>
+<h3 id="fixed-22">Fixed</h3>
 
 <ul>
   <li>
@@ -1660,7 +1713,7 @@ RSpec helpers provided by <code>kettle-test</code>.</p>
   <li>Transfer changelog replay now supports destination applicability filters and filter-aware status reporting.</li>
 </ul>
 
-<h3 id="changed-31">Changed</h3>
+<h3 id="changed-32">Changed</h3>
 
 <ul>
   <li>Runtime dependency metadata now requires <code>kettle-ndjson</code> 0.1.3 or newer and<br>
@@ -1876,7 +1929,7 @@ use ClickGems instead of BestGems.</p>
   <li>Record explicit modular dependency removals and compatible keep_both decisions so repeated templating remains deterministic.</li>
 </ul>
 
-<h3 id="fixed-22">Fixed</h3>
+<h3 id="fixed-23">Fixed</h3>
 
 <ul>
   <li>Templating now removes the obsolete <code>tree_sitter_language_pack</code> entry from<br>
