@@ -31,6 +31,7 @@ Please file a bug if you notice a violation of semantic versioning.
   - github/codeql-action/autobuild v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
   - github/codeql-action/init v4.39.0 (6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee) -> v4.39.1 (9b3254085494b55a0f7c4c2b3d2d52cc712ce370)
   - pozil/auto-assign-issue v4.0.1 (af6beea6bdf1e8eb373f061c5bc168681fc6d011) -> v4.0.2 (bec9ebf443592887b8f9bed643afafdfd3f62f1d)
+  - ruby/setup-ruby v1.331.0 (824c0e29fdfc7d689c191c27acc969d2d04b7dd8) -> v1.332.0 (b1da4809b005e0178fe08a1d57317bffc00b7b4c)
 
 - kettle-jem-deps-floor: removed the rubocop-minitest FLOOR_HOLDS entry. standard 1.57 requires rubocop ~> 1.91, so rubocop-minitest 0.41.0 (rubocop >= 1.89) is resolvable again and the floor is no longer held.
 
