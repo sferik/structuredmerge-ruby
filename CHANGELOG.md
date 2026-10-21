@@ -28,7 +28,7 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- Serialize JRuby dep-heads dependency and native-extension installation to prevent memory exhaustion on constrained runners.
+- Bound JRuby dep-heads bundle and Cargo build concurrency and cap the worker JVM heap.
 
 ### Security
 

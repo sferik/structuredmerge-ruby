@@ -37,6 +37,7 @@ structuredmerge_local_gems = %w[
   yaml-merge
   zip-merge
   ast-crispr
+  ast-crispr-toml
   ast-crispr-markdown-markly
   ast-crispr-ruby-prism
 ]

@@ -865,6 +865,13 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
     end
   end
 
+  it "includes the TOML AST owner in local StructuredMerge templating dependencies" do
+    template = File.read(project_root.join("lib/kettle/jem/templates/gemfiles/modular/templating_local.gemfile.example"))
+    gems = template[/structuredmerge_local_gems = %w\[(.*?)\]/m, 1].to_s.split
+
+    expect(gems).to include("citrus-toml-merge", "ast-crispr-toml", "toml-merge")
+  end
+
   it "serializes legacy Ruby setup-ruby workaround in generated CI workflows" do
     ci = {
       default_branch: "main",
