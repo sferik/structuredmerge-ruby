@@ -256,6 +256,10 @@ RSpec.describe KettleJemDepsFloor do
   end
 
   it "holds FLOOR_HOLDS gems out of planned changes and reports them separately" do
+    stub_const(
+      "#{described_class}::FLOOR_HOLDS",
+      {"rubocop-minitest" => "spec hold: upstream incompatibility"}
+    )
     result = described_class.new(project_root: project_root, resolver: resolver, options: {upgrade: "major"}).run
 
     expect(described_class.held_floor?("rubocop-minitest")).to be(true)
@@ -273,6 +277,10 @@ RSpec.describe KettleJemDepsFloor do
   end
 
   it "keeps a held floor untouched when writing" do
+    stub_const(
+      "#{described_class}::FLOOR_HOLDS",
+      {"rubocop-minitest" => "spec hold: upstream incompatibility"}
+    )
     described_class.new(project_root: project_root, resolver: resolver, options: {write: true, commit: false, upgrade: "major"}).run
 
     expect(read_file("template/valid.gemfile.example")).to include('gem "rubocop-minitest", "~> 0.40", ">= 0.40.0"')
@@ -295,12 +303,13 @@ RSpec.describe KettleJemDepsFloor do
   it "updates parseable Ruby and tokenized template files when writing" do
     result = described_class.new(project_root: project_root, resolver: resolver, options: {write: true, upgrade: "minor"}).run
 
-    expect(result[:updates]).to eq(8)
+    expect(result[:updates]).to eq(9)
     expect(result[:commit]).to include(status: "unavailable", reason: "not_git_repository")
     expect(read_file("lib/embedded.rb")).to include('{name: "embedded_dep", source: %(gem "embedded_dep", "~> 4.5", ">= 4.5.7"\\n)}')
     expect(read_file("lib/embedded.rb")).to include('%(gem "bare_embedded_dep", "~> 5.6", ">= 5.6.8"\\n)')
     expect(read_file("lib/embedded.rb")).to include('nomono_requirements = ["~> 1.0", ">= 1.0.9"]')
     expect(read_file("template/valid.gemfile.example")).to include('gem "example_dep", "~> 1.3", ">= 1.3.0"')
+    expect(read_file("template/valid.gemfile.example")).to include('gem "rubocop-minitest", "~> 0.41", ">= 0.41.0"')
     expect(read_file("template/valid.gemfile.example")).to include('spec.add_development_dependency("other_dep", "~> 3.1", ">= 3.1.0")')
     expect(read_file("template/valid.gemfile.example")).to include('spec.add_development_dependency("kettle-dev", "~> 2.5", ">= 2.5.8")')
     expect(read_file("template/valid.gemfile.example")).to include('# gem "ignored_dep", "~> 1.0", ">= 1.0.0"')

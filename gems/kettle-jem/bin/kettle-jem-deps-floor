@@ -57,9 +57,9 @@ class KettleJemDepsFloor
   # and auditable rather than silently ignored. Remove an entry once the
   # upstream incompatibility it guards against is resolved, then re-run
   # --write to let the floor catch up.
-  FLOOR_HOLDS = {
-    "rubocop-minitest" => "0.41.0 requires rubocop >= 1.89.0, but standard (~> 1.56) caps rubocop at ~> 1.88.0; the pair is unresolvable. Raise once standard supports rubocop >= 1.89."
-  }.freeze
+  # Currently empty: the rubocop-minitest hold was removed when standard 1.57
+  # (rubocop ~> 1.91) made rubocop-minitest 0.41.0 resolvable again.
+  FLOOR_HOLDS = {}.freeze
 
   # True when a gem name has a registered floor hold.
   def self.held_floor?(name)
