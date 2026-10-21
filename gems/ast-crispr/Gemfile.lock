@@ -16,6 +16,86 @@ PATH
       version_gem (~> 1.1, >= 1.1.15)
 
 PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-changelog
+  specs:
+    kettle-changelog (1.0.13)
+      ast-crispr-markdown-markly (~> 7.1, >= 7.1.1)
+      kettle-dev (~> 3.1, >= 3.1.16)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-dev
+  specs:
+    kettle-dev (3.1.21)
+      emoji_regex (>= 15.0)
+      kettle-gha-pins (~> 0.3, >= 0.3.18)
+      kettle-ndjson (~> 0.1, >= 0.1.20)
+      kettle-rb (~> 0.1, >= 0.1.18)
+      kettle-test (~> 2.0, >= 2.0.27)
+      ruby-progressbar (~> 1.13)
+      tty-progressbar (~> 0.18)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-drift
+  specs:
+    kettle-drift (1.0.17)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-family
+  specs:
+    kettle-family (1.3.29)
+      ast-crispr (~> 7.1, >= 7.1.11)
+      ast-crispr-toml (~> 7.1, >= 7.1.11)
+      command_kit (~> 0.6)
+      command_kit-completion (~> 0.1)
+      kettle-changelog (~> 1.0, >= 1.0.13)
+      kettle-dev (~> 3.1, >= 3.1.20)
+      kettle-gha-pins (~> 0.3, >= 0.3.18)
+      kettle-jem (~> 7.1, >= 7.1.28)
+      kettle-test (~> 2.0, >= 2.0.27)
+      psych-merge (~> 7.1, >= 7.1.4)
+      toml-merge (~> 7.1, >= 7.1.11)
+      tsort (~> 0.2)
+      tty-screen (~> 0.8)
+      unicode-display_width (~> 2.6)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-rb
+  specs:
+    kettle-rb (0.1.18)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-soup-cover
+  specs:
+    kettle-soup-cover (3.0.13)
+      kettle-wash (~> 0.1, >= 0.1.10)
+      simplecov (>= 1.0)
+      simplecov-cobertura (>= 4.0)
+      simplecov-console (~> 0.9, >= 0.9.5)
+      simplecov-rcov (~> 0.3, >= 0.3.7)
+      simplecov_lcov_formatter (~> 0.9, >= 0.9.0)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
+  remote: /var/home/pboling/src/my/kettle-dev/kettle-test
+  specs:
+    kettle-test (2.0.27)
+      appraisal2 (~> 3.0, >= 3.0.6)
+      backports (~> 3.0)
+      rspec (~> 3.0)
+      rspec-block_is_expected (~> 1.0, >= 1.0.6)
+      rspec-pending_for (~> 0.1, >= 0.1.20)
+      rspec-stubbed_env (~> 1.0, >= 1.0.17)
+      rspec_junit_formatter (~> 0.6)
+      silent_stream (~> 1.0, >= 1.0.12)
+      timecop-rspec (~> 1.0, >= 1.0.3)
+      turbo_tests2 (>= 3.1.12)
+      version_gem (~> 1.1, >= 1.1.15)
+
+PATH
   remote: /var/home/pboling/src/my/structuredmerge/ruby/gems/ast-crispr-markdown-markly
   specs:
     ast-crispr-markdown-markly (7.1.15)
@@ -34,7 +114,7 @@ PATH
       version_gem (~> 1.1, >= 1.1.15)
 
 PATH
-  remote: ../ast-crispr-toml
+  remote: /var/home/pboling/src/my/structuredmerge/ruby/gems/ast-crispr-toml
   specs:
     ast-crispr-toml (7.1.15)
       ast-crispr (= 7.1.15)
@@ -42,7 +122,7 @@ PATH
       version_gem (~> 1.1, >= 1.1.15)
 
 PATH
-  remote: ../ast-crispr-yaml-psych
+  remote: /var/home/pboling/src/my/structuredmerge/ruby/gems/ast-crispr-yaml-psych
   specs:
     ast-crispr-yaml-psych (7.1.15)
       ast-crispr (= 7.1.15)
@@ -151,7 +231,7 @@ PATH
 PATH
   remote: /var/home/pboling/src/my/structuredmerge/ruby/gems/kettle-jem
   specs:
-    kettle-jem (7.1.37)
+    kettle-jem (7.1.39)
       addressable (>= 2.8, < 3)
       ast-crispr-markdown-markly (~> 7.1, >= 7.1.8)
       ast-crispr-ruby-prism (~> 7.1, >= 7.1.10)
@@ -428,63 +508,11 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (3.1.0)
-    kettle-changelog (1.0.13)
-      ast-crispr-markdown-markly (~> 7.1, >= 7.1.1)
-      kettle-dev (~> 3.1, >= 3.1.16)
-      version_gem (~> 1.1, >= 1.1.15)
-    kettle-dev (3.1.20)
-      emoji_regex (>= 15.0)
-      kettle-gha-pins (~> 0.3, >= 0.3.18)
-      kettle-ndjson (~> 0.1, >= 0.1.20)
-      kettle-rb (~> 0.1, >= 0.1.18)
-      kettle-test (~> 2.0, >= 2.0.27)
-      ruby-progressbar (~> 1.13)
-      tty-progressbar (~> 0.18)
-      version_gem (~> 1.1, >= 1.1.15)
-    kettle-drift (1.0.17)
-      version_gem (~> 1.1, >= 1.1.15)
-    kettle-family (1.3.28)
-      ast-crispr (~> 7.1, >= 7.1.11)
-      ast-crispr-toml (~> 7.1, >= 7.1.11)
-      command_kit (~> 0.6)
-      command_kit-completion (~> 0.1)
-      kettle-changelog (~> 1.0, >= 1.0.13)
-      kettle-dev (~> 3.1, >= 3.1.20)
-      kettle-gha-pins (~> 0.3, >= 0.3.18)
-      kettle-jem (~> 7.1, >= 7.1.28)
-      kettle-test (~> 2.0, >= 2.0.27)
-      psych-merge (~> 7.1, >= 7.1.4)
-      toml-merge (~> 7.1, >= 7.1.11)
-      tsort (~> 0.2)
-      tty-screen (~> 0.8)
-      unicode-display_width (~> 2.6)
-      version_gem (~> 1.1, >= 1.1.15)
     kettle-gha-pins (0.3.18)
       ruby-progressbar (~> 1.13)
       tty-progressbar (~> 0.18)
       version_gem (~> 1.1, >= 1.1.15)
     kettle-ndjson (0.1.20)
-      version_gem (~> 1.1, >= 1.1.15)
-    kettle-rb (0.1.18)
-    kettle-soup-cover (3.0.13)
-      kettle-wash (~> 0.1, >= 0.1.10)
-      simplecov (>= 1.0)
-      simplecov-cobertura (>= 4.0)
-      simplecov-console (~> 0.9, >= 0.9.5)
-      simplecov-rcov (~> 0.3, >= 0.3.7)
-      simplecov_lcov_formatter (~> 0.9, >= 0.9.0)
-      version_gem (~> 1.1, >= 1.1.15)
-    kettle-test (2.0.27)
-      appraisal2 (~> 3.0, >= 3.0.6)
-      backports (~> 3.0)
-      rspec (~> 3.0)
-      rspec-block_is_expected (~> 1.0, >= 1.0.6)
-      rspec-pending_for (~> 0.1, >= 0.1.20)
-      rspec-stubbed_env (~> 1.0, >= 1.0.17)
-      rspec_junit_formatter (~> 0.6)
-      silent_stream (~> 1.0, >= 1.0.12)
-      timecop-rspec (~> 1.0, >= 1.0.3)
-      turbo_tests2 (>= 3.1.12)
       version_gem (~> 1.1, >= 1.1.15)
     kettle-wash (0.1.11)
       version_gem (~> 1.1, >= 1.1.15)
@@ -572,7 +600,7 @@ GEM
       ruby_version (~> 1.0)
     rspec-stubbed_env (1.0.17)
     rspec-support (3.13.7)
-    rspec_junit_formatter (0.7.1)
+    rspec_junit_formatter (0.8.0)
       rspec-core (>= 3.13, < 4)
     rubocop (1.91.0)
       json (>= 2.3)
@@ -790,8 +818,8 @@ PLATFORMS
 DEPENDENCIES
   addressable (>= 2.8, < 3)
   anonymous_loader (~> 0.1, >= 0.1.3)
-  appraisal2 (~> 3.2, >= 3.2.5)
-  appraisal2-rubocop (~> 1.0, >= 1.0.4)
+  appraisal2 (~> 3.2, >= 3.2.6)
+  appraisal2-rubocop (~> 1.0, >= 1.0.5)
   ast-crispr!
   ast-crispr-markdown-markly!
   ast-crispr-ruby-prism!
@@ -817,13 +845,14 @@ DEPENDENCIES
   html-merge!
   irb (~> 1.17)
   json-merge!
-  kettle-changelog (~> 1.0, >= 1.0.13)
-  kettle-dev (~> 3.1, >= 3.1.19)
-  kettle-drift (~> 1.0, >= 1.0.17)
-  kettle-family (~> 1.3, >= 1.3.25)
+  kettle-changelog!
+  kettle-dev (~> 3.1, >= 3.1.21)!
+  kettle-drift!
+  kettle-family (~> 1.3, >= 1.3.29)!
   kettle-jem!
-  kettle-soup-cover (~> 3.0, >= 3.0.13)
-  kettle-test (~> 2.0, >= 2.0.27)
+  kettle-rb!
+  kettle-soup-cover!
+  kettle-test (~> 2.0, >= 2.0.27)!
   kramdown (~> 2.5, >= 2.5.2)
   kramdown-merge!
   kramdown-parser-gfm (~> 1.1)
@@ -844,7 +873,7 @@ DEPENDENCIES
   rubocop-gradual (~> 0.4, >= 0.4.0)
   rubocop-lts (~> 24.2, >= 24.2.3)
   rubocop-lts-rspec (~> 1.0, >= 1.0.7)
-  rubocop-minitest (~> 0.40, >= 0.40.0)
+  rubocop-minitest (~> 0.41, >= 0.41.0)
   rubocop-on-rbs (~> 2.2, >= 2.2.0)
   rubocop-packaging!
   rubocop-ruby3_2 (~> 3.0, >= 3.0.8)
@@ -936,16 +965,16 @@ CHECKSUMS
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
   json-merge (7.1.15)
-  kettle-changelog (1.0.13) sha256=34be2385fd44032c7e0761d68aa26986984118ad00fdfe877ae445afef3953bd
-  kettle-dev (3.1.20) sha256=6aa71918ad26edb3e4e8b6ab2eec050ca297de855af703ca69ce0017003421dc
-  kettle-drift (1.0.17) sha256=f088a32a3914e76ef8094d182b54829a68b8317373f09090017724fb944948f0
-  kettle-family (1.3.28) sha256=3fe501a4ffd16a70f8149188d23550e45eff157f514b450e4fc068357aca58e2
+  kettle-changelog (1.0.13)
+  kettle-dev (3.1.21)
+  kettle-drift (1.0.17)
+  kettle-family (1.3.29)
   kettle-gha-pins (0.3.18) sha256=7e1aab36c248bab6b55e6c9d79b9efb8233c14a5e33e0d8013a874c49030046a
-  kettle-jem (7.1.37)
+  kettle-jem (7.1.39)
   kettle-ndjson (0.1.20) sha256=75c366059d43a2d73a32a87e7e5fd28ccfacf658753469845601e03557290eab
-  kettle-rb (0.1.18) sha256=28521523267e09c2616da73073b71cbffdf298a5f7d0399bec6429ab5db74217
-  kettle-soup-cover (3.0.13) sha256=5dc72d8e35ca7cd0af642709b48d830205d295a9d534026a861a8ec3eb011372
-  kettle-test (2.0.27) sha256=2f922b0353f378e5c7d1dbcba06464753df1d3e7b4fc7e29ed0109857229e9c8
+  kettle-rb (0.1.18)
+  kettle-soup-cover (3.0.13)
+  kettle-test (2.0.27)
   kettle-wash (0.1.11) sha256=e1510eb1b7cc2e9d0b489c98cc43a58857e242d8bfdd7f8bbe9045d0fa602a29
   kramdown (2.5.2) sha256=1ba542204c66b6f9111ff00dcc26075b95b220b07f2905d8261740c82f7f02fa
   kramdown-merge (7.1.15)
@@ -998,7 +1027,7 @@ CHECKSUMS
   rspec-pending_for (0.1.28) sha256=c499acef2b528398ee7441d48930d536e6bf4301d7f8e2b9ac78e204fea9eef3
   rspec-stubbed_env (1.0.17) sha256=6e31613aa6b742b08de461b9f08147c0ffa6ad9c013181e31e784df731d0dc52
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
-  rspec_junit_formatter (0.7.1) sha256=2ca49ccceef715c2f79227e808e926be2351bf211f836680dafb24f689712c74
+  rspec_junit_formatter (0.8.0)
   rubocop (1.91.0) sha256=9c82b7bf391c5d7e3798c5b9996e22a1fe3bd7468e351dfdeb96140c058296d0
   rubocop-ast (1.50.0) sha256=b9ca88300da0803ee222ad20cdb30494c0a784eed06fdc35d254b06d662788db
   rubocop-capybara (2.23.0) sha256=f9ea1ba3a7561ee8e88cf76fc378ce517ce5327155f305ee7b5c2500e5aee357
