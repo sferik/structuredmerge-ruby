@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.39] - 2026-10-21
+
+- TAG: [v7.1.39][7.1.39t]
+- COVERAGE: 93.45% -- 11397/12196 lines in 17 files
+- BRANCH COVERAGE: 77.09% -- 4910/6369 branches in 17 files
+- 19.89% documented
+
+### Changed
+
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - kettle-dev (>= 3.1.20 -> >= 3.1.21)
   - rubocop-minitest (>= 0.40.0 -> >= 0.41.0)
@@ -44,15 +61,9 @@ Please file a bug if you notice a violation of semantic versioning.
   - other (1)
   - workflows (2)
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - kettle-jem: force `accept_template` strategy for `.licenserc.yaml` — it is fully generated from `license_eye` config tokens, and merge semantics kept stale version-pinned dependency overrides forever, breaking destination license-eye workflows after gem bumps
-
-### Security
 
 ## [7.1.38] - 2026-10-21
 
@@ -2439,7 +2450,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.38...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.39...HEAD
+[7.1.39]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.38...v7.1.39
+[7.1.39t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.39
 [7.1.38]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.37...v7.1.38
 [7.1.38t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.38
 [7.1.37]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.36...v7.1.37
