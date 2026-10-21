@@ -45,6 +45,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - Stop materializing exact sibling version pins (= x.y.z) into generated Gemfile and modular *_local.gemfile nomono requirement hashes. The destination's own gemspec already enforces those constraints dynamically via the gemspec directive, so the literal copies only went stale on family version bumps and broke bundle resolution (prepare_lockfiles) before templating could refresh them. Flexible constraints (floors) are still materialized.
 
+- Bound JRuby dep-heads bundle and native-extension build concurrency to prevent memory exhaustion on constrained runners.
+
 ### Security
 
 ## [7.1.36] - 2026-10-20

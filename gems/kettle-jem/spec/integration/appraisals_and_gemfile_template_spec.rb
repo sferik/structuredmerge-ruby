@@ -842,7 +842,18 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
     expect(template).to include('use-setup-ruby: "3.2 3.3 3.4 4.0"')
     expect(template).to include("bundler-cache: ${{ matrix.ruby != 'jruby' }}")
     expect(template).to include("bundle lock --lockfile=\"$BUNDLE_LOCKFILE\" --add-platform=universal-java --update")
-    expect(template).to include("run: bundle install --jobs 4")
+    expect(template).to include("run: bundle install --jobs 1")
+    expect(template).not_to include("run: bundle install --jobs 4")
+
+    jruby_job = jobs.fetch("jruby")
+    expect(jruby_job.fetch("env")).to include(
+      "JRUBY_OPTS" => "-J-Xmx1280m",
+      "BUNDLE_JOBS" => "1",
+      "CARGO_BUILD_JOBS" => "1",
+      "TURBO_TESTS2_MAX_PROCESSES" => 2
+    )
+    install_step = jruby_job.fetch("steps").find { |step| step["name"] == "Bundle install" }
+    expect(install_step.fetch("run")).to eq("bundle install --jobs 1")
 
     expect(jobs.keys).to include("ruby", "truffleruby", "jruby")
     jobs.each_value do |job|

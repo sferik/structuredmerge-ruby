@@ -28,9 +28,20 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- Correct TruffleRuby CI template comments: cap workers at two to bound memory use, not to force serial execution.
+- Serialize JRuby dep-heads dependency and native-extension installation to prevent memory exhaustion on constrained runners.
 
 ### Security
+
+## [7.1.15] - 2026-10-21
+
+- TAG: [v7.1.15][7.1.15t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Fixed
+
+- Correct TruffleRuby CI template comments: cap workers at two to bound memory use, not to force serial execution.
 
 ## [7.1.14] - 2026-10-20
 
@@ -937,7 +948,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.14...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.15...HEAD
+[7.1.15]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.14...v7.1.15
+[7.1.15t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.15
 [7.1.14]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...v7.1.14
 [7.1.14t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.14
 [7.1.13]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.12...v7.1.13
