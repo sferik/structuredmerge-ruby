@@ -20901,7 +20901,7 @@ module Kettle
         "actions/checkout" => "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1",
         "actions/cache" => "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0",
         "appraisal-rb/setup-ruby-flash" => "appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14",
-        "ruby/setup-ruby" => "ruby/setup-ruby@b1da4809b005e0178fe08a1d57317bffc00b7b4c # v1.332.0",
+        "ruby/setup-ruby" => "ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0",
         "coverallsapp/github-action" => "coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8",
         "qltysh/qlty-action/coverage" => "qltysh/qlty-action/coverage@c9b09987143d1e4ac955f4803c7bea742102feb5 # v2.4.0",
         "codecov/codecov-action" => "codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1",
@@ -20913,7 +20913,7 @@ module Kettle
         "github/codeql-action/init" => "github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1",
         "github/codeql-action/autobuild" => "github/codeql-action/autobuild@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1",
         "github/codeql-action/analyze" => "github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1",
-        "pozil/auto-assign-issue" => "pozil/auto-assign-issue@bec9ebf443592887b8f9bed643afafdfd3f62f1d # v4.0.2",
+        "pozil/auto-assign-issue" => "pozil/auto-assign-issue@d6e511896e5f1d2408e74db74416647d8ff80c8c # v4.1.0",
         "apache/skywalking-eyes/dependency" => "apache/skywalking-eyes/dependency@a196742f472feaffafea537ce5a2a4c3c53a8de4 # v0.9.0",
         "sarisia/actions-status-discord" => "sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1.16.0"
       }

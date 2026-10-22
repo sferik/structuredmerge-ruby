@@ -26,6 +26,10 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-dev (>= 3.1.21 -> >= 3.1.22)
   - rubocop-lts-rspec (>= 1.0.7 -> >= 1.0.8)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - pozil/auto-assign-issue v4.0.2 (bec9ebf443592887b8f9bed643afafdfd3f62f1d) -> v4.1.0 (d6e511896e5f1d2408e74db74416647d8ff80c8c)
+  - ruby/setup-ruby v1.332.0 (b1da4809b005e0178fe08a1d57317bffc00b7b4c) -> v1.333.0 (e1bd6146574da5e0795075b5319b300edb30c5b0)
+
 ### Deprecated
 
 ### Removed
