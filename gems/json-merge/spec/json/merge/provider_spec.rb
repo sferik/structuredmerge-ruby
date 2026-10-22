@@ -161,6 +161,38 @@ RSpec.describe Json::Merge::Provider do
     expect(result.dig(:verification, :semantic_match)).to be(true)
   end
 
+  it 'aligns trailing commas when splicing a theirs edit beside an ours addition' do
+    result = provider.merge3(
+      base_source: "{\n  \"a\": 1,\n  \"b\": 2\n}\n",
+      ours_source: "{\n  \"a\": 1,\n  \"b\": 2,\n  \"c\": 3\n}\n",
+      theirs_source: "{\n  \"a\": 1,\n  \"b\": 20\n}\n",
+      dialect: :json
+    )
+
+    expect(result).to include(ok: true, operation: :merge3)
+    expect(result.fetch(:output)).to eq("{\n  \"a\": 1,\n  \"b\": 20,\n  \"c\": 3\n}\n")
+    expect(result.dig(:render_report, :strategy)).to eq(:exact_owner_composite)
+    expect(result.dig(:verification, :semantic_match)).to be(true)
+  end
+
+  it 'emits the planned value when composite sources are not whole-line addressable' do
+    result = provider.merge3(
+      base_source: '{"a":1,"b":2}',
+      ours_source: '{"a":1,"b":2,"c":3}',
+      theirs_source: '{"a":1,"b":20}',
+      dialect: :json
+    )
+
+    expect(result).to include(ok: true, operation: :merge3)
+    expect(Json::Merge.json_value_for_source(result.fetch(:output))).to eq(
+      'a' => 1,
+      'b' => 20,
+      'c' => 3
+    )
+    expect(result.dig(:render_report, :strategy)).to eq(:planned_value_emission)
+    expect(result.dig(:verification, :semantic_match)).to be(true)
+  end
+
   it 'preserves JSON5 key, quote, comment, and trailing-comma syntax' do
     result = provider.merge3(
       base_source: "{\n  stable: 'base',\n}\n",

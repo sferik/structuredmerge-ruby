@@ -195,7 +195,39 @@ module Json
         exact = render_exact_composite(request, decision)
         return exact if exact
 
+        planned = render_planned_value(request, decision)
+        return planned if planned
+
         composite_failure(request, 'JSON family renderers did not reproduce the planned three-way value.')
+      end
+
+      def render_planned_value(request, decision)
+        output = "#{JSON.pretty_generate(decision.value)}\n"
+        verification = verify_rendered(output, decision.value, request)
+        return unless verification[:semantic_match]
+
+        rendered = render_plan(
+          request,
+          [
+            Ast::Merge::SourceRender::SynthesizedFragment.new(
+              content: output,
+              reason: :planned_value_emission,
+              producer: provider_id
+            )
+          ]
+        )
+        {
+          output: rendered.content,
+          render_report: render_report(rendered, strategy: :planned_value_emission),
+          fallbacks: [
+            {
+              from: :exact_owner_composite,
+              to: :planned_value_emission,
+              reason: :owner_not_whole_line_addressable
+            }
+          ],
+          verification: verification
+        }
       end
 
       def verified_family_composite(candidate, request, decision)
@@ -275,13 +307,59 @@ module Json
         replacements.sort_by { |item| item.fetch(:ours).start_line }.each do |item|
           ours_range = item.fetch(:ours)
           fragments << source_range_fragment(:ours, cursor, ours_range.start_line - 1) if cursor < ours_range.start_line
-          theirs_range = item[:theirs]
-          fragments << source_range_fragment(:theirs, theirs_range.start_line, theirs_range.end_line) if theirs_range
+          fragments << theirs_replacement_fragment(request, item) if item[:theirs]
           cursor = ours_range.end_line + 1
         end
         final_line = request.fetch(:ours_source).lines.length
         fragments << source_range_fragment(:ours, cursor, final_line) if cursor <= final_line
         fragments
+      end
+
+      # A theirs pair spliced into ours' object must carry the trailing comma
+      # of the position it lands in: a pair copied from the end of theirs'
+      # object has no comma, but the ours pair it replaces may be followed by
+      # more pairs (and vice versa). Copy verbatim when the comma context
+      # already matches; synthesize comma-aligned content otherwise.
+      def theirs_replacement_fragment(request, item)
+        theirs_range = item.fetch(:theirs)
+        ours_range = item.fetch(:ours)
+        ours_lines = request.fetch(:ours_source).lines[(ours_range.start_line - 1)..(ours_range.end_line - 1)]
+        theirs_lines = request.fetch(:theirs_source).lines[(theirs_range.start_line - 1)..(theirs_range.end_line - 1)]
+        if trailing_comma?(ours_lines) == trailing_comma?(theirs_lines)
+          return source_range_fragment(:theirs, theirs_range.start_line, theirs_range.end_line)
+        end
+
+        Ast::Merge::SourceRender::SynthesizedFragment.new(
+          content: comma_aligned_lines(theirs_lines, with_comma: trailing_comma?(ours_lines)),
+          reason: :comma_context_alignment,
+          producer: provider_id,
+          metadata: { source_role: :theirs, copied_source: true }
+        )
+      end
+
+      def trailing_comma?(lines)
+        lines.last.to_s.rstrip.end_with?(',')
+      end
+
+      def comma_aligned_lines(lines, with_comma:)
+        adjusted = lines.dup
+        last = adjusted.fetch(-1)
+        newline =
+          if last.end_with?("\r\n")
+            "\r\n"
+          elsif last.end_with?("\n")
+            "\n"
+          else
+            ''
+          end
+        body = last.delete_suffix("\r\n").delete_suffix("\n")
+        adjusted[-1] =
+          if with_comma
+            "#{body.rstrip},#{newline}"
+          else
+            "#{body.sub(/,\s*\z/, '')}#{newline}"
+          end
+        adjusted.join
       end
 
       def render_conflict(request, decision)

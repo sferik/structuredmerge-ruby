@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- json-merge: merge3 composites no longer fail with render_failure when both sides edit the same object — theirs-side pair splices now align trailing commas with the replaced ours pair, and non-whole-line-addressable (e.g. compact single-line) sources fall back to verified planned-value emission.
+
 ### Security
 
 ## [7.1.15] - 2026-10-21
