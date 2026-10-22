@@ -28,9 +28,18 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
-- json-merge: merge3 composites no longer fail with render_failure when both sides edit the same object — theirs-side pair splices now align trailing commas with the replaced ours pair, and non-whole-line-addressable (e.g. compact single-line) sources fall back to verified planned-value emission.
-
 ### Security
+
+## [7.1.16] - 2026-10-22
+
+- TAG: [v7.1.16][7.1.16t]
+- COVERAGE: 0.00% -- 0/0 lines in 0 files
+- BRANCH COVERAGE: 0.00% -- 0/0 branches in 0 files
+- 72.95% documented
+
+### Fixed
+
+- json-merge: merge3 composites no longer fail with render_failure when both sides edit the same object — theirs-side pair splices now align trailing commas with the replaced ours pair, and non-whole-line-addressable (e.g. compact single-line) sources fall back to verified planned-value emission.
 
 ## [7.1.15] - 2026-10-21
 
@@ -948,7 +957,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released the initial StructuredMerge Ruby gem set at version 7.0.0.
 - Published the parser-backed merge gems and kettle-jem templating tool from this monorepo.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.15...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.16...HEAD
+[7.1.16]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.15...v7.1.16
+[7.1.16t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.16
 [7.1.15]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.14...v7.1.15
 [7.1.15t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.15
 [7.1.14]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.13...v7.1.14
