@@ -184,3 +184,6 @@ run = "bundle exec kettle-family reconcile-releases --execute"
 description = "Report changelog release state for every family member"
 raw = true
 run = "bundle exec kettle-family release-state"
+
+[task_config]
+includes = ["mise-family.tasks.toml"]
