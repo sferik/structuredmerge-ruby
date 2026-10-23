@@ -156,6 +156,15 @@ release:
   # CI checks out the full subgem graph, so canonical release lockfiles and
   # release children intentionally resolve siblings from this repository.
   graph_contract: monorepo_ci_local
+  # Pre-release maintenance (kettle-family >= 1.3.31): template-level floors
+  # and action pins must move with the registry BEFORE the wave validates
+  # state — a stale kettle-jem template pin failing mid-wave is how 7.1.40
+  # shipped late. Tools self-commit; the hook does not commit for them.
+  preflight_commands:
+    - name: kettle-jem template dependency floors
+      command: mise exec -C gems/kettle-jem -- bundle exec bin/kettle-jem-deps-floor --write
+    - name: kettle-jem template workflow pins
+      command: mise exec -C gems/kettle-jem -- bundle exec bin/kettle-jem-workflow-pins --write
   build_command: bundle exec rake build
   publish_command: bundle exec kettle-release
   waves:
