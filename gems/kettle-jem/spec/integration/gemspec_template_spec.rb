@@ -337,7 +337,7 @@ RSpec.describe Kettle::Jem, "gemspec templating" do
     end
   end
 
-  it "keeps gemspec legacy version loading with require_relative when minimum Ruby is below 3.1 and at least 2.2" do
+  it "keeps gemspec legacy version loading with anonymous module_eval when minimum Ruby is below 3.1 and at least 2.2" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
     Dir.mktmpdir("kettle-jem-gemspec-legacy-version-loader-slice", tmp_root) do |root|
@@ -375,11 +375,28 @@ RSpec.describe Kettle::Jem, "gemspec templating" do
       expect(gemspec_content).to include("gem_version =")
       expect(gemspec_content).to include('if Gem.ruby_version >= Gem::Version.new("3.1")')
       expect(gemspec_content).not_to include("Gemspec/RubyVersionGlobalsUsage")
-      expect(gemspec_content).to include('require_relative "lib/my/gem/version"')
+      expect(gemspec_content).to include("mod.module_eval(File.read(version_path), version_path, 1)")
+      expect(gemspec_content).not_to include('require_relative "lib/my/gem/version"')
       expect(gemspec_content).not_to include("$LOAD_PATH.unshift(lib)")
       expect(gemspec_content).not_to include('require "my/gem/version"')
       expect(gemspec_content).to include("My::Gem::Version::VERSION")
       expect(gemspec_content).to include("spec.version = gem_version")
+
+      # Behavior: evaluating the gemspec via the legacy (< 3.1) branch must not
+      # define the top-level namespace (regression: require_relative leaked it,
+      # breaking isolated-loading specs under bundler/setup on old Rubies).
+      probe = <<~RUBY
+        module Gem
+          def self.ruby_version
+            Gem::Version.new("2.7.0")
+          end
+        end
+        load #{File.join(root, "my-gem.gemspec").dump}
+        exit(Object.const_defined?(:My, false) ? 1 : 0)
+      RUBY
+      probe_output, probe_status = Open3.capture2e(RbConfig.ruby, "-e", probe)
+      expect(probe_status).to be_success, probe_output
+
       expect(gemspec_report.dig(:report_envelope, :report, :step_reports, 0, :metadata, :ruby_template_policy, :operations)).to include(
         include(operation: "rewrite_version_loader", min_ruby: "3.0", mode: "legacy", legacy_preamble_present: true)
       )

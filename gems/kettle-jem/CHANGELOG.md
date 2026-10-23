@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Gemspec template: the legacy (Ruby < 3.1) gem_version loader no longer require_relative's version.rb, which defined the gem's top-level namespace whenever the gemspec was evaluated (e.g. by bundler/setup), polluting the load path on old Rubies and breaking isolated-loading specs. It now loads version.rb anonymously via Module#module_eval (available on Ruby 2.2+); the Ruby < 2.2 load-path fallback is unchanged.
+
 ### Security
 
 ## [7.1.40] - 2026-10-23

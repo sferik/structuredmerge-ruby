@@ -11114,9 +11114,16 @@ module Kettle
     end
 
     def gemspec_standard_legacy_version_loader_block(entrypoint_require:, namespace:, min_ruby:)
-      legacy_require =
+      legacy_else =
         if min_ruby >= REQUIRE_RELATIVE_MIN_RUBY
-          %(require_relative "lib/#{entrypoint_require}/version")
+          <<~RUBY.chomp
+            # Ruby < 3.1: Kernel.load(path, module) is unavailable, but Module#module_eval with file
+            # metadata works on Ruby 2.2+. Anonymous loading matters beyond coverage: evaluating this
+            # gemspec (e.g. by bundler/setup in a subprocess) must not define top-level constants,
+            # which isolated-loading specs assert on.
+            version_path = "\#{__dir__}/lib/#{entrypoint_require}/version.rb"
+            Module.new.tap { |mod| mod.module_eval(File.read(version_path), version_path, 1) }::#{namespace}::Version::VERSION
+          RUBY
         else
           <<~RUBY.chomp
             # NOTE: Use __FILE__ or __dir__ until removal of Ruby 1.x support
@@ -11124,6 +11131,7 @@ module Kettle
             lib = File.expand_path("lib", File.dirname(__FILE__))
             $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
             require "#{entrypoint_require}/version"
+            #{namespace}::Version::VERSION
           RUBY
         end
 
@@ -11135,8 +11143,7 @@ module Kettle
             # See: https://github.com/panorama-ed/memo_wise/pull/397
             #{gemspec_modern_version_loader_expression(entrypoint_require: entrypoint_require, namespace: namespace)}
           else
-            #{legacy_require.gsub("\n", "\n    ")}
-            #{namespace}::Version::VERSION
+            #{legacy_else.gsub("\n", "\n    ")}
           end
       RUBY
     end
