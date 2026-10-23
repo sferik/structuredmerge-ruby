@@ -22,6 +22,23 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [7.1.41] - 2026-10-23
+
+- TAG: [v7.1.41][7.1.41t]
+- COVERAGE: 93.45% -- 11397/12196 lines in 17 files
+- BRANCH COVERAGE: 77.11% -- 4911/6369 branches in 17 files
+- 19.89% documented
+
+### Changed
+
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
   - anonymous_loader (>= 0.1.3 -> >= 0.1.4)
   - kettle-dev (>= 3.1.22 -> >= 3.1.24)
@@ -41,15 +58,9 @@ Please file a bug if you notice a violation of semantic versioning.
   - other (1)
   - workflows (2)
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Gemspec template: the legacy (Ruby < 3.1) gem_version loader no longer require_relative's version.rb, which defined the gem's top-level namespace whenever the gemspec was evaluated (e.g. by bundler/setup), polluting the load path on old Rubies and breaking isolated-loading specs. It now loads version.rb anonymously via Module#module_eval (available on Ruby 2.2+); the Ruby < 2.2 load-path fallback is unchanged.
-
-### Security
 
 ## [7.1.40] - 2026-10-23
 
@@ -2488,7 +2499,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.40...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.41...HEAD
+[7.1.41]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.40...v7.1.41
+[7.1.41t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.41
 [7.1.40]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.39...v7.1.40
 [7.1.40t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.40
 [7.1.39]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.38...v7.1.39
