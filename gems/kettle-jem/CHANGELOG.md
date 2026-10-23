@@ -22,6 +22,12 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+  - anonymous_loader (>= 0.1.3 -> >= 0.1.4)
+  - kettle-dev (>= 3.1.22 -> >= 3.1.24)
+  - kettle-family (>= 1.3.29 -> >= 1.3.32)
+  - version_gem (>= 1.1.15 -> >= 1.1.16)
+
 ### Deprecated
 
 ### Removed
