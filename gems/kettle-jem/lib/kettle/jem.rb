@@ -20613,7 +20613,7 @@ module Kettle
         steps << <<~YAML
           - name: Upload coverage to QLTY
             if: ${{ !env.ACT }}
-            uses: qltysh/qlty-action/coverage@c9b09987143d1e4ac955f4803c7bea742102feb5 # v2.4.0
+            uses: qltysh/qlty-action/coverage@ebcd284bf32e36a030afe15f1e136c7be08b9506 # v2.5.0
             with:
               oidc: true
               files: coverage/lcov.info
@@ -20908,9 +20908,9 @@ module Kettle
         "actions/checkout" => "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1",
         "actions/cache" => "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0",
         "appraisal-rb/setup-ruby-flash" => "appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14",
-        "ruby/setup-ruby" => "ruby/setup-ruby@e1bd6146574da5e0795075b5319b300edb30c5b0 # v1.333.0",
+        "ruby/setup-ruby" => "ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0",
         "coverallsapp/github-action" => "coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8",
-        "qltysh/qlty-action/coverage" => "qltysh/qlty-action/coverage@c9b09987143d1e4ac955f4803c7bea742102feb5 # v2.4.0",
+        "qltysh/qlty-action/coverage" => "qltysh/qlty-action/coverage@ebcd284bf32e36a030afe15f1e136c7be08b9506 # v2.5.0",
         "codecov/codecov-action" => "codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1",
         "irongut/CodeCoverageSummary" => "irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0",
         "marocchino/sticky-pull-request-comment" => "marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5",

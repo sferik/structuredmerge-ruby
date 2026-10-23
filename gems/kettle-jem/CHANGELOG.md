@@ -28,6 +28,10 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-family (>= 1.3.29 -> >= 1.3.32)
   - version_gem (>= 1.1.15 -> >= 1.1.16)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - qltysh/qlty-action/coverage v2.4.0 (c9b09987143d1e4ac955f4803c7bea742102feb5) -> v2.5.0 (ebcd284bf32e36a030afe15f1e136c7be08b9506)
+  - ruby/setup-ruby v1.333.0 (e1bd6146574da5e0795075b5319b300edb30c5b0) -> v1.334.0 (26e5b7d197ebf60545ee9667bcbace0be11ccaec)
+
 ### Deprecated
 
 ### Removed
