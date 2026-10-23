@@ -32,6 +32,15 @@ Please file a bug if you notice a violation of semantic versioning.
   - qltysh/qlty-action/coverage v2.4.0 (c9b09987143d1e4ac955f4803c7bea742102feb5) -> v2.5.0 (ebcd284bf32e36a030afe15f1e136c7be08b9506)
   - ruby/setup-ruby v1.333.0 (e1bd6146574da5e0795075b5319b300edb30c5b0) -> v1.334.0 (26e5b7d197ebf60545ee9667bcbace0be11ccaec)
 
+- [kc] kettle-jem/prepare: updated 6 project files:
+  - dependencies (6)
+
+- [kc] kettle-jem/template: updated 6 project files:
+  - code and tests (1)
+  - dependencies (2)
+  - other (1)
+  - workflows (2)
+
 ### Deprecated
 
 ### Removed
