@@ -16,3 +16,20 @@ end
 raise 'Prototype dependency is forbidden in typed-core CI' if dependencies.any? { |dependency| dependency.name == 'structuredmerge_host_prototype' }
 instance_variable_get(:@dependencies).reject! { |dependency| dependency.name == 'structuredmerge-core' }
 gem 'structuredmerge-core', "= #{ENV.fetch('STRUCTUREDMERGE_CORE_VERSION')}"
+
+# Lockstep family gems: when STRUCTUREDMERGE_DEV is set, replace exact-version
+# dependencies with local workspace paths so the pre-publication artifact tests
+# against the same in-progress versions that the artifact was built from.
+if ENV.fetch('STRUCTUREDMERGE_DEV', '').strip != ''
+  structuredmerge_dev_root = ENV.fetch('STRUCTUREDMERGE_DEV')
+  lockstep_gems = %w[ast-merge tree_haver ast-crispr ast-crispr-markdown-markly
+                     ast-crispr-ruby-prism ast-crispr-toml ast-crispr-yaml-psych
+                     ast-template version_gem]
+  lockstep_gems.each do |gem_name|
+    gem_path = File.join(structuredmerge_dev_root, gem_name)
+    if File.directory?(gem_path) && File.exist?(File.join(gem_path, "#{gem_name}.gemspec"))
+      instance_variable_get(:@dependencies).reject! { |dependency| dependency.name == gem_name }
+      gem gem_name, path: gem_path
+    end
+  end
+end
