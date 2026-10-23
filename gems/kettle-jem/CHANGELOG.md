@@ -22,14 +22,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
-- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
-  - kettle-dev (>= 3.1.21 -> >= 3.1.22)
-  - rubocop-lts-rspec (>= 1.0.7 -> >= 1.0.8)
-
-- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
-  - pozil/auto-assign-issue v4.0.2 (bec9ebf443592887b8f9bed643afafdfd3f62f1d) -> v4.1.0 (d6e511896e5f1d2408e74db74416647d8ff80c8c)
-  - ruby/setup-ruby v1.332.0 (b1da4809b005e0178fe08a1d57317bffc00b7b4c) -> v1.333.0 (e1bd6146574da5e0795075b5319b300edb30c5b0)
-
 ### Deprecated
 
 ### Removed
@@ -37,6 +29,23 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Fixed
 
 ### Security
+
+## [7.1.40] - 2026-10-23
+
+- TAG: [v7.1.40][7.1.40t]
+- COVERAGE: 93.45% -- 11397/12196 lines in 17 files
+- BRANCH COVERAGE: 77.11% -- 4911/6369 branches in 17 files
+- 19.89% documented
+
+### Changed
+
+- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+  - kettle-dev (>= 3.1.21 -> >= 3.1.22)
+  - rubocop-lts-rspec (>= 1.0.7 -> >= 1.0.8)
+
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - pozil/auto-assign-issue v4.0.2 (bec9ebf443592887b8f9bed643afafdfd3f62f1d) -> v4.1.0 (d6e511896e5f1d2408e74db74416647d8ff80c8c)
+  - ruby/setup-ruby v1.332.0 (b1da4809b005e0178fe08a1d57317bffc00b7b4c) -> v1.333.0 (e1bd6146574da5e0795075b5319b300edb30c5b0)
 
 ## [7.1.39] - 2026-10-21
 
@@ -2458,7 +2467,9 @@ Please file a bug if you notice a violation of semantic versioning.
 - Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.
 - Included packaged templates and parser-backed merge support for Ruby gem templating.
 
-[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.39...HEAD
+[Unreleased]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.40...HEAD
+[7.1.40]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.39...v7.1.40
+[7.1.40t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.40
 [7.1.39]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.38...v7.1.39
 [7.1.39t]: https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.39
 [7.1.38]: https://github.com/structuredmerge/structuredmerge-ruby/compare/v7.1.37...v7.1.38
