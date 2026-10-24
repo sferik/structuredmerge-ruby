@@ -28,6 +28,8 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-family (>= 1.3.32 -> >= 1.3.33)
   - nomono (>= 1.1.14 -> >= 1.1.15)
 
+- [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity.
+
 ### Deprecated
 
 ### Removed

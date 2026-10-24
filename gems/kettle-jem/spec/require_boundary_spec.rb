@@ -25,7 +25,12 @@ RSpec.describe "kettle/jem require boundary" do
     %w[kettle-jem-deps-floor kettle-jem-workflow-pins].each do |executable|
       source = File.read(File.expand_path("../bin/#{executable}", __dir__))
 
-      expect(source.index('require "bundler/setup"')).to be < source.index('require "json"')
+      required_dependency = if executable == "kettle-jem-deps-floor"
+        'require "kettle/deps/floor"'
+      else
+        'require "json"'
+      end
+      expect(source.index('require "bundler/setup"')).to be < source.index(required_dependency)
     end
   end
 

@@ -15957,7 +15957,7 @@ module Kettle
     end
 
     def kettle_dev_local_gems(config)
-      gems = %w[kettle-dev kettle-family kettle-rb kettle-test kettle-soup-cover kettle-changelog]
+      gems = %w[kettle-deps-floor kettle-dev kettle-family kettle-rb kettle-test kettle-soup-cover kettle-changelog]
       plugin_names = PluginLoader.normalize_plugin_names(plugin_names_from_config(config))
       gems.concat(plugin_names.select { |plugin_name| plugin_name.start_with?("kettle-") })
       gems.uniq.join(" ")

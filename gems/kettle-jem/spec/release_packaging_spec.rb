@@ -49,6 +49,9 @@ RSpec.describe Kettle::Jem do
     expect(spec.homepage).to eq("https://github.com/structuredmerge/structuredmerge-ruby")
     expect(spec.metadata["homepage_uri"]).to eq("https://structuredmerge.org")
     expect(spec.executables).to eq(["kettle-jem"])
+    dependency_floor = spec.runtime_dependencies.find { |dependency| dependency.name == "kettle-deps-floor" }
+    expect(dependency_floor).not_to be_nil
+    expect(dependency_floor.requirement).to eq(Gem::Requirement.new("~> 0.1", ">= 0.1.0"))
     changelog_dependency = spec.runtime_dependencies.find { |dependency| dependency.name == "kettle-changelog" }
     # The floor is read from the gemspec source rather than hardcoded here,
     # because kettle-jem templating owns and raises it: a duplicated literal went
