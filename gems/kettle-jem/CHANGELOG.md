@@ -44,6 +44,9 @@ Please file a bug if you notice a violation of semantic versioning.
   - documentation (1)
   - other (2)
 
+- [kc] kettle-jem-workflow-pins: Update pinned GitHub Actions in kettle-jem templates:
+  - ruby/setup-ruby v1.334.0 (26e5b7d197ebf60545ee9667bcbace0be11ccaec) -> v1.335.0 (7f797815d8adceb1c412e7abefdd1ab4abc47a5f)
+
 ### Deprecated
 
 ### Removed
