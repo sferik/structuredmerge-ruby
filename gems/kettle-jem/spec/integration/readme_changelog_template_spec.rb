@@ -976,7 +976,9 @@ RSpec.describe Kettle::Jem, "README and changelog templating" do
       )
       funding_report = plan[:recipe_reports].find { |report| report.fetch(:recipe_name) == "github_funding_yml" }
       expect(funding_report.fetch(:final_content)).not_to include("open_collective")
-      expect(funding_report.fetch(:final_content)).to include("tidelift: rubygems/example")
+      # Tidelift is never emitted (dead URLs post-Sonar acquisition)
+      expect(funding_report.fetch(:final_content)).not_to include("tidelift")
+      expect(funding_report.fetch(:final_content)).to include("github: [example]")
       open_collective_reports = plan[:recipe_reports].select do |report|
         report.fetch(:recipe_name).start_with?("opencollective_disabled_file_cleanup_")
       end

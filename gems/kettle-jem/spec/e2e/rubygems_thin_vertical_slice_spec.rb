@@ -41,7 +41,7 @@ RSpec.describe Kettle::Jem, "RubyGems thin vertical slice" do
       expect(rakefile_report.fetch(:final_content)).not_to include("bundler/gem_tasks")
       expect(rakefile_report.fetch(:final_content)).not_to include("RSpec::Core::RakeTask")
       funding_yml_report = plan[:recipe_reports].find { |report| report.fetch(:recipe_name) == "github_funding_yml" }
-      expect(funding_yml_report.fetch(:final_content)).to include("tidelift: rubygems/example")
+      expect(funding_yml_report.fetch(:final_content)).not_to include("tidelift")
       expect(funding_yml_report.fetch(:final_content)).to include("open_collective: example")
       custom_ci_report = plan[:recipe_reports].find do |report|
         report.fetch(:relative_path) == ".github/workflows/custom-ci.yml"

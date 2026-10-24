@@ -2802,6 +2802,11 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
         ".kettle-jem.yml" => <<~YAML
           plugins:
             - example-plugin
+          templates:
+            root: packaged
+            apply: true
+            entries:
+              - .github/FUNDING.yml
         YAML
       })
 

@@ -7,4 +7,3 @@ ko_fi: "{KJ|FUNDING:KOFI}" # Replace with a single Ko-fi username
 liberapay: "{KJ|FUNDING:LIBERAPAY}" # Replace with a single Liberapay username
 open_collective: "{KJ|OPENCOLLECTIVE_ORG}"
 thanks_dev: u/gh/{KJ|GH:USER}
-tidelift: rubygems/{KJ|GEM_NAME}

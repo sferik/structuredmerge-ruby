@@ -90,9 +90,9 @@ Please file a bug if you notice a violation of semantic versioning.</p>
 <ul>
   <li>TAG: <a href="https://github.com/structuredmerge/structuredmerge-ruby/releases/tag/v7.1.41">v7.1.41</a>
 </li>
-  <li>COVERAGE: 93.45% – 11397/12196 lines in 17 files</li>
-  <li>BRANCH COVERAGE: 77.11% – 4911/6369 branches in 17 files</li>
-  <li>19.89% documented</li>
+  <li>COVERAGE: 93.48% – 11446/12244 lines in 17 files</li>
+  <li>BRANCH COVERAGE: 77.12% – 4931/6394 branches in 17 files</li>
+  <li>20.11% documented</li>
 </ul>
 
 <h3 id="changed-1">Changed</h3>
@@ -125,12 +125,30 @@ Please file a bug if you notice a violation of semantic versioning.</p>
       <li>workflows (2)</li>
     </ul>
   </li>
+  <li>kettle-jem: cold-start bootstrap runs now materialize the first <code>.github/FUNDING.yml</code> structurally from discovered funding facts (GitHub org, Open Collective org, configured platform tokens) instead of relying on the removed unconditional <code>tidelift:</code> key; configured runs continue to receive FUNDING.yml from packaged template application</li>
 </ul>
 
 <h3 id="fixed-1">Fixed</h3>
 
 <ul>
   <li>Gemspec template: the legacy (Ruby &lt; 3.1) gem_version loader no longer require_relative’s version.rb, which defined the gem’s top-level namespace whenever the gemspec was evaluated (e.g. by bundler/setup), polluting the load path on old Rubies and breaking isolated-loading specs. It now loads version.rb anonymously via Module#module_eval (available on Ruby 2.2+); the Ruby &lt; 2.2 load-path fallback is unchanged.</li>
+</ul>
+
+<h3 id="added-1">Added</h3>
+
+<ul>
+  <li>
+    <p>kettle-jem: corporate sponsor entries now accept optional <code>since</code>/<code>until</code> ISO 8601 dates defining the sponsorship window; entries render only while active, so lapsed or future sponsors can be listed in static config without manual README edits</p>
+  </li>
+  <li>
+    <p>kettle-jem: corporate sponsor entries now support umbrella sponsors via <code>members</code> (e.g. Alpha-Omega backed by AWS, Google, Microsoft): the umbrella renders in the top logo row and members render as linked names in a <code>backed by</code> caption in the new <code>{KJ|README:CORPORATE_SPONSORS_DETAIL}</code> FLOSS Funding block; members support the same <code>since</code>/<code>until</code> window and cannot nest further</p>
+  </li>
+</ul>
+
+<h3 id="removed-1">Removed</h3>
+
+<ul>
+  <li>kettle-jem: Tidelift mentions removed from the generated README (subscription URLs are dead post-Sonar acquisition) and from the generated <code>.github/FUNDING.yml</code>, including stripping lingering <code>tidelift:</code> keys on retemplate; the README Enterprise Support section keeps only the <code>Lifted</code> package badge with the caption <code>Lifted through Tidelift, part of Sonar</code>; SECURITY.md keeps Tidelift as the security-report channel; the FLOSS Funding section is now split into Corporate Sponsorship (sponsor detail block + company pitch) and Individual Support subsections</li>
 </ul>
 
 <h2 id="7140---2026-10-23">
@@ -382,7 +400,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.80% documented</li>
 </ul>
 
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 
 <ul>
   <li>
@@ -530,7 +548,7 @@ Please file a bug if you notice a violation of semantic versioning.</p>
   <li>19.68% documented</li>
 </ul>
 
-<h3 id="added-2">Added</h3>
+<h3 id="added-3">Added</h3>
 
 <ul>
   <li>Engine-incompatible dev-dependency detection (case 3 of the dev-dependency<br>
@@ -651,7 +669,7 @@ has no modular home.</p>
   </li>
 </ul>
 
-<h3 id="removed-1">Removed</h3>
+<h3 id="removed-2">Removed</h3>
 
 <ul>
   <li>The <code>commonmarker-merge</code> and <code>kramdown-merge</code> runtime dependencies, and their<br>
@@ -836,7 +854,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.11% documented</li>
 </ul>
 
-<h3 id="added-3">Added</h3>
+<h3 id="added-4">Added</h3>
 
 <ul>
   <li>Curated Bundler binstub generation now includes <code>rubocop-gradual</code>.</li>
@@ -1481,7 +1499,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>17.93% documented</li>
 </ul>
 
-<h3 id="added-4">Added</h3>
+<h3 id="added-5">Added</h3>
 
 <ul>
   <li>Gemspec author metadata now expands existing authors with Git-derived copyright holders and consolidates configured author aliases, while applying the documented default machine-account filter.</li>
@@ -1737,7 +1755,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="added-5">Added</h3>
+<h3 id="added-6">Added</h3>
 
 <ul>
   <li>
@@ -1805,7 +1823,7 @@ that require it can run on Rubies where it is no longer bundled by default.</li>
   <li>18.04% documented</li>
 </ul>
 
-<h3 id="added-6">Added</h3>
+<h3 id="added-7">Added</h3>
 
 <ul>
   <li>Template NDJSON summaries now distinguish checksum write bypasses, planned<br>
@@ -3339,7 +3357,7 @@ preserving comments and trailing commas during template updates.</p>
 </li>
 </ul>
 
-<h3 id="added-7">Added</h3>
+<h3 id="added-8">Added</h3>
 
 <ul>
   <li>Released kettle-jem as part of the initial StructuredMerge Ruby 7.0.0 gem set.</li>

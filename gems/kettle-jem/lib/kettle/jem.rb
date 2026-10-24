@@ -1521,9 +1521,11 @@ module Kettle
       patreon
       polar
       thanks_dev
-      tidelift
     ].freeze
-    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + ["paypal"]).freeze
+    # README platforms include tidelift: the "Lifted" badge is config-gated
+    # (`funding: tidelift: false` removes it), but Tidelift is never emitted
+    # to FUNDING.yml (dead URLs post-Sonar acquisition).
+    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + %w[paypal tidelift]).freeze
     FUNDING_DEFAULT_DISABLED_PLATFORMS = %w[issuehunt patreon polar].freeze
     README_FUNDING_BADGE_POLICIES = {
       "github" => {
@@ -3291,7 +3293,13 @@ module Kettle
             "yaml",
             "supplied_github_funding_yaml_synchronization",
             facts: %w[package funding]
-          )
+          ).tap do |recipe|
+            # Cold-start only: on a bootstrap run (no config yet, hence no
+            # template source preferences) this recipe materializes a first
+            # FUNDING.yml. Configured runs get FUNDING.yml from
+            # template_source_application instead.
+            recipe[:seed_if_empty] = true if facts[:kettle_config_bootstrap]
+          end
         ]
       end
       if facts[:kettle_config_bootstrap]
@@ -6422,7 +6430,7 @@ module Kettle
         when "generated_block_sync"
           synchronize_managed_block(original, facts)
         when "github_funding_yml"
-          synchronize_github_funding_yml(original, facts)
+          synchronize_github_funding_yml(original, facts, seed_if_empty: recipe[:seed_if_empty])
         when "github_actions_ci"
           synchronize_github_actions_ci(original, facts)
         when "github_actions_framework_ci"
@@ -13944,9 +13952,6 @@ module Kettle
       if !opencollective_disabled && funding_platform_enabled?(enabled_platforms, "open_collective")
         urls << github_funding_platform_urls("open_collective", [open_collective_org]).first
       end
-      if funding_platform_enabled?(enabled_platforms, "tidelift")
-        urls << github_funding_platform_urls("tidelift", ["rubygems/#{package_name}"]).first
-      end
 
       urls.compact.uniq.sort
     end
@@ -13984,8 +13989,6 @@ module Kettle
           "https://opencollective.com/#{handle}"
         when "thanks_dev"
           "https://thanks.dev/#{handle}"
-        when "tidelift"
-          "https://tidelift.com/funding/github/#{handle}"
         end
       end
     end
@@ -20054,8 +20057,9 @@ module Kettle
       end
     end
 
-    def synchronize_github_funding_yml(content, facts)
+    def synchronize_github_funding_yml(content, facts, seed_if_empty: false)
       output = content.to_s
+      output = github_funding_yml_seed(facts) if seed_if_empty && output.strip.empty?
       enabled_platforms = facts.fetch(:funding, {}).fetch(:platforms, {})
       enabled_platforms = enabled_platforms.merge("open_collective" => false) if facts.fetch(:funding, {})[:open_collective_disabled]
       FUNDING_YML_PLATFORMS.each do |platform|
@@ -20063,14 +20067,33 @@ module Kettle
 
         output = remove_top_level_yaml_key_lines(output, platform)
       end
-      tidelift_value = "rubygems/#{facts.fetch(:package).fetch(:name)}"
-      if funding_platform_enabled?(enabled_platforms, "tidelift") && !yaml_top_level_key_lines(output).key?("tidelift")
-        lines = output.lines
-        lines << "\n" unless lines.empty? || lines.last.to_s.strip.empty?
-        lines << "tidelift: #{tidelift_value}\n"
-        output = lines.join
-      end
+      # Tidelift is in limbo post-Sonar acquisition with no URLs to direct
+      # people to, so the platform is no longer emitted. Strip any lingering
+      # tidelift key from previously templated destinations.
+      output = remove_top_level_yaml_key_lines(output, "tidelift")
       ensure_trailing_newline(output)
+    end
+
+    # Build first-run FUNDING.yml content structurally from facts (Psych dump
+    # of the known platform keys), so cold-start scaffolds get a valid file
+    # without line-munging the commented packaged template — that template
+    # still reaches destinations unchanged via template_source_application on
+    # configured runs, comments intact.
+    def github_funding_yml_seed(facts)
+      funding = facts.fetch(:funding, {})
+      platform_tokens = funding.fetch(:platform_tokens, {})
+      github_user = github_org_from_url(facts.dig(:package, :source_url)).to_s
+      values = {
+        "buy_me_a_coffee" => platform_tokens[:buymeacoffee].to_s,
+        "github" => github_user.empty? ? nil : [github_user],
+        "ko_fi" => platform_tokens[:kofi].to_s,
+        "liberapay" => platform_tokens[:liberapay].to_s,
+        "open_collective" => funding[:open_collective_org].to_s,
+        "thanks_dev" => github_user.empty? ? nil : "u/gh/#{github_user}"
+      }.reject { |_key, value| value.nil? || (value.respond_to?(:empty?) && value.empty?) }
+      return "" if values.empty?
+
+      "# These are supported funding model platforms\n\n#{Psych.dump(values)}"
     end
 
     def remove_top_level_yaml_key_lines(content, key)

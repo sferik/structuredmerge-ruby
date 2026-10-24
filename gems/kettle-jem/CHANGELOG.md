@@ -20,10 +20,6 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
-- kettle-jem: corporate sponsor entries now accept optional `since`/`until` ISO 8601 dates defining the sponsorship window; entries render only while active, so lapsed or future sponsors can be listed in static config without manual README edits
-
-- kettle-jem: corporate sponsor entries now support umbrella sponsors via `members` (e.g. Alpha-Omega backed by AWS, Google, Microsoft): the umbrella renders in the top logo row and members render as linked names in a `backed by` caption in the new `{KJ|README:CORPORATE_SPONSORS_DETAIL}` FLOSS Funding block; members support the same `since`/`until` window and cannot nest further
-
 ### Changed
 
 ### Deprecated
@@ -37,9 +33,9 @@ Please file a bug if you notice a violation of semantic versioning.
 ## [7.1.41] - 2026-10-23
 
 - TAG: [v7.1.41][7.1.41t]
-- COVERAGE: 93.45% -- 11397/12196 lines in 17 files
-- BRANCH COVERAGE: 77.11% -- 4911/6369 branches in 17 files
-- 19.89% documented
+- COVERAGE: 93.48% -- 11446/12244 lines in 17 files
+- BRANCH COVERAGE: 77.12% -- 4931/6394 branches in 17 files
+- 20.11% documented
 
 ### Changed
 
@@ -62,9 +58,21 @@ Please file a bug if you notice a violation of semantic versioning.
   - other (1)
   - workflows (2)
 
+- kettle-jem: cold-start bootstrap runs now materialize the first `.github/FUNDING.yml` structurally from discovered funding facts (GitHub org, Open Collective org, configured platform tokens) instead of relying on the removed unconditional `tidelift:` key; configured runs continue to receive FUNDING.yml from packaged template application
+
 ### Fixed
 
 - Gemspec template: the legacy (Ruby < 3.1) gem_version loader no longer require_relative's version.rb, which defined the gem's top-level namespace whenever the gemspec was evaluated (e.g. by bundler/setup), polluting the load path on old Rubies and breaking isolated-loading specs. It now loads version.rb anonymously via Module#module_eval (available on Ruby 2.2+); the Ruby < 2.2 load-path fallback is unchanged.
+
+### Added
+
+- kettle-jem: corporate sponsor entries now accept optional `since`/`until` ISO 8601 dates defining the sponsorship window; entries render only while active, so lapsed or future sponsors can be listed in static config without manual README edits
+
+- kettle-jem: corporate sponsor entries now support umbrella sponsors via `members` (e.g. Alpha-Omega backed by AWS, Google, Microsoft): the umbrella renders in the top logo row and members render as linked names in a `backed by` caption in the new `{KJ|README:CORPORATE_SPONSORS_DETAIL}` FLOSS Funding block; members support the same `since`/`until` window and cannot nest further
+
+### Removed
+
+- kettle-jem: Tidelift mentions removed from the generated README (subscription URLs are dead post-Sonar acquisition) and from the generated `.github/FUNDING.yml`, including stripping lingering `tidelift:` keys on retemplate; the README Enterprise Support section keeps only the `Lifted` package badge with the caption `Lifted through Tidelift, part of Sonar`; SECURITY.md keeps Tidelift as the security-report channel; the FLOSS Funding section is now split into Corporate Sponsorship (sponsor detail block + company pitch) and Individual Support subsections
 
 ## [7.1.40] - 2026-10-23
 
