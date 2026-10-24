@@ -22,6 +22,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - kettle-jem: corporate sponsor entries now accept optional `since`/`until` ISO 8601 dates defining the sponsorship window; entries render only while active, so lapsed or future sponsors can be listed in static config without manual README edits
 
+- kettle-jem: corporate sponsor entries now support umbrella sponsors via `members` (e.g. Alpha-Omega backed by AWS, Google, Microsoft): the umbrella renders in the top logo row and members render as linked names in a `backed by` caption in the new `{KJ|README:CORPORATE_SPONSORS_DETAIL}` FLOSS Funding block; members support the same `since`/`until` window and cannot nest further
+
 ### Changed
 
 ### Deprecated

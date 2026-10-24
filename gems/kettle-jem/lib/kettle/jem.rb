@@ -578,6 +578,7 @@ module Kettle
       KJ|RAKE:TOP_LEVEL_DOCS_TASK
       KJ|README:COPYRIGHT_NOTICE
       KJ|README:CORPORATE_SPONSORS
+      KJ|README:CORPORATE_SPONSORS_DETAIL
       KJ|README:FAMILY_INTRO_BACKEND_MATRIX
       KJ|README:LICENSE_BADGE
       KJ|README:LICENSE_COMPAT_BADGE
@@ -5639,6 +5640,7 @@ module Kettle
         "KJ|PROJECT_EMOJI" => "💎",
         "KJ|README:COPYRIGHT_NOTICE" => "",
         "KJ|README:CORPORATE_SPONSORS" => "",
+        "KJ|README:CORPORATE_SPONSORS_DETAIL" => "",
         "KJ|README:LICENSE_BADGE" => "",
         "KJ|README:LICENSE_COMPAT_BADGE" => "",
         "KJ|README:DEV_TEST_STACK_TABLE" => "",
@@ -17511,7 +17513,8 @@ module Kettle
       sponsors = readme_corporate_sponsors(config, env)
       compact_hash(
         entries: sponsors,
-        row: readme_corporate_sponsors_row(sponsors)
+        row: readme_corporate_sponsors_row(sponsors),
+        detail: readme_corporate_sponsors_detail(sponsors)
       )
     end
 
@@ -17523,7 +17526,13 @@ module Kettle
       inherited = normalize_readme_corporate_sponsors_json(env["KETTLE_JEM_CORPORATE_SPONSORS_JSON"])
       sponsors = deduplicate_readme_corporate_sponsors(configured + inherited)
       today = Date.today
-      sponsors.select { |sponsor| readme_corporate_sponsor_active?(sponsor, today) }
+      sponsors
+        .select { |sponsor| readme_corporate_sponsor_active?(sponsor, today) }
+        .map do |sponsor|
+          next sponsor unless sponsor[:members]
+
+          sponsor.merge(members: sponsor[:members].select { |member| readme_corporate_sponsor_active?(member, today) })
+        end
     end
 
     def readme_corporate_sponsor_active?(sponsor, today)
@@ -17564,6 +17573,39 @@ module Kettle
           url: url,
           img_src: img_src,
           since: normalize_readme_corporate_sponsor_date(entry["since"], "since", name),
+          until: normalize_readme_corporate_sponsor_date(entry["until"], "until", name),
+          members: normalize_readme_corporate_sponsor_members(entry["members"], name)
+        }.compact
+      end
+    end
+
+    # Members of an umbrella sponsor (e.g. the companies behind Alpha-Omega).
+    # Members require name and url; img_src is optional because members render
+    # as linked names in a caption, not as logos. Members may not themselves
+    # have members — nesting stops at one level.
+    def normalize_readme_corporate_sponsor_members(value, sponsor_name)
+      return nil if value.nil?
+
+      Array(value).filter_map do |entry|
+        unless entry.is_a?(Hash)
+          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members must be mappings with name and url"
+        end
+        unless entry["members"].nil?
+          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members cannot themselves have members"
+        end
+
+        name = entry["name"].to_s.strip
+        url = entry["url"].to_s.strip
+        img_src = entry["img_src"].to_s.strip
+        if name.empty? || url.empty?
+          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members require name and url"
+        end
+
+        {
+          name: name,
+          url: url,
+          img_src: img_src.empty? ? nil : img_src,
+          since: normalize_readme_corporate_sponsor_date(entry["since"], "since", name),
           until: normalize_readme_corporate_sponsor_date(entry["until"], "until", name)
         }.compact
       end
@@ -17598,6 +17640,32 @@ module Kettle
         ].join
       end.join(" ")
       %(<p><sub>#{label} #{logos} <a href="#-floss-funding">Become a sponsor</a></sub></p>)
+    end
+
+    # Markdown detail block for the FLOSS Funding section: one bullet per
+    # active sponsor with its logo and linked name. Umbrella sponsors append a
+    # "backed by" caption of linked member names (text links, not logos, so
+    # the backing relationship stays explicit in every rendering context).
+    def readme_corporate_sponsors_detail(sponsors)
+      return "" if sponsors.empty?
+
+      lines = sponsors.map do |sponsor|
+        name = sponsor.fetch(:name)
+        url = sponsor.fetch(:url)
+        img_src = sponsor.fetch(:img_src)
+        line = [
+          %(- <a href="#{html_attribute_escape(url)}">),
+          %(<img alt="#{html_attribute_escape(name)}" src="#{html_attribute_escape(img_src)}" height="32"/>),
+          %(</a> [#{name}](#{url}))
+        ].join
+        members = Array(sponsor[:members])
+        unless members.empty?
+          member_links = members.map { |member| "[#{member.fetch(:name)}](#{member.fetch(:url)})" }.join(", ")
+          line = "#{line} — backed by #{member_links}"
+        end
+        line
+      end
+      lines.join("\n")
     end
 
     def readme_top_logo_options(config)
@@ -17900,7 +17968,8 @@ module Kettle
 
     def readme_corporate_sponsor_template_tokens(readme_sponsors)
       {
-        "KJ|README:CORPORATE_SPONSORS" => readme_sponsors[:row].to_s
+        "KJ|README:CORPORATE_SPONSORS" => readme_sponsors[:row].to_s,
+        "KJ|README:CORPORATE_SPONSORS_DETAIL" => readme_sponsors[:detail].to_s
       }
     end
 

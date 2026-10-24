@@ -1355,6 +1355,90 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
     }.to raise_error(ArgumentError, /invalid until date/)
   end
 
+  it "renders umbrella sponsor members as a backed-by caption in the funding detail block" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-readme-umbrella-sponsor-slice", tmp_root) do |root|
+      today = Date.today
+      write_tree(root, {
+        "example-gem.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example-gem"
+            spec.summary = "Example gem"
+            spec.metadata["source_code_uri"] = "https://github.com/acme/example-gem"
+          end
+        RUBY
+        ".kettle-jem.yml" => <<~YAML,
+          readme:
+            corporate_sponsors:
+              - name: Umbrella Fund
+                url: https://umbrella.example
+                img_src: https://umbrella.example/logo.svg
+                members:
+                  - name: Member One
+                    url: https://one.example
+                  - name: Member Two
+                    url: https://two.example
+                  - name: Lapsed Member
+                    url: https://lapsed.example
+                    until: #{(today - 1).iso8601}
+          templates:
+            root: template
+            apply: true
+            entries:
+              - README.md
+        YAML
+        "template/README.md.example" => <<~MARKDOWN
+          Top funding row.
+          {KJ|README:CORPORATE_SPONSORS}
+
+          ## 🦷 FLOSS Funding
+
+          {KJ|README:CORPORATE_SPONSORS_DETAIL}
+        MARKDOWN
+      })
+
+      plan = described_class.plan_project(root, env: {})
+      template_report = plan[:recipe_reports].find do |report|
+        report.fetch(:recipe_name) == "template_source_application_README_md"
+      end
+      final_content = template_report.fetch(:final_content)
+
+      # Umbrella logo in the top row
+      expect(final_content).to include(%(<img alt="Umbrella Fund" src="https://umbrella.example/logo.svg" height="24"/>))
+      # Detail block: umbrella bullet with backed-by caption of active members only
+      expect(final_content).to include(
+        %(- <a href="https://umbrella.example"><img alt="Umbrella Fund" src="https://umbrella.example/logo.svg" height="32"/></a> [Umbrella Fund](https://umbrella.example) — backed by [Member One](https://one.example), [Member Two](https://two.example))
+      )
+      expect(final_content).not_to include("Lapsed Member")
+      expect(template_report.dig(:metadata, :template_tokens)).to include(
+        "KJ|README:CORPORATE_SPONSORS_DETAIL" => a_string_including("backed by")
+      )
+    end
+  end
+
+  it "rejects nested members and member entries missing name or url" do
+    expect {
+      described_class.send(
+        :normalize_readme_corporate_sponsors,
+        [{
+          "name" => "Umbrella", "url" => "https://u.example", "img_src" => "https://u.example/l.svg",
+          "members" => [{"name" => "Nested", "url" => "https://n.example", "members" => [{"name" => "X", "url" => "https://x.example"}]}]
+        }]
+      )
+    }.to raise_error(ArgumentError, /cannot themselves have members/)
+
+    expect {
+      described_class.send(
+        :normalize_readme_corporate_sponsors,
+        [{
+          "name" => "Umbrella", "url" => "https://u.example", "img_src" => "https://u.example/l.svg",
+          "members" => [{"name" => "NoUrl"}]
+        }]
+      )
+    }.to raise_error(ArgumentError, /members require name and url/)
+  end
+
   it "renders corporate sponsors inherited from kettle-family environment" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
