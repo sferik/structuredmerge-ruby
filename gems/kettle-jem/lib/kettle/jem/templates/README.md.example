@@ -64,9 +64,9 @@ The _amazing_ test matrix is powered by the kettle-dev stack.
 
 {KJ|README:FAMILY_INTRO_BACKEND_MATRIX}
 
-### Runtime and Platform Support
+### CI Coverage
 
-{KJ|README:PLATFORM_SUPPORT_TABLE}
+{KJ|README:CI_COVERAGE_SUMMARY}
 
 ### Federated DVCS
 

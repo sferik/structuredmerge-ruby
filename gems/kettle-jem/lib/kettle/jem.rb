@@ -14752,7 +14752,7 @@ module Kettle
         "KJ|CI:EXEC_CMD" => facts.dig(:ci, :exec_cmd).to_s,
         "KJ|CI:OS_MATRIX_ENTRIES" => github_actions_current_os_matrix_entries(facts),
         "KJ|CI:OS_TEST_STEPS" => github_actions_current_os_test_steps(facts),
-        "KJ|README:PLATFORM_SUPPORT_TABLE" => readme_platform_support_table(facts),
+        "KJ|README:CI_COVERAGE_SUMMARY" => readme_ci_coverage_summary(facts),
         "KJ|RAKE:TOP_LEVEL_DOCS_TASK" => rake_top_level_docs_task_token(facts).rstrip,
         "KJ|GITHUB_ACTIONS:COVERAGE_UPLOAD_STEPS" => github_actions_coverage_steps(disabled_integrations: facts.dig(:integrations, :disabled))
       }.merge(
@@ -14827,66 +14827,13 @@ module Kettle
       "#{package_name} / #{namespace}"
     end
 
-    # The README platform tier table, generated from the same facts that drive
-    # the workflows, so it cannot drift from CI again (spec slice 1038). Rows
-    # mirror the generated workflow set: versioned MRI workflows are Linux-only,
-    # the current.yml OS matrix covers the declared platforms for MRI current,
-    # and every engine lane outside current.yml is Linux-only. Engine capability
-    # notes come from Kettle::Rb::PlatformSupport and carry their citation.
-    def readme_platform_support_table(facts)
-      engines = facts.dig(:rubygems, :engines)
-      engines = DEFAULT_ENGINES if engines.nil? || engines.empty?
+    # Keep the README's CI statement concise and limited to the generated facts.
+    # The compatibility badge table already carries engine/version detail;
+    # this adds only the declared OS platforms for the current-runtime matrix.
+    def readme_ci_coverage_summary(facts)
       platforms = facts.dig(:ci, :platforms)
       platforms = DEFAULT_PLATFORMS if platforms.nil? || platforms.empty?
-      ruby_versions = facts.dig(:ci, :ruby_versions).to_a.map(&:to_s).reject(&:empty?)
-
-      parallel = "Parallel support"
-      unsupported = "Unsupported"
-      rows = []
-
-      unless ruby_versions.empty?
-        rows << [
-          "MRI #{ruby_versions.first}-#{ruby_versions.last}",
-          parallel, unsupported, unsupported,
-          "Versioned Ruby workflows run on Linux."
-        ]
-      end
-      rows << [
-        "MRI current",
-        parallel,
-        platforms.include?("macos") ? parallel : unsupported,
-        platforms.include?("windows") ? parallel : unsupported,
-        "Current Ruby workflow covers the declared OS platforms."
-      ]
-      rows << [
-        "MRI head",
-        parallel, unsupported, unsupported,
-        "CI is allowed to fail while Ruby is in development."
-      ]
-
-      (engines - ["ruby"]).each do |engine|
-        label = (engine == "jruby") ? "JRuby" : "TruffleRuby"
-        windows_entry = Kettle::Rb::PlatformSupport.engine_os_entry(engine, "windows")
-        note = if windows_entry && windows_entry.support == "unsupported"
-          "#{windows_entry.note} ([source](#{windows_entry.citation}))"
-        else
-          "Engine workflows run on Linux; macOS and Windows are not exercised by CI."
-        end
-        rows << ["#{label} (all CI lanes)", parallel, unsupported, unsupported, note]
-      end
-
-      [
-        "Support tiers describe what this project's CI actually exercises, not what may",
-        "work in an untested environment:",
-        "",
-        "- **Parallel support**: CI runs the test suite with multiple workers available.",
-        "- **Unsupported**: the engine/platform combination is not covered by CI and is",
-        "  not a project compatibility claim.",
-        "",
-        "| Ruby engine/version | Linux | macOS | Windows | Notes |",
-        "|---------------------|-------|-------|---------|-------|",
-        *rows.map { |row| "| #{row.join(" | ")} |" }
-      ].join("\n")
+      "The current MRI runtime matrix runs on #{platforms.join(", ")}."
     end
 
     def readme_dev_test_stack_table(package_name)

@@ -195,45 +195,22 @@ RSpec.describe Kettle::Jem do
     end
   end
 
-  describe "readme_platform_support_table" do
-    def table_facts(engines:, platforms:, ruby_versions: %w[2.4 3.4])
-      {rubygems: {engines: engines}, ci: {platforms: platforms, ruby_versions: ruby_versions}}
+  describe "readme_ci_coverage_summary" do
+    def summary_facts(platforms:)
+      {ci: {platforms: platforms}}
     end
 
-    it "marks macOS and Windows by the declared platforms for MRI current only" do
-      table = described_class.send(:readme_platform_support_table, table_facts(engines: %w[ruby], platforms: %w[linux macos windows]))
+    it "summarizes the current-runtime OS matrix without engine/version claims" do
+      summary = described_class.send(:readme_ci_coverage_summary, summary_facts(platforms: %w[linux macos]))
 
-      expect(table).to include("| MRI current | Parallel support | Parallel support | Parallel support |")
-      expect(table).to include("| MRI 2.4-3.4 | Parallel support | Unsupported | Unsupported |")
-      expect(table).to include("| MRI head | Parallel support | Unsupported | Unsupported |")
+      expect(summary).to eq("The current MRI runtime matrix runs on linux, macos.")
+      expect(summary).not_to include("JRuby", "TruffleRuby", "all CI lanes", "Parallel support", "Unsupported", "MRI 2.4")
     end
 
-    it "marks Windows unsupported for MRI current when it is not declared" do
-      table = described_class.send(:readme_platform_support_table, table_facts(engines: %w[ruby], platforms: %w[linux macos]))
+    it "falls back to configured defaults when facts are absent" do
+      summary = described_class.send(:readme_ci_coverage_summary, {})
 
-      expect(table).to include("| MRI current | Parallel support | Parallel support | Unsupported |")
-    end
-
-    it "evidences the TruffleRuby Windows exclusion with a cited note" do
-      table = described_class.send(:readme_platform_support_table, table_facts(engines: %w[ruby truffleruby], platforms: %w[linux macos windows]))
-
-      expect(table).to include("| TruffleRuby (all CI lanes) | Parallel support | Unsupported | Unsupported |")
-      expect(table).to include("Never shipped a Windows build")
-      expect(table).to include("([source](https://")
-    end
-
-    it "keeps engine lanes Linux-only even when Windows is declared" do
-      table = described_class.send(:readme_platform_support_table, table_facts(engines: %w[ruby jruby], platforms: %w[linux macos windows]))
-
-      expect(table).to include("| JRuby (all CI lanes) | Parallel support | Unsupported | Unsupported |")
-    end
-
-    it "falls back to defaults when facts are absent" do
-      table = described_class.send(:readme_platform_support_table, {})
-
-      expect(table).to include("| MRI current | Parallel support | Parallel support | Unsupported |")
-      expect(table).to include("| TruffleRuby (all CI lanes) |")
-      expect(table).to include("| JRuby (all CI lanes) |")
+      expect(summary).to eq("The current MRI runtime matrix runs on linux, macos.")
     end
   end
 
