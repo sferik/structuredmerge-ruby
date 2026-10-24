@@ -63,7 +63,7 @@ module Kettle
     # set in place before Bundler is allowed to evaluate that destination.
     TEMPLATE_MANAGED_DEPENDENCIES = [
       {name: PACKAGE_NAME, requirements: ["~> 7.1", ">= 7.1.28"], bootstrap: false},
-      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.14"], bootstrap: true},
+      {name: "nomono", requirements: ["~> 1.1", ">= 1.1.15"], bootstrap: true},
       {name: "kettle-dev", requirements: ["~> 3.1", ">= 3.1.24"], bootstrap: true},
       {
         name: "kettle-changelog",
@@ -15979,7 +15979,7 @@ module Kettle
     end
 
     def nomono_gemfile_declaration
-      %(gem "nomono", "~> 1.1", ">= 1.1.14", require: false # ruby >= 3.2.0)
+      %(gem "nomono", "~> 1.1", ">= 1.1.15", require: false # ruby >= 3.2.0)
     end
 
     def local_gemfile_nomono_bootstrap(_package_name)
@@ -15991,7 +15991,7 @@ module Kettle
         # Bootstrapping nomono here cannot rely on a plain `gem "nomono", ...` line.
         # Bundler records that dependency during Gemfile evaluation, but it does not
         # activate that exact version before the immediate `require "nomono/bundler"`.
-        nomono_activation_requirements = ["~> 1.1", ">= 1.1.14"]
+        nomono_activation_requirements = ["~> 1.1", ">= 1.1.15"]
         nomono_requirement = Gem::Requirement.new(nomono_activation_requirements)
         nomono_already_activated = Gem.loaded_specs["nomono"]
         nomono_lockfile = File.expand_path(#{lockfile_path.inspect}, __dir__)

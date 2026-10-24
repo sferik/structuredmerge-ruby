@@ -24,6 +24,9 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Changed
 
+- [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
+  - nomono (>= 1.1.14 -> >= 1.1.15)
+
 ### Deprecated
 
 ### Removed
