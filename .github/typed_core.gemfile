@@ -33,3 +33,11 @@ if ENV.fetch('STRUCTUREDMERGE_DEV', '').strip != ''
     end
   end
 end
+
+# Prevent the registry version_gem 1.1.15 from being resolved alongside 1.1.16
+# when registry development gems (kettle-dev, kettle-family, kettle-test) with
+# the older floor are present. The local structuredmerge gems require >= 1.1.16.
+if dependencies.any? { |dependency| dependency.name == "version_gem" }
+  instance_variable_get(:@dependencies).reject! { |dependency| dependency.name == "version_gem" }
+  gem "version_gem", "~> 1.1", ">= 1.1.16"
+end
