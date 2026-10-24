@@ -28,7 +28,7 @@ Please file a bug if you notice a violation of semantic versioning.
   - kettle-family (>= 1.3.32 -> >= 1.3.33)
   - nomono (>= 1.1.14 -> >= 1.1.15)
 
-- [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity.
+- [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity. Template sources with {KJ|...} placeholder tokens stay floor-managed through kettle-deps-floor's placeholder_pattern parsing.
 
 - [kc] kettle-jem/prepare: updated 7 project files:
   - dependencies (7)

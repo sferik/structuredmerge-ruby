@@ -33,7 +33,8 @@ class KettleJemDepsFloor
       "lib/kettle/jem.rb"
     ].freeze,
     changelog_key: "kettle-jem-deps-floor",
-    changelog_entry: "Update kettle-jem template dependency floors:"
+    changelog_entry: "Update kettle-jem template dependency floors:",
+    placeholder_pattern: "\\{KJ\\|[^}]*\\}"
   }.freeze
 
   def self.run(argv = ARGV, out: $stdout, err: $stderr)
