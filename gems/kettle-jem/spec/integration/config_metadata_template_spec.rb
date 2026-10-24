@@ -1252,8 +1252,8 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
           readme:
             corporate_sponsors:
               - name: Example & Sons
-                url: https://example.com/sponsor?from=kettle&level=gold
-                img_src: https://example.com/logo.svg?badge=1&size=small
+                target_href: https://example.com/sponsor?from=kettle&level=gold
+                image_src: https://example.com/logo.svg?badge=1&size=small
           templates:
             root: template
             apply: true
@@ -1307,8 +1307,8 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
           readme:
             corporate_sponsors:
               - name: Active Corp
-                url: https://active.example
-                img_src: https://active.example/logo.svg
+                target_href: https://active.example
+                image_src: https://active.example/logo.svg
                 since: #{active_since}
                 until: #{active_until}
               - name: Expired Corp
@@ -1372,13 +1372,13 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
           readme:
             corporate_sponsors:
               - name: Umbrella Fund
-                url: https://umbrella.example
-                img_src: https://umbrella.example/logo.svg
+                target_href: https://umbrella.example
+                image_src: https://umbrella.example/logo.svg
                 members:
                   - name: Member One
-                    url: https://one.example
+                    target_href: https://one.example
                   - name: Member Two
-                    url: https://two.example
+                    target_href: https://two.example
                   - name: Lapsed Member
                     url: https://lapsed.example
                     until: #{(today - 1).iso8601}
@@ -1436,18 +1436,22 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
           "members" => [{"name" => "NoUrl"}]
         }]
       )
-    }.to raise_error(ArgumentError, /members require name and url/)
+    }.to raise_error(ArgumentError, /members require name and target_href/)
   end
 
   it "renders corporate sponsors inherited from kettle-family environment" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
     Dir.mktmpdir("kettle-jem-readme-family-sponsor-token-slice", tmp_root) do |root|
+      today = Date.today.iso8601
       sponsors_json = JSON.generate([
         {
           "name" => "Family Sponsor",
-          "url" => "https://family.example",
-          "img_src" => "https://family.example/logo.svg"
+          "target_href" => "https://family.example",
+          "image_src" => "https://family.example/logo.svg",
+          "since" => today,
+          "until" => today,
+          "members" => [{"name" => "Family Backer", "target_href" => "https://backer.example"}]
         }
       ])
       write_tree(root, {
@@ -1465,7 +1469,10 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
             entries:
               - README.md
         YAML
-        "template/README.md.example" => "{KJ|README:CORPORATE_SPONSORS}\n"
+        "template/README.md.example" => <<~MARKDOWN
+          {KJ|README:CORPORATE_SPONSORS}
+          {KJ|README:CORPORATE_SPONSORS_DETAIL}
+        MARKDOWN
       })
 
       plan = described_class.plan_project(
@@ -1477,15 +1484,19 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
       end
 
       expect(template_report.fetch(:final_content)).to include(
-        %(<img alt="Family Sponsor" src="https://family.example/logo.svg" height="24"/>)
+        %(<img alt="Family Sponsor" src="https://family.example/logo.svg" height="24"/>),
+        %(- <a href="https://family.example"><img alt="Family Sponsor" src="https://family.example/logo.svg" height="32"/></a> [Family Sponsor](https://family.example) — backed by [Family Backer](https://backer.example))
       )
-      expect(plan.dig(:facts, :readme_sponsors, :entries)).to eq([
-        {
+      expect(plan.dig(:facts, :readme_sponsors, :entries)).to contain_exactly(
+        a_hash_including(
           name: "Family Sponsor",
           url: "https://family.example",
-          img_src: "https://family.example/logo.svg"
-        }
-      ])
+          img_src: "https://family.example/logo.svg",
+          since: Date.iso8601(today),
+          until: Date.iso8601(today),
+          members: contain_exactly(a_hash_including(name: "Family Backer", url: "https://backer.example"))
+        )
+      )
     end
   end
 

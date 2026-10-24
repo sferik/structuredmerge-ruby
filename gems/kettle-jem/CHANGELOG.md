@@ -20,6 +20,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- kettle-jem: corporate sponsor configuration now accepts the explicit target_href and image_src keys alongside legacy url and img_src, preserving existing configs while supporting direct, date-bounded static sponsors.
+
 ### Changed
 
 ### Deprecated

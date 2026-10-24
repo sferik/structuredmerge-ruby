@@ -17561,14 +17561,14 @@ module Kettle
     def normalize_readme_corporate_sponsors(value)
       Array(value).filter_map do |entry|
         unless entry.is_a?(Hash)
-          raise ArgumentError, "corporate sponsor entries must be mappings with name, url, and img_src"
+          raise ArgumentError, "corporate sponsor entries must be mappings with name, target_href, and image_src (legacy url and img_src are also accepted)"
         end
 
         name = entry["name"].to_s.strip
-        url = entry["url"].to_s.strip
-        img_src = entry["img_src"].to_s.strip
+        url = (entry["target_href"] || entry["url"]).to_s.strip
+        img_src = (entry["image_src"] || entry["img_src"]).to_s.strip
         if name.empty? || url.empty? || img_src.empty?
-          raise ArgumentError, "corporate sponsor entries require name, url, and img_src"
+          raise ArgumentError, "corporate sponsor entries require name, target_href, and image_src (legacy url and img_src are also accepted)"
         end
 
         {
@@ -17591,17 +17591,17 @@ module Kettle
 
       Array(value).filter_map do |entry|
         unless entry.is_a?(Hash)
-          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members must be mappings with name and url"
+          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members must be mappings with name and target_href (legacy url is also accepted)"
         end
         unless entry["members"].nil?
           raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members cannot themselves have members"
         end
 
         name = entry["name"].to_s.strip
-        url = entry["url"].to_s.strip
-        img_src = entry["img_src"].to_s.strip
+        url = (entry["target_href"] || entry["url"]).to_s.strip
+        img_src = (entry["image_src"] || entry["img_src"]).to_s.strip
         if name.empty? || url.empty?
-          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members require name and url"
+          raise ArgumentError, "corporate sponsor #{sponsor_name.inspect} members require name and target_href (legacy url is also accepted)"
         end
 
         {

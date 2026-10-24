@@ -346,26 +346,28 @@ readme:
   #
   # corporate_sponsors:
   #   - name: Example Corp
-  #     url: https://example.com
-  #     img_src: https://example.com/logo.svg
+  #     target_href: https://example.com
+  #     image_src: https://example.com/logo.svg
+  #     # Legacy aliases remain accepted: url and img_src.
   #     # Optional sponsorship window (ISO 8601 dates).
-  #     # Entries render only while active: `since` is the first day shown,
-  #     # `until` is the last day shown. Omit both for an open-ended sponsor.
+  #     # `since` is the first day shown; `until` is the last day shown.
+  #     # Omit either bound for an open-ended period.
   #     # since: 2026-01-01
   #     # until: 2026-12-31
   # An umbrella sponsor (an organization that itself is funded by companies,
   # e.g. Alpha-Omega) may list its backers as members. The umbrella renders in
   # the top logo row; members render as linked names in a "backed by" caption
-  # in the FLOSS Funding detail block. Members require name and url, accept the
-  # same optional since/until window, and cannot themselves have members.
+  # in the FLOSS Funding detail block. Members require name and target_href
+  # (legacy url is accepted), accept the same optional since/until window,
+  # and cannot themselves have members.
   #
   # corporate_sponsors:
   #   - name: Alpha-Omega
-  #     url: https://alpha-omega.dev
-  #     img_src: https://alpha-omega.dev/logo.svg
+  #     target_href: https://alpha-omega.dev
+  #     image_src: https://alpha-omega.dev/logo.svg
   #     members:
   #       - name: Example Corp
-  #         url: https://example.com
+  #         target_href: https://example.com
   # Optional package-family README block.
   # Supported values: structuredmerge
   # Leave unset for standalone kettle-rb gems and most projects.
