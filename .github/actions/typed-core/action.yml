@@ -28,3 +28,13 @@ runs:
         ' "${export_root}/core-ruby-artifact.json"
         # kettle-test discovers the owning gem from the bundle's directory.
         cp "${GITHUB_WORKSPACE}/.github/typed_core.gemfile" "${STRUCTUREDMERGE_CI_GEM_DIR}/ci_core.gemfile"
+    - name: Clean stale version_gem versions
+      shell: bash
+      run: |
+        # RubyGems emits a warning when multiple versions of a gem with
+        # conflicting requirements are installed. Registry kettle-dev family
+        # gems (floor 1.1.15) conflict with local structuredmerge gems
+        # (floor 1.1.16). Keep only the version required by the local gems.
+        if gem list version_gem --exact | grep -q 1.1.15; then
+          gem uninstall version_gem -v 1.1.15
+        fi

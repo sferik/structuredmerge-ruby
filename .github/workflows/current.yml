@@ -586,6 +586,14 @@ jobs:
           done
 
           exit 1
+      - name: Clean stale version_gem versions
+        working-directory: gems/ast-merge-git
+        run: |
+          # The benchmark expects clean stderr. RubyGems emits a warning when
+          # multiple versions of a gem with conflicting requirements are installed.
+          # version_gem 1.1.15 (from registry kettle-dev family) conflicts with
+          # 1.1.16 (required by local structuredmerge gems). Keep only 1.1.16.
+          gem list version_gem --exact | grep -q 1.1.15 && gem uninstall version_gem -v 1.1.15 || true
       - name: Run affected-capability benchmark
         working-directory: gems/ast-merge-git
         env:
