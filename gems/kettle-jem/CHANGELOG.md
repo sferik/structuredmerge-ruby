@@ -30,6 +30,14 @@ Please file a bug if you notice a violation of semantic versioning.
 
 - [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity.
 
+- [kc] kettle-jem/prepare: updated 7 project files:
+  - dependencies (7)
+
+- [kc] kettle-jem/template: updated 4 project files:
+  - code and tests (1)
+  - documentation (1)
+  - other (2)
+
 ### Deprecated
 
 ### Removed
