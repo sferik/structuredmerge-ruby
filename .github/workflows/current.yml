@@ -568,6 +568,13 @@ jobs:
           STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
         run: |
           bundle config set frozen false
+          # Pin version_gem to avoid 1.1.15/1.1.16 dual-resolution from
+          # registry kettle-dev family gems (older floor) vs local gems
+          cat > "${RUNNER_TEMP}/ci_benchmark.gemfile" <<EOF
+          eval_gemfile "${PWD}/Gemfile"
+          gem 'version_gem', '~> 1.1', '>= 1.1.16'
+          EOF
+          echo "BUNDLE_GEMFILE=${RUNNER_TEMP}/ci_benchmark.gemfile" >> "${GITHUB_ENV}"
           for attempt in 1 2 3; do
             if bundle install --jobs 4 --retry 8; then
               exit 0
