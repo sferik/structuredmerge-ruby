@@ -1286,6 +1286,75 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
     end
   end
 
+  it "filters corporate sponsors by their since/until window" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-readme-sponsor-window-slice", tmp_root) do |root|
+      today = Date.today
+      active_since = (today - 30).iso8601
+      active_until = (today + 30).iso8601
+      expired_until = (today - 1).iso8601
+      future_since = (today + 1).iso8601
+      write_tree(root, {
+        "example-gem.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example-gem"
+            spec.summary = "Example gem"
+            spec.metadata["source_code_uri"] = "https://github.com/acme/example-gem"
+          end
+        RUBY
+        ".kettle-jem.yml" => <<~YAML,
+          readme:
+            corporate_sponsors:
+              - name: Active Corp
+                url: https://active.example
+                img_src: https://active.example/logo.svg
+                since: #{active_since}
+                until: #{active_until}
+              - name: Expired Corp
+                url: https://expired.example
+                img_src: https://expired.example/logo.svg
+                until: #{expired_until}
+              - name: Future Corp
+                url: https://future.example
+                img_src: https://future.example/logo.svg
+                since: #{future_since}
+          templates:
+            root: template
+            apply: true
+            entries:
+              - README.md
+        YAML
+        "template/README.md.example" => <<~MARKDOWN
+          Top funding row.
+          {KJ|README:CORPORATE_SPONSORS}
+
+          ## 🦷 FLOSS Funding
+        MARKDOWN
+      })
+
+      plan = described_class.plan_project(root, env: {})
+      template_report = plan[:recipe_reports].find do |report|
+        report.fetch(:recipe_name) == "template_source_application_README_md"
+      end
+      final_content = template_report.fetch(:final_content)
+
+      expect(final_content).to include("Corporate sponsor:")
+      expect(final_content).to include(%(<img alt="Active Corp"))
+      expect(final_content).not_to include("Expired Corp")
+      expect(final_content).not_to include("Future Corp")
+    end
+  end
+
+  it "rejects corporate sponsor entries with invalid since/until dates" do
+    expect {
+      described_class.send(
+        :normalize_readme_corporate_sponsors,
+        [{"name" => "Bad Date Corp", "url" => "https://bad.example", "img_src" => "https://bad.example/logo.svg", "until" => "last tuesday"}]
+      )
+    }.to raise_error(ArgumentError, /invalid until date/)
+  end
+
   it "renders corporate sponsors inherited from kettle-family environment" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)

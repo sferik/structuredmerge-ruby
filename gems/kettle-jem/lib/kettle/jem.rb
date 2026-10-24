@@ -4,6 +4,7 @@ require "fileutils"
 require "find"
 require "English"
 require "digest"
+require "date"
 require "json"
 require "net/http"
 require "open3"
@@ -14156,7 +14157,7 @@ module Kettle
       path = kettle_jem_config_path(project_root)
       return {} unless File.exist?(path)
 
-      config = YAML.safe_load_file(path, permitted_classes: [], aliases: false) || {}
+      config = YAML.safe_load_file(path, permitted_classes: [Date], aliases: false) || {}
       config = normalize_kettle_jem_config(config)
       validate_kettle_jem_config!(config)
       config
@@ -17520,7 +17521,19 @@ module Kettle
         readme_config["corporate_sponsors"] || readme_config["sponsors"]
       )
       inherited = normalize_readme_corporate_sponsors_json(env["KETTLE_JEM_CORPORATE_SPONSORS_JSON"])
-      deduplicate_readme_corporate_sponsors(configured + inherited)
+      sponsors = deduplicate_readme_corporate_sponsors(configured + inherited)
+      today = Date.today
+      sponsors.select { |sponsor| readme_corporate_sponsor_active?(sponsor, today) }
+    end
+
+    def readme_corporate_sponsor_active?(sponsor, today)
+      since = sponsor[:since]
+      return false if since && since > today
+
+      until_date = sponsor[:until]
+      return false if until_date && until_date < today
+
+      true
     end
 
     def normalize_readme_corporate_sponsors_json(value)
@@ -17549,9 +17562,20 @@ module Kettle
         {
           name: name,
           url: url,
-          img_src: img_src
-        }
+          img_src: img_src,
+          since: normalize_readme_corporate_sponsor_date(entry["since"], "since", name),
+          until: normalize_readme_corporate_sponsor_date(entry["until"], "until", name)
+        }.compact
       end
+    end
+
+    def normalize_readme_corporate_sponsor_date(value, key, name)
+      clean = value.to_s.strip
+      return nil if clean.empty?
+
+      Date.iso8601(clean)
+    rescue ArgumentError, TypeError
+      raise ArgumentError, "corporate sponsor #{name.inspect} has invalid #{key} date #{clean.inspect} (expected ISO 8601, e.g. 2026-01-31)"
     end
 
     def deduplicate_readme_corporate_sponsors(sponsors)

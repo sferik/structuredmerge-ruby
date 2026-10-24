@@ -20,6 +20,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Added
 
+- kettle-jem: corporate sponsor entries now accept optional `since`/`until` ISO 8601 dates defining the sponsorship window; entries render only while active, so lapsed or future sponsors can be listed in static config without manual README edits
+
 ### Changed
 
 ### Deprecated
