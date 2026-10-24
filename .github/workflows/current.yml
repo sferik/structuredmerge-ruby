@@ -566,6 +566,12 @@ jobs:
         env:
           K_JEM_TEMPLATING: true
           STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
+          # BUNDLE_GEMFILE must be set for THIS step too: GITHUB_ENV only
+          # applies to later steps, so without this the install resolves the
+          # default Gemfile while the benchmark step resolves
+          # ci_benchmark.gemfile — whose git-sourced gems are then not
+          # checked out ("not yet checked out" Bundler::GitError).
+          BUNDLE_GEMFILE: ${{ runner.temp }}/ci_benchmark.gemfile
         run: |
           bundle config set frozen false
           # Pin version_gem to avoid 1.1.15/1.1.16 dual-resolution from
