@@ -53,6 +53,11 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Curated x_std_lib modular Gemfiles by the shared Ruby-series bucket ranges; obsolete matrix files are removed when the destination raises its minimum Ruby.
+
+- Cap the Ruby 2.x StringIO templates at the last compatible release lines, so dependency-floor updates cannot select incompatible releases.
+- Limit automatic template dependency-floor updates to ordinary modular Gemfiles, their `_local` counterparts, and `vHEAD` lanes; Ruby-version compatibility matrix files remain curated.
+
 ### Security
 
 ## [7.1.41] - 2026-10-23

@@ -26,6 +26,7 @@ require "kettle/dev"
 require "kettle/changelog"
 require "kettle/rb/compat_matrix"
 require "kettle/rb/gem_floors"
+require "kettle/rb/ruby_series_buckets"
 require "kettle/rb/platform_support"
 require_relative "jem/version"
 require_relative "jem/license_txt_migrator"
@@ -19454,10 +19455,18 @@ module Kettle
       Gem::Version.new(version) < min_ruby
     end
 
-    def skip_packaged_gemfile_template?(target_path, config, project_root: nil, template_root_path: PACKAGED_TEMPLATE_ROOT)
+    def skip_packaged_gemfile_template?(target_path, config, template_root_path: PACKAGED_TEMPLATE_ROOT)
       return true if target_path.to_s.include?("gemfiles/modular/recording/") && !appraisal_recording_enabled?(config)
 
-      return false if packaged_gemfile_referenced_by_x_std_libs?(target_path, project_root: project_root, template_root_path: template_root_path)
+      inventory = packaged_x_std_lib_template_inventory(template_root_path)
+      x_std_bucket = inventory.fetch(:targets)[target_path.to_s.delete_prefix("gemfiles/modular/")]
+      if x_std_bucket
+        min_ruby = config_test_min_ruby(config)
+        return false unless min_ruby
+
+        relevant = Kettle::Rb::RubySeriesBuckets.relevant_buckets(inventory.fetch(:buckets), minimum: min_ruby)
+        return !relevant.include?(x_std_bucket)
+      end
 
       version = packaged_gemfile_template_ruby_floor(target_path)
       return false unless version
@@ -19468,19 +19477,46 @@ module Kettle
       Gem::Version.new(version) < min_ruby
     end
 
-    def packaged_gemfile_referenced_by_x_std_libs?(target_path, project_root:, template_root_path:)
-      relative_path = target_path.to_s.delete_prefix("gemfiles/modular/")
-      return false unless relative_path.start_with?("x_std_libs/")
-
-      aggregate_paths = [
-        File.join(template_root_path.to_s, "gemfiles/modular/x_std_libs.gemfile.example"),
-        File.join(project_root.to_s, "gemfiles/modular/x_std_libs.gemfile")
-      ].select { |path| File.file?(path) }
-      aggregate_paths.any? do |path|
-        gemfile_eval_paths(File.read(path)).include?(relative_path)
+    def packaged_x_std_lib_template_inventory(template_root_path)
+      root_key = File.expand_path(template_root_path.to_s)
+      if root_key == File.expand_path(PACKAGED_TEMPLATE_ROOT)
+        @packaged_x_std_lib_template_inventory ||= build_packaged_x_std_lib_template_inventory(root_key)
+        return @packaged_x_std_lib_template_inventory
       end
-    rescue
-      false
+
+      build_packaged_x_std_lib_template_inventory(root_key)
+    end
+
+    def build_packaged_x_std_lib_template_inventory(template_root_path)
+      modular_root = File.join(template_root_path.to_s, "gemfiles/modular")
+      seeds = Dir.glob(File.join(modular_root, "x_std_libs/**/*.gemfile.example"))
+      aggregate = File.join(modular_root, "x_std_libs.gemfile.example")
+      seeds << aggregate if File.file?(aggregate)
+
+      queue = seeds
+      visited = Set.new
+      targets = {}
+      buckets = Set.new
+      until queue.empty?
+        source = queue.pop
+        next unless File.file?(source)
+        next unless visited.add?(source)
+
+        relative = source.delete_prefix("#{modular_root}/").delete_suffix(".example")
+        bucket = relative.split("/").find { |segment| segment.match?(/\Ar\d+(?:\.\d+)?\z/) }
+        if bucket
+          targets[relative] = bucket
+          buckets << bucket
+        end
+
+        gemfile_eval_paths(File.read(source)).each do |reference|
+          resolved = File.expand_path(reference, File.dirname(source))
+          candidate = "#{resolved}.example"
+          queue << candidate if candidate.start_with?("#{modular_root}/") && File.file?(candidate)
+        end
+      end
+
+      {targets: targets, buckets: buckets.to_a}
     end
 
     def skip_disabled_integration_template?(target_path, config)

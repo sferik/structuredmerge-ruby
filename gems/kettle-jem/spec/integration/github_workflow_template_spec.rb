@@ -1125,6 +1125,56 @@ RSpec.describe Kettle::Jem, "GitHub workflow templating" do
     end
   end
 
+  it "prunes x_std_lib matrix templates by the shared bucket ranges" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-x-stdlib-bucket-slice", tmp_root) do |root|
+      write_tree(root, {
+        "example.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example"
+            spec.summary = "Example gem"
+            spec.required_ruby_version = ">= 2.7"
+          end
+        RUBY
+        ".kettle-jem.yml" => <<~YAML,
+          templates:
+            root: packaged
+            apply: true
+            entries:
+              - gemfiles/modular/x_std_libs/r2.4/libs.gemfile
+              - gemfiles/modular/x_std_libs/r2.6/libs.gemfile
+              - gemfiles/modular/x_std_libs/r2/libs.gemfile
+              - gemfiles/modular/stringio/r2.4/v0.0.2.gemfile
+              - gemfiles/modular/stringio/r2/v3.0.gemfile
+        YAML
+        "gemfiles/modular/x_std_libs/r2.4/libs.gemfile" => "stale r2.4 lane\n",
+        "gemfiles/modular/x_std_libs/r2.6/libs.gemfile" => "stale r2.6 lane\n",
+        "gemfiles/modular/stringio/r2.4/v0.0.2.gemfile" => "stale StringIO r2.4 lane\n"
+      })
+
+      plan = described_class.plan_project(root, env: {})
+      obsolete_paths = %w[
+        gemfiles/modular/x_std_libs/r2.4/libs.gemfile
+        gemfiles/modular/x_std_libs/r2.6/libs.gemfile
+        gemfiles/modular/stringio/r2.4/v0.0.2.gemfile
+      ]
+      obsolete_paths.each do |path|
+        report = plan.fetch(:recipe_reports).find { |candidate| candidate.fetch(:relative_path) == path }
+        expect(report.fetch(:recipe_name)).to start_with("template_inactive_packaged_cleanup_")
+        expect(report.fetch(:metadata)).to include(delete_file: true)
+      end
+
+      retained_path = "gemfiles/modular/x_std_libs/r2/libs.gemfile"
+      retained_report = plan.fetch(:recipe_reports).find { |report| report.fetch(:relative_path) == retained_path }
+      expect(retained_report.fetch(:recipe_name)).to eq("template_source_application_#{retained_path.tr("/.", "__")}")
+      expect(retained_report.fetch(:metadata)).not_to include(delete_file: true)
+      expect(plan.fetch(:recipe_reports).map { |report| report.fetch(:relative_path) }).to include(
+        "gemfiles/modular/stringio/r2/v3.0.gemfile"
+      )
+    end
+  end
+
   it "prunes packaged recording gemfile templates unless recording is configured" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
