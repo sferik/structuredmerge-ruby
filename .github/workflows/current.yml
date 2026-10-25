@@ -555,43 +555,19 @@ jobs:
           test "$(git -C ../benchmark-fixtures rev-parse "refs/tags/${tag}^{commit}")" = "${revision}"
       - name: Setup Ruby
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/gems/ast-merge-git/Appraisal.root.gemfile
+          K_JEM_TEMPLATING: true
+          STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
         with:
           ruby-version: ruby
           bundler-cache: false
+          main-bundle-install: false
           working-directory: gems/ast-merge-git
-          pre-bundle-gems: |
+          appraisal-name: benchmark-dev
+          appraisal-root-gemfile: Appraisal.root.gemfile
+          pre-appraisal-root-gemfile-gems: |
             nomono --source https://gem.coop --source https://rubygems.org
-      - name: Install dependencies
-        working-directory: gems/ast-merge-git
-        env:
-          K_JEM_TEMPLATING: true
-          STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
-          # BUNDLE_GEMFILE must be set for THIS step too: GITHUB_ENV only
-          # applies to later steps, so without this the install resolves the
-          # default Gemfile while the benchmark step resolves
-          # ci_benchmark.gemfile — whose git-sourced gems are then not
-          # checked out ("not yet checked out" Bundler::GitError).
-          BUNDLE_GEMFILE: ${{ runner.temp }}/ci_benchmark.gemfile
-        run: |
-          bundle config set frozen false
-          # Pin version_gem to avoid 1.1.15/1.1.16 dual-resolution from
-          # registry kettle-dev family gems (older floor) vs local gems
-          cat > "${RUNNER_TEMP}/ci_benchmark.gemfile" <<EOF
-          eval_gemfile "${PWD}/Gemfile"
-          gem 'version_gem', '~> 1.1', '>= 1.1.16'
-          EOF
-          echo "BUNDLE_GEMFILE=${RUNNER_TEMP}/ci_benchmark.gemfile" >> "${GITHUB_ENV}"
-          for attempt in 1 2 3; do
-            if bundle install --jobs 4 --retry 8; then
-              exit 0
-            fi
-
-            if [[ "${attempt}" -lt 3 ]]; then
-              sleep "$((attempt * 5))"
-            fi
-          done
-
-          exit 1
       - name: Run affected-capability benchmark
         working-directory: gems/ast-merge-git
         env:
@@ -619,7 +595,7 @@ jobs:
           mkdir -p "$(dirname "${report}")"
 
           set +e
-          timeout 5m bundle exec ast-merge-git benchmark report \
+          timeout 5m bundle exec appraisal benchmark-dev bundle exec ast-merge-git benchmark report \
             --corpus "${corpus}" \
             --profile dev \
             --tmp-root "${PWD}/tmp/ci-benchmark/run" \
@@ -706,30 +682,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Ruby
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/gems/tree_haver/Appraisal.root.gemfile
+          K_JEM_TEMPLATING: true
+          STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
         with:
           ruby-version: ruby
           bundler-cache: false
+          main-bundle-install: false
           working-directory: gems/tree_haver
-          pre-bundle-gems: |
+          appraisal-name: tslp-cold-start
+          appraisal-root-gemfile: Appraisal.root.gemfile
+          pre-appraisal-root-gemfile-gems: |
             nomono --source https://gem.coop --source https://rubygems.org
-      - name: Install dependencies
-        working-directory: gems/tree_haver
-        env:
-          K_JEM_TEMPLATING: true
-          STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
-        run: |
-          bundle config set frozen false
-          for attempt in 1 2 3; do
-            if bundle install --jobs 4 --retry 8; then
-              exit 0
-            fi
-
-            if [[ "${attempt}" -lt 3 ]]; then
-              sleep "$((attempt * 5))"
-            fi
-          done
-
-          exit 1
       - name: Run cold-start TSLP checks
         working-directory: gems/tree_haver
         env:
@@ -740,7 +705,7 @@ jobs:
           set -euo pipefail
           export TREE_SITTER_LANGUAGE_PACK_CACHE_DIR
           TREE_SITTER_LANGUAGE_PACK_CACHE_DIR="$(mktemp -d "${RUNNER_TEMP}/tslp-cold-start.XXXXXX")"
-          bundle exec rspec spec/grammar_finder_spec.rb spec/backends/tslp_spec.rb --format progress
+          bundle exec appraisal tslp-cold-start bundle exec rspec spec/grammar_finder_spec.rb spec/backends/tslp_spec.rb --format progress
 
   check:
     name: Check
