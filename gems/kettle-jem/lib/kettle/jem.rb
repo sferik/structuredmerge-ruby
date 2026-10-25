@@ -1523,10 +1523,8 @@ module Kettle
       polar
       thanks_dev
     ].freeze
-    # README platforms include tidelift: the "Lifted" badge is config-gated
-    # (`funding: tidelift: false` removes it), but Tidelift is never emitted
-    # to FUNDING.yml (dead URLs post-Sonar acquisition).
-    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + %w[paypal tidelift]).freeze
+    # Tidelift remains supported for legacy funding configuration and cleanup.
+    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + %w[paypal]).freeze
     FUNDING_DEFAULT_DISABLED_PLATFORMS = %w[issuehunt patreon polar].freeze
     README_FUNDING_BADGE_POLICIES = {
       "github" => {
@@ -1563,12 +1561,6 @@ module Kettle
         ],
         labels: ["🖇kofi", "🖇kofi-img"]
       },
-      "tidelift" => {
-        badges: [
-          "[![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]"
-        ],
-        labels: ["🏙️entsup-tidelift", "🏙️entsup-tidelift-img"]
-      }
     }.freeze
     README_INTEGRATIONS = %w[codecov coveralls qlty codeql skywalking-eyes].freeze
     README_STAR_HISTORY_MIN_STARS = 150
@@ -7248,6 +7240,7 @@ module Kettle
         "FUNDING_TIDELIFT",
         keep: funding_platform_enabled?(facts.dig(:funding, :platforms), "tidelift")
       )
+      processed = processed.gsub(/<!-- KJ:FUNDING_TIDELIFT:(?:START|END) -->\n?/, "")
       star_history_enabled = facts.dig(:repository, :star_history, :enabled) == true
       return processed if star_history_enabled
 
@@ -14753,7 +14746,7 @@ module Kettle
         "KJ|CI:EXEC_CMD" => facts.dig(:ci, :exec_cmd).to_s,
         "KJ|CI:OS_MATRIX_ENTRIES" => github_actions_current_os_matrix_entries(facts),
         "KJ|CI:OS_TEST_STEPS" => github_actions_current_os_test_steps(facts),
-        "KJ|README:CI_COVERAGE_SUMMARY" => readme_ci_coverage_summary(facts),
+        "KJ|README:CURRENT_MRI_PLATFORMS" => readme_current_mri_platforms(facts),
         "KJ|RAKE:TOP_LEVEL_DOCS_TASK" => rake_top_level_docs_task_token(facts).rstrip,
         "KJ|GITHUB_ACTIONS:COVERAGE_UPLOAD_STEPS" => github_actions_coverage_steps(disabled_integrations: facts.dig(:integrations, :disabled))
       }.merge(
@@ -14828,13 +14821,17 @@ module Kettle
       "#{package_name} / #{namespace}"
     end
 
-    # Keep the README's CI statement concise and limited to the generated facts.
-    # The compatibility badge table already carries engine/version detail;
-    # this adds only the declared OS platforms for the current-runtime matrix.
-    def readme_ci_coverage_summary(facts)
+    # Keep the platform detail within Compatibility. The compatibility badge
+    # table already carries engine/version detail; this adds the OS platforms
+    # exercised by the current MRI lane.
+    def readme_current_mri_platforms(facts)
       platforms = facts.dig(:ci, :platforms)
       platforms = DEFAULT_PLATFORMS if platforms.nil? || platforms.empty?
-      "The current MRI runtime matrix runs on #{platforms.join(", ")}."
+      platform_names = platforms.map { |platform| platform == "macos" ? "macOS" : platform.capitalize }
+      return platform_names.first if platform_names.one?
+      return platform_names.join(" and ") if platform_names.length == 2
+
+      platform_names[0...-1].join(", ") + ", and #{platform_names.last}"
     end
 
     def readme_dev_test_stack_table(package_name)
@@ -19134,7 +19131,7 @@ module Kettle
         relative_path = path.delete_prefix("#{project_root}/")
         next unless preferred_template_source(PACKAGED_TEMPLATE_ROOT, relative_path)
 
-        {target_path: relative_path} if skip_packaged_gemfile_template?(relative_path, config, project_root: project_root)
+        {target_path: relative_path} if skip_packaged_gemfile_template?(relative_path, config)
       end
       (gemfile_cleanups + disabled_integration_config_cleanups(project_root, config)).sort_by { |cleanup| cleanup.fetch(:target_path) }
     end

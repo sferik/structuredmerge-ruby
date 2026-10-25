@@ -195,22 +195,22 @@ RSpec.describe Kettle::Jem do
     end
   end
 
-  describe "readme_ci_coverage_summary" do
+  describe "readme_current_mri_platforms" do
     def summary_facts(platforms:)
       {ci: {platforms: platforms}}
     end
 
     it "summarizes the current-runtime OS matrix without engine/version claims" do
-      summary = described_class.send(:readme_ci_coverage_summary, summary_facts(platforms: %w[linux macos]))
+      platforms = described_class.send(:readme_current_mri_platforms, summary_facts(platforms: %w[linux macos]))
 
-      expect(summary).to eq("The current MRI runtime matrix runs on linux, macos.")
-      expect(summary).not_to include("JRuby", "TruffleRuby", "all CI lanes", "Parallel support", "Unsupported", "MRI 2.4")
+      expect(platforms).to eq("Linux and macOS")
+      expect(platforms).not_to include("JRuby", "TruffleRuby", "all CI lanes", "Parallel support", "Unsupported", "MRI 2.4")
     end
 
     it "falls back to configured defaults when facts are absent" do
-      summary = described_class.send(:readme_ci_coverage_summary, {})
+      platforms = described_class.send(:readme_current_mri_platforms, {})
 
-      expect(summary).to eq("The current MRI runtime matrix runs on linux, macos.")
+      expect(platforms).to eq("Linux and macOS")
     end
   end
 

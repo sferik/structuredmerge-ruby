@@ -1111,7 +1111,9 @@ RSpec.describe Kettle::Jem, "README and changelog templating" do
       [![Donate on PayPal][🖇paypal-img]][🖇paypal]
       [![Buy me a coffee][🖇buyme-small-img]][🖇buyme]
       [![Donate at ko-fi.com][🖇kofi-img]][🖇kofi]
+      <!-- KJ:FUNDING_TIDELIFT:START -->
       [![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]
+      <!-- KJ:FUNDING_TIDELIFT:END -->
 
       [🖇sponsor-img]: https://example.test/sponsor.png
       [🖇sponsor]: https://example.test/sponsor
@@ -1133,7 +1135,7 @@ RSpec.describe Kettle::Jem, "README and changelog templating" do
       {funding: {platforms: platforms}}
     )
 
-    expect(result).not_to include("Sponsor Me on Github", "Liberapay Goal Progress", "Donate on PayPal", "Buy me a coffee", "Donate at ko-fi.com", "Get help from me on Tidelift")
+    expect(result).not_to include("Sponsor Me on Github", "Liberapay Goal Progress", "Donate on PayPal", "Buy me a coffee", "Donate at ko-fi.com", "Get help from me on Tidelift", "KJ:FUNDING_TIDELIFT")
     expect(result).not_to include("🖇sponsor", "⛳liberapay", "🖇paypal", "🖇buyme", "🖇kofi", "🏙️entsup-tidelift")
   end
 
