@@ -25,11 +25,16 @@ Please file a bug if you notice a violation of semantic versioning.
 ### Changed
 
 - [kc] kettle-jem-deps-floor: Update kettle-jem template dependency floors:
-  - cgi (>= 0.5 -> >= 0.5.2)
-  - debug (>= 1.1 -> >= 1.11.1)
-  - rbs (>= 3.0 -> >= 4.2.0)
-  - addressable (>= 2.8 -> >= 2.9.0)
-  - webrick (>= 1.9 -> >= 1.9.2)
+  - nomono (>= 1.1.15 -> >= 1.1.16)
+  - kettle-dev (>= 3.1.24 -> >= 3.1.25)
+  - kettle-changelog (>= 1.0.13 -> >= 1.0.14)
+  - kettle-drift (>= 1.0.17 -> >= 1.0.18)
+  - kettle-family (>= 1.3.33 -> >= 1.3.34)
+  - kettle-test (>= 2.0.27 -> >= 2.0.28)
+  - version_gem (>= 1.1.16 -> >= 1.1.17)
+  - anonymous_loader (>= 0.1.4 -> >= 0.1.5)
+  - kettle-soup-cover (>= 3.0.13 -> >= 3.0.14)
+  - yard-lint (>= 1.12.0 -> >= 1.13.0)
 
 - [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity. Template sources with {KJ|...} placeholder tokens stay floor-managed through kettle-deps-floor's placeholder_pattern parsing.
 
