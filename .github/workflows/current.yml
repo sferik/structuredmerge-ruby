@@ -535,6 +535,10 @@ jobs:
     needs: detect
     if: ${{ needs.detect.outputs.release_mode == '' }}
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gems/ast-merge-git/Appraisal.root.gemfile
+      K_JEM_TEMPLATING: true
+      STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -566,8 +570,6 @@ jobs:
           working-directory: gems/ast-merge-git
           appraisal-name: benchmark-dev
           appraisal-root-gemfile: Appraisal.root.gemfile
-          pre-appraisal-root-gemfile-gems: |
-            nomono --source https://gem.coop --source https://rubygems.org
       - name: Run affected-capability benchmark
         working-directory: gems/ast-merge-git
         env:
@@ -677,6 +679,10 @@ jobs:
     needs: detect
     if: ${{ needs.detect.outputs.release_mode == '' }}
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gems/tree_haver/Appraisal.root.gemfile
+      K_JEM_TEMPLATING: true
+      STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -693,8 +699,6 @@ jobs:
           working-directory: gems/tree_haver
           appraisal-name: tslp-cold-start
           appraisal-root-gemfile: Appraisal.root.gemfile
-          pre-appraisal-root-gemfile-gems: |
-            nomono --source https://gem.coop --source https://rubygems.org
       - name: Run cold-start TSLP checks
         working-directory: gems/tree_haver
         env:
