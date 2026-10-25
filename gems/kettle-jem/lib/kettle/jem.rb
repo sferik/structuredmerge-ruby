@@ -19219,7 +19219,7 @@ module Kettle
       return if source_path.to_s.empty? || target_path.to_s.empty?
       return if skip_packaged_workflow_template?(target_path, config, include_patterns: include_patterns)
       return if skip_disabled_integration_template?(target_path, config)
-      return if skip_packaged_gemfile_template?(target_path, config, project_root: project_root, template_root_path: template_root.fetch(:path))
+      return if skip_packaged_gemfile_template?(target_path, config, template_root_path: template_root.fetch(:path))
       return if skip_packaged_license_template?(target_path, config)
       return if skip_packaged_version_gem_entrypoint_template?(project_root, source_path, target_path, config)
       return if template_root.fetch(:kind) == "packaged" && opencollective_disabled && opencollective_disabled_file?(target_path)

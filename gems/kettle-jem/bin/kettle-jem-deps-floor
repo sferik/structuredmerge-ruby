@@ -27,7 +27,12 @@ class KettleJemDepsFloor
       "lib/kettle/jem/templates/Appraisals.example",
       "lib/kettle/jem/templates/Gemfile.example",
       "lib/kettle/jem/templates/gem.gemspec.example",
-      "lib/kettle/jem/templates/gemfiles/**/*.gemfile.example",
+      # Keep ordinary modular bundles (including *_local variants) and their
+      # HEAD lanes on automatic floor updates. Nested Ruby-version lanes are
+      # curated compatibility matrices; their Gemfile comments and paths are
+      # not constraints the generic dependency-floor updater can interpret.
+      "lib/kettle/jem/templates/gemfiles/modular/*.gemfile.example",
+      "lib/kettle/jem/templates/gemfiles/modular/*/vHEAD.gemfile.example",
       "lib/kettle/jem/templates/shim/Gemfile.example",
       "lib/kettle/jem/templates/shim/gem.gemspec.example",
       "lib/kettle/jem.rb"

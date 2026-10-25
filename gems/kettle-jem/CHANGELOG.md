@@ -31,7 +31,6 @@ Please file a bug if you notice a violation of semantic versioning.
   - addressable (>= 2.8 -> >= 2.9.0)
   - webmock (>= 3 -> >= 3.34.0)
   - vcr (>= 6 -> >= 6.4.0)
-  - stringio (>= 0.0.2 -> >= 3.2.0)
   - webrick (>= 1.9 -> >= 1.9.2)
 
 - [kc] kettle-deps-floor-extraction: kettle-jem-deps-floor now delegates shared discovery, planning, AST edits, and CLI reporting to the kettle-deps-floor runtime gem while retaining Kettle Jem source defaults and changelog identity. Template sources with {KJ|...} placeholder tokens stay floor-managed through kettle-deps-floor's placeholder_pattern parsing.

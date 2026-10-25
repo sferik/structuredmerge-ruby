@@ -4,6 +4,14 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
   include_context "with isolated kettle-jem environment"
   include_context "with kettle-jem fixture contracts"
 
+  it "keeps the Ruby 2.x StringIO templates on compatible releases" do
+    ruby_24_template = File.read(project_root.join("lib/kettle/jem/templates/gemfiles/modular/stringio/r2.4/v0.0.2.gemfile.example"))
+    ruby_25_template = File.read(project_root.join("lib/kettle/jem/templates/gemfiles/modular/stringio/r2/v3.0.gemfile.example"))
+
+    expect(ruby_24_template).to include('gem "stringio", ">= 0.0.2", "< 3.0"')
+    expect(ruby_25_template).to include('gem "stringio", ">= 3.0", "< 3.0.7"')
+  end
+
   it "applies Appraisals template policy with self-dependency and minimum Ruby pruning" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)

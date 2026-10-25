@@ -37,9 +37,31 @@ RSpec.describe KettleJemDepsFloor do
 
     expect(sources).to include(
       "lib/kettle/jem/templates/gem.gemspec.example",
-      "lib/kettle/jem/templates/gemfiles/**/*.gemfile.example",
+      "lib/kettle/jem/templates/gemfiles/modular/*.gemfile.example",
+      "lib/kettle/jem/templates/gemfiles/modular/*/vHEAD.gemfile.example",
       "lib/kettle/jem.rb"
     )
+    expect(sources).not_to include("lib/kettle/jem/templates/gemfiles/**/*.gemfile.example")
+  end
+
+  it "does not raise Ruby 2.x StringIO floors past their compatibility caps" do
+    gem_root = described_class::DEFAULTS.fetch(:project_root)
+    templates = [
+      "lib/kettle/jem/templates/gemfiles/modular/stringio/r2.4/v0.0.2.gemfile.example",
+      "lib/kettle/jem/templates/gemfiles/modular/stringio/r2/v3.0.gemfile.example"
+    ]
+
+    templates.each do |template|
+      result = Kettle::Deps::Floor::Updater.new(
+        project_root: gem_root,
+        sources: [template],
+        target_versions: {"stringio" => "3.2.0"},
+        registry_updates: false
+      ).run
+
+      expect(result.fetch(:discovered_dependencies)).to eq(["stringio"])
+      expect(result.fetch(:updates)).to eq(0)
+    end
   end
 
   it "keeps the repository-local executable runnable from the Kettle Jem checkout" do
