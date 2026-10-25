@@ -4,6 +4,13 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
   include_context "with isolated kettle-jem environment"
   include_context "with kettle-jem fixture contracts"
 
+  it "keeps the Ruby 2.x recording templates on floors every Ruby in the lane can resolve" do
+    base = project_root.join("lib/kettle/jem/templates/gemfiles/modular/recording")
+
+    expect(File.read(base.join("r2.4/recording.gemfile.example"))).to include('gem "webmock", ">= 3"')
+    expect(File.read(base.join("r2.5/recording.gemfile.example"))).to include('gem "vcr", ">= 6"', 'gem "webmock", ">= 3"')
+  end
+
   it "keeps the Ruby 2.x StringIO templates on compatible releases" do
     ruby_24_template = File.read(project_root.join("lib/kettle/jem/templates/gemfiles/modular/stringio/r2.4/v0.0.2.gemfile.example"))
     ruby_25_template = File.read(project_root.join("lib/kettle/jem/templates/gemfiles/modular/stringio/r2/v3.0.gemfile.example"))

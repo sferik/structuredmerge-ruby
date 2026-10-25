@@ -44,6 +44,14 @@ RSpec.describe KettleJemDepsFloor do
     expect(sources).not_to include("lib/kettle/jem/templates/gemfiles/**/*.gemfile.example")
   end
 
+  it "never selects files in Ruby-version lane directories (rN / rN.M)" do
+    gem_root = described_class::DEFAULTS.fetch(:project_root)
+    selected = described_class::DEFAULTS.fetch(:sources).flat_map { |pattern| Dir.glob(File.join(gem_root, pattern)) }
+
+    expect(selected).not_to be_empty
+    expect(selected.grep(%r{/r\d+(?:\.\d+)?/})).to be_empty
+  end
+
   it "does not raise Ruby 2.x StringIO floors past their compatibility caps" do
     gem_root = described_class::DEFAULTS.fetch(:project_root)
     templates = [
