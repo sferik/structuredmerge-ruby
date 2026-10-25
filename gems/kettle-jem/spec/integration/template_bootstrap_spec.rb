@@ -491,7 +491,9 @@ RSpec.describe Kettle::Jem, "template selection and bootstrap behavior" do
       expect(paths.uniq).to eq(["README.md"])
 
       apply = described_class.apply_project(root, env: {}, run_options: {only: "README.md"})
-      expect(apply.fetch(:changed_files)).to eq(["README.md"])
+      # The legacy config migration is housekeeping orthogonal to the --only
+      # scope: the legacy file is moved to the canonical path on any apply.
+      expect(apply.fetch(:changed_files)).to eq([".kettle-jem.yml", ".structuredmerge/kettle-jem.yml", "README.md"])
       expect(File).to exist(File.join(root, "README.md"))
       expect(File).not_to exist(File.join(root, ".github", "FUNDING.yml"))
 

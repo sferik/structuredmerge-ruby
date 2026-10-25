@@ -2088,9 +2088,9 @@ RSpec.describe Kettle::Jem, "structural merge template behavior" do
             root: template
             apply: true
             entries:
-              - .kettle-jem.yml
+              - .structuredmerge/kettle-jem.yml
         YAML
-        "template/.kettle-jem.yml.example" => <<~YAML
+        "template/.structuredmerge/kettle-jem.yml.example" => <<~YAML
           # kettle-jem configuration file
           templates:
             # Template root directory.
@@ -2099,13 +2099,13 @@ RSpec.describe Kettle::Jem, "structural merge template behavior" do
             apply: true
             # Template entries to apply.
             entries:
-              - .kettle-jem.yml
+              - .structuredmerge/kettle-jem.yml
         YAML
       })
 
       apply = described_class.apply_project(root, env: {})
       report = apply.fetch(:recipe_reports).find do |candidate|
-        candidate.fetch(:recipe_name) == "template_source_application_kettle_jem_yml"
+        candidate.fetch(:recipe_name) == "template_source_application_structuredmerge_kettle_jem_yml"
       end
       final_content = report.fetch(:final_content)
 
@@ -2113,7 +2113,7 @@ RSpec.describe Kettle::Jem, "structural merge template behavior" do
       expect(final_content).to include("# Template root directory.")
       expect(final_content).to include("# Apply templates during setup.")
       expect(final_content).to include("# Template entries to apply.")
-      expect(File.read(File.join(root, ".kettle-jem.yml"))).to eq(final_content)
+      expect(File.read(File.join(root, ".structuredmerge", "kettle-jem.yml"))).to eq(final_content)
     end
   end
 

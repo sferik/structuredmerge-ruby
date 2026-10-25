@@ -1560,7 +1560,7 @@ module Kettle
           "[![Donate to my FLOSS efforts at ko-fi.com][🖇kofi-img]][🖇kofi]"
         ],
         labels: ["🖇kofi", "🖇kofi-img"]
-      },
+      }
     }.freeze
     README_INTEGRATIONS = %w[codecov coveralls qlty codeql skywalking-eyes].freeze
     README_STAR_HISTORY_MIN_STARS = 150
@@ -3630,6 +3630,13 @@ module Kettle
       changed_files = changed_files_from_recipe_reports(recipe_reports)
       file_outcomes = template_file_outcomes(recipe_reports)
       diagnostics = recipe_reports.flat_map { |report| report[:diagnostics] }
+      legacy_config_migration = legacy_kettle_config_migration(project_root)
+      if legacy_config_migration
+        diagnostics << {
+          severity: "advisory",
+          message: "kettle:jem legacy config #{LEGACY_KETTLE_CONFIG_PATH} will be moved to #{KETTLE_CONFIG_PATH} on apply"
+        }
+      end
       phase_reports = phase_reports_for(recipe_reports)
       decision_evaluations = recipe_reports.map { |report| report.fetch(:decision_evaluation) }
       prompt_requests = decision_evaluations.filter_map { |decision| decision[:prompt] if decision[:prompt_required] }
@@ -3673,6 +3680,7 @@ module Kettle
         }
       end
       emit_summary_event(events, report)
+      report[:legacy_config_migration] = legacy_config_migration.merge(applied: false) if legacy_config_migration
       report
     end
 
@@ -4303,8 +4311,10 @@ module Kettle
     end
 
     def apply_project(project_root, env: ENV, run_options: {})
+      legacy_config_migration = apply_legacy_kettle_config_migration!(project_root)
       events = event_stream_from_options(run_options)
       report = plan_project(project_root, env: env, run_options: run_options).merge(mode: "apply")
+      report[:legacy_config_migration] = legacy_config_migration if legacy_config_migration
       file_work_workers = with_event_phase(events, "file_work_workers") { file_work_workers_for(env, run_options) }
       file_work_thread_workers = with_event_phase(events, "file_work_thread_workers") { file_work_thread_workers_for(env, run_options) }
       report[:file_work_workers] = file_work_workers
@@ -4336,6 +4346,9 @@ module Kettle
       report[:changed_files] = (report.fetch(:changed_files, []) + report.fetch(:post_apply_steps).flat_map do |step|
         reported_post_apply_changed_files(step)
       end).uniq.sort
+      if legacy_config_migration
+        report[:changed_files] = (report.fetch(:changed_files, []) + [LEGACY_KETTLE_CONFIG_PATH, KETTLE_CONFIG_PATH]).uniq.sort
+      end
       report[:duplicate_drift] = if DecisionPolicy.value_to_boolean((run_options || {})[:defer_drift_check])
         {available: false, skipped: true, reason: "deferred_until_postprocessing"}
       else
@@ -14182,9 +14195,38 @@ module Kettle
 
     def kettle_jem_config_path(project_root)
       canonical = File.join(project_root, KETTLE_CONFIG_PATH)
+      legacy = File.join(project_root, LEGACY_KETTLE_CONFIG_PATH)
+      if File.exist?(canonical) && File.exist?(legacy)
+        raise Error, "Invalid kettle-jem config: both #{KETTLE_CONFIG_PATH} and legacy #{LEGACY_KETTLE_CONFIG_PATH} exist in #{project_root}. " \
+          "The legacy file is silently ignored when both are present, so this combination is not supported. " \
+          "Merge any unique settings from #{LEGACY_KETTLE_CONFIG_PATH} into #{KETTLE_CONFIG_PATH}, then delete #{LEGACY_KETTLE_CONFIG_PATH}."
+      end
       return canonical if File.exist?(canonical)
 
-      File.join(project_root, LEGACY_KETTLE_CONFIG_PATH)
+      legacy
+    end
+
+    # Legacy-only projects are migrated to the canonical config path with MOVE
+    # semantics: the content lands at .structuredmerge/kettle-jem.yml and the
+    # legacy .kettle-jem.yml is removed, so there is never a stale second
+    # config that the loader silently ignores.
+    def legacy_kettle_config_migration(project_root)
+      canonical = File.join(project_root, KETTLE_CONFIG_PATH)
+      legacy = File.join(project_root, LEGACY_KETTLE_CONFIG_PATH)
+      return unless File.exist?(legacy)
+      return if File.exist?(canonical)
+
+      {from: LEGACY_KETTLE_CONFIG_PATH, to: KETTLE_CONFIG_PATH}
+    end
+
+    def apply_legacy_kettle_config_migration!(project_root)
+      migration = legacy_kettle_config_migration(project_root)
+      return unless migration
+
+      canonical = File.join(project_root, KETTLE_CONFIG_PATH)
+      FileUtils.mkdir_p(File.dirname(canonical))
+      FileUtils.mv(File.join(project_root, LEGACY_KETTLE_CONFIG_PATH), canonical)
+      migration.merge(applied: true)
     end
 
     def kettle_jem_config_relative_path(project_root)
@@ -14827,7 +14869,7 @@ module Kettle
     def readme_current_mri_platforms(facts)
       platforms = facts.dig(:ci, :platforms)
       platforms = DEFAULT_PLATFORMS if platforms.nil? || platforms.empty?
-      platform_names = platforms.map { |platform| platform == "macos" ? "macOS" : platform.capitalize }
+      platform_names = platforms.map { |platform| (platform == "macos") ? "macOS" : platform.capitalize }
       return platform_names.first if platform_names.one?
       return platform_names.join(" and ") if platform_names.length == 2
 
@@ -19477,8 +19519,12 @@ module Kettle
     def packaged_x_std_lib_template_inventory(template_root_path)
       root_key = File.expand_path(template_root_path.to_s)
       if root_key == File.expand_path(PACKAGED_TEMPLATE_ROOT)
+        # Process-lifetime memo of an immutable inventory; recomputation is
+        # idempotent, so a racing rebuild is harmless.
+        # rubocop:disable ThreadSafety/ClassInstanceVariable
         @packaged_x_std_lib_template_inventory ||= build_packaged_x_std_lib_template_inventory(root_key)
         return @packaged_x_std_lib_template_inventory
+        # rubocop:enable ThreadSafety/ClassInstanceVariable
       end
 
       build_packaged_x_std_lib_template_inventory(root_key)

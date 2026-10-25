@@ -298,6 +298,80 @@ RSpec.describe Kettle::Jem, "install and local orchestration behavior" do
     end
   end
 
+  it "moves a legacy kettle-jem config to the canonical path on apply" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-legacy-config-migration", tmp_root) do |root|
+      legacy_config = <<~YAML
+        templates:
+          root: packaged
+          apply: true
+          entries:
+            - bin/setup
+        readme:
+          corporate_sponsors:
+            - name: Example Sponsor
+              url: https://example.com
+              img_src: https://example.com/logo.svg
+      YAML
+      write_tree(root, {
+        "example.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example"
+            spec.summary = "Example gem"
+          end
+        RUBY
+        ".kettle-jem.yml" => legacy_config
+      })
+
+      plan = described_class.plan_project(root, env: {})
+      expect(plan.fetch(:legacy_config_migration)).to include(
+        from: ".kettle-jem.yml",
+        to: ".structuredmerge/kettle-jem.yml",
+        applied: false
+      )
+      # plan is side-effect free: nothing moved yet
+      expect(File).to exist(File.join(root, ".kettle-jem.yml"))
+      expect(File).not_to exist(File.join(root, ".structuredmerge", "kettle-jem.yml"))
+
+      apply = described_class.apply_project(root, env: {})
+
+      # MOVE semantics: content lands at the canonical path, legacy path is gone
+      expect(File).not_to exist(File.join(root, ".kettle-jem.yml"))
+      expect(File.read(File.join(root, ".structuredmerge", "kettle-jem.yml"))).to eq(legacy_config)
+      expect(apply.fetch(:legacy_config_migration)).to include(
+        from: ".kettle-jem.yml",
+        to: ".structuredmerge/kettle-jem.yml",
+        applied: true
+      )
+      expect(apply.fetch(:changed_files)).to include(".kettle-jem.yml", ".structuredmerge/kettle-jem.yml")
+
+      # The migrated config is live: sponsor facts load from the canonical path
+      sponsors = described_class.plan_project(root, env: {}).dig(:facts, :readme_sponsors, :entries)
+      expect(sponsors.map { |sponsor| sponsor.fetch(:name) }).to include("Example Sponsor")
+    end
+  end
+
+  it "fails closed when both legacy and canonical kettle-jem configs exist" do
+    tmp_root = File.expand_path("../tmp", __dir__)
+    FileUtils.mkdir_p(tmp_root)
+    Dir.mktmpdir("kettle-jem-dual-config-fail-closed", tmp_root) do |root|
+      write_tree(root, {
+        "example.gemspec" => <<~RUBY,
+          Gem::Specification.new do |spec|
+            spec.name = "example"
+            spec.summary = "Example gem"
+          end
+        RUBY
+        ".kettle-jem.yml" => "templates:\n  root: packaged\n",
+        ".structuredmerge/kettle-jem.yml" => "templates:\n  root: packaged\n"
+      })
+
+      expect { described_class.plan_project(root, env: {}) }.to raise_error(Kettle::Jem::Error, /legacy/i)
+      expect { described_class.apply_project(root, env: {}) }.to raise_error(Kettle::Jem::Error, /legacy/i)
+    end
+  end
+
   it "runs install as active apply plus local post-template checks" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
@@ -2388,7 +2462,7 @@ RSpec.describe Kettle::Jem, "install and local orchestration behavior" do
     )
   end
 
-  it "loads canonical structuredmerge kettle-jem config before legacy root config" do
+  it "fails closed when both canonical and legacy kettle-jem configs exist" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
     Dir.mktmpdir("kettle-jem-config-discovery", tmp_root) do |root|
@@ -2397,7 +2471,9 @@ RSpec.describe Kettle::Jem, "install and local orchestration behavior" do
         ".structuredmerge/kettle-jem.yml" => "templates:\n  root: canonical\n"
       })
 
-      expect(described_class.kettle_jem_config(root).fetch("templates").fetch("root")).to eq("canonical")
+      # The legacy file is silently ignored when both exist, so the
+      # combination is a hard error rather than a precedence rule.
+      expect { described_class.kettle_jem_config(root) }.to raise_error(Kettle::Jem::Error, /legacy/i)
     end
   end
 

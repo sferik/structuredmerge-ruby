@@ -2024,10 +2024,12 @@ RSpec.describe Kettle::Jem, "configuration and metadata templating" do
 
       apply = described_class.apply_project(root, env: {}, run_options: {accept: true, skip_drift_check: true})
       lock = YAML.safe_load_file(File.join(root, Kettle::Jem::KETTLE_LOCK_PATH))
-      config = YAML.safe_load_file(File.join(root, ".kettle-jem.yml"))
+      # The legacy config is moved to the canonical path before any other work.
+      config = YAML.safe_load_file(File.join(root, ".structuredmerge", "kettle-jem.yml"))
 
+      expect(File).not_to exist(File.join(root, ".kettle-jem.yml"))
       expect(apply.fetch(:post_apply_steps).find { |step| step.fetch(:name) == "kettle_jem_state_sync" }).to include(
-        changed_files: include(Kettle::Jem::KETTLE_LOCK_PATH, ".kettle-jem.yml")
+        changed_files: include(Kettle::Jem::KETTLE_LOCK_PATH, ".structuredmerge/kettle-jem.yml")
       )
       expect(config).not_to have_key("kettle-jem")
       expect(lock.fetch("template_state").fetch("checksums")).to include("config.yml.example")

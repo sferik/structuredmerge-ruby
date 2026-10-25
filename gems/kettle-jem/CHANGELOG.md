@@ -57,6 +57,8 @@ Please file a bug if you notice a violation of semantic versioning.
 - Cap the Ruby 2.x StringIO templates at the last compatible release lines, so dependency-floor updates cannot select incompatible releases.
 - Limit automatic template dependency-floor updates to ordinary modular Gemfiles, their `_local` counterparts, and `vHEAD` lanes; Ruby-version compatibility matrix files remain curated.
 
+- Legacy kettle-jem config handling: templating now fails closed with a clear error when both .structuredmerge/kettle-jem.yml and a legacy .kettle-jem.yml exist (the legacy file was previously ignored silently, dropping any settings it alone held, e.g. readme.corporate_sponsors), and a legacy-only .kettle-jem.yml is now moved to the canonical .structuredmerge/kettle-jem.yml path on apply (including prepare flows), with the legacy file removed.
+
 ### Security
 
 ## [7.1.41] - 2026-10-23
