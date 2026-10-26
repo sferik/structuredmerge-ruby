@@ -4,6 +4,17 @@ RSpec.describe Kettle::Jem, "coverage bootstrap template behavior" do
   include_context "with isolated kettle-jem environment"
   include_context "with kettle-jem fixture contracts"
 
+  it "exposes strict coverage as an opt-in in generated project configuration" do
+    template_root = File.expand_path("../../lib/kettle/jem/templates", __dir__)
+    mise_template = File.read(File.join(template_root, "mise.toml.example"))
+    workflow_template = File.read(File.join(template_root, ".github/workflows/coverage.yml.example"))
+    contributing_template = File.read(File.join(template_root, "CONTRIBUTING.md.example"))
+
+    expect(mise_template).to include('K_SOUP_COV_MIN_STRICT = "false"')
+    expect(workflow_template).to include("K_SOUP_COV_MIN_STRICT: false")
+    expect(contributing_template).to include("K_SOUP_COV_MIN_STRICT")
+  end
+
   it "disables hard coverage gates for monorepo subgem mise templates" do
     recipe = {target_path: "mise.toml"}
     template = <<~TOML
