@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+# Duel's configuration: https://github.com/sferik/duel-ruby/blob/main/docs/configuration.md
+#
+# Duel follows conventions, so set only what differs: benchmarks are in
+# duel/**/*_duel.rb, each version's lib/ is first on the load path, a
+# change is compared when it touches lib/ or ext/, and releases are
+# tagged v*.
+#
+# kettle-jem creates this file when it is missing, and leaves it alone
+# after that, so it is this project's to change.
+Duel.configure do |c|
+  # Each version runs on the Ruby that its own version file names, so a
+  # branch that upgrades Ruby is compared on each version's own Ruby.
+  c.ruby = :version_file
+  # Compare a change that touches what's measured or how, not only lib/ and
+  # ext/: the benchmarks and this file, the Ruby that mise.toml names, and
+  # the Perf workflow. (Each version runs the candidate's benchmarks.)
+  c.watch = %w[lib ext duel .duel.rb mise.toml .github/workflows/perf.yml]
+end

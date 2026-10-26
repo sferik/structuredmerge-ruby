@@ -90,6 +90,12 @@ module Kettle
     ].freeze
     OPENCOLLECTIVE_DISABLED_FILES = %w[.opencollective.yml .github/workflows/opencollective.yml].freeze
     OPT_IN_GITHUB_WORKFLOWS = %w[.github/workflows/discord-notifier.yml].freeze
+    # Templates that exist only for projects that set `workflows.duel: true`.
+    # While Duel is off, kettle-jem neither writes nor removes these paths, so a
+    # project's own files at them stay exactly as they are.
+    DUEL_TEMPLATE_PATHS = %w[.duel.rb .github/workflows/perf.yml gemfiles/modular/duel.gemfile].freeze
+    DUEL_MAIN_GEMFILE_EVAL_PATH = "gemfiles/modular/duel.gemfile"
+    DUEL_APPRAISAL_NAME = "perf"
     OBSOLETE_APPRAISAL_SPEC_EXEC_CMDS = [
       "env KETTLE_TEST_RUNNER=rspec kettle-test -I ../spec --options ../.rspec ../spec",
       "KETTLE_TEST_RUNNER=rspec kettle-test -I ../spec --options ../.rspec ../spec",
@@ -230,9 +236,10 @@ module Kettle
       "feature.dedicated_version_gem" => :boolean,
       "workflow.dep_heads" => :boolean,
       "workflow.jruby_94" => :boolean,
+      "workflow.duel" => :boolean,
       "version_gem.mode" => :enum
     }.freeze
-    COPY_ONLY_WHEN_MISSING_TEMPLATE_PATHS = %w[REEK bin/setup].freeze
+    COPY_ONLY_WHEN_MISSING_TEMPLATE_PATHS = %w[REEK bin/setup .duel.rb].freeze
     MONOREPO_ROOT_TEMPLATE_PROFILE = "monorepo-root"
     MONOREPO_SUBGEM_PACKAGE_TEMPLATE_PROFILE = "monorepo-subgem-package"
     MONOREPO_SUBGEM_RELEASE_TEMPLATE_PROFILE = "monorepo-subgem-release"
@@ -576,6 +583,7 @@ module Kettle
       KJ|MIN_RUBY
       KJ|KETTLE_CHANGELOG_GEMFILE_DEPENDENCY
       KJ|OPENCOLLECTIVE_ORG
+      KJ|RAKE:DUEL_TASK
       KJ|RAKE:TOP_LEVEL_DOCS_TASK
       KJ|README:COPYRIGHT_NOTICE
       KJ|README:CORPORATE_SPONSORS
@@ -585,6 +593,8 @@ module Kettle
       KJ|README:LICENSE_COMPAT_BADGE
       KJ|README:LICENSE_EYE_WORKFLOW_BADGE
       KJ|README:DEV_TEST_STACK_TABLE
+      KJ|README:DUEL_BADGE
+      KJ|README:DUEL_REFS
       KJ|README:FOSSA_BADGE
       KJ|README:FOSSA_REFS
       KJ|README:H2_SYNOPSIS_LOGO_ROW
@@ -1496,6 +1506,7 @@ module Kettle
     README_LICENSE_EYE_WORKFLOW_LINK_LABELS = ["🚎15-🪪-wf", "🚎15-🪪-wfi"].freeze
     README_FOSSA_BADGE = "[![FOSSA Status][🧪fossa-img]][🧪fossa]"
     README_FOSSA_LINK_LABELS = ["🧪fossa", "🧪fossa-img"].freeze
+    README_DUEL_BADGE = "[![Duel][⚔️duel-img]][⚔️duel]"
     LICENSE_EYE_COMPATIBILITY_LICENSES = %w[MIT].freeze
     SKYWALKING_EYES_INTEGRATION = "skywalking-eyes"
     README_OPEN_COLLECTIVE_FUNDING_BADGES = "[![OpenCollective Backers][🖇osc-backers-i]][🖇osc-backers] [![OpenCollective Sponsors][🖇osc-sponsors-i]][🖇osc-sponsors]"
@@ -3198,6 +3209,7 @@ module Kettle
         custom_workflows: github_actions_custom_workflows(project_root, template_config, opencollective_disabled: opencollective_disabled)
       }
       standard_appraisal_gemfiles = github_actions_standard_appraisal_gemfiles(kettle_config)
+      facts[:ci][:duel] = true if template_config["resolved_duel"]
       facts[:ci][:standard_appraisal_gemfiles] = standard_appraisal_gemfiles unless standard_appraisal_gemfiles.empty?
       facts[:ci][:opt_in_workflow_cleanups] = opt_in_workflows unless opt_in_workflows.empty?
       facts[:ci][:inactive_packaged_workflow_cleanups] = inactive_workflows unless inactive_workflows.empty?
@@ -6042,6 +6054,7 @@ module Kettle
         "feature.dedicated_version_gem" => version_gem_mode == "dedicated" || File.file?(File.join(project_root, "lib", entrypoint, "version_gem.rb")),
         "workflow.dep_heads" => File.file?(File.join(project_root, ".github", "workflows", "dep-heads.yml")),
         "workflow.jruby_94" => File.file?(File.join(project_root, ".github", "workflows", "jruby-9.4.yml")),
+        "workflow.duel" => duel_configured?(config) && duel_template_profile?(profile),
         "version_gem.mode" => version_gem_mode
       }
     end
@@ -6844,7 +6857,7 @@ module Kettle
 
       content = recipe_template_content(project_root, recipe, template_contents: template_contents)
       return finalize_github_workflow_template(content, facts) if strategy == "raw_copy" && github_workflow_template_recipe?(recipe)
-      return finalize_template_source_content(recipe, content) if strategy == "raw_copy"
+      return finalize_template_source_content(recipe, content, facts: facts) if strategy == "raw_copy"
 
       resolved = recipe.fetch(:resolved_template_content) do
         resolve_template_tokens(
@@ -6899,7 +6912,7 @@ module Kettle
           return preserve_newer_github_workflow_action_pins(merged, original)
         end
 
-        return finalize_template_source_content(recipe, merged)
+        return finalize_template_source_content(recipe, merged, facts: facts)
       end
       if strategy == "accept_template"
         accepted = finalize_accepted_template_source(recipe, resolved, original, facts: facts, project_root: project_root)
@@ -6919,7 +6932,7 @@ module Kettle
           )
         end
 
-        return finalize_template_source_content(recipe, accepted)
+        return finalize_template_source_content(recipe, accepted, facts: facts)
       end
 
       resolved = finalize_github_workflow_template(resolved, facts) if github_workflow_template_recipe?(recipe)
@@ -6933,11 +6946,11 @@ module Kettle
         )
       end
 
-      finalize_template_source_content(recipe, resolved)
+      finalize_template_source_content(recipe, resolved, facts: facts)
     end
 
-    def finalize_template_source_content(recipe, content)
-      return finalize_rubocop_config(content) if recipe.fetch(:target_path).to_s == ".rubocop.yml"
+    def finalize_template_source_content(recipe, content, facts: nil)
+      return finalize_rubocop_config(content, facts) if recipe.fetch(:target_path).to_s == ".rubocop.yml"
       return finalize_kettle_config_template_source(recipe, content) if recipe.fetch(:target_path).to_s == KETTLE_CONFIG_PATH
       return normalize_simplecov_template_source(content) if recipe.fetch(:target_path).to_s == ".simplecov"
       return normalize_spec_helper_simplecov_template_source(content) if recipe.fetch(:target_path).to_s == "spec/spec_helper.rb"
@@ -6951,9 +6964,77 @@ module Kettle
       assert_no_unresolved_template_tokens_in_yaml_values(resolved, KETTLE_CONFIG_PATH)
     end
 
-    def finalize_rubocop_config(content)
+    def finalize_rubocop_config(content, facts = nil)
       finalized = remove_yaml_scalar_path(content, %w[AllCops TargetRubyVersion])
-      ensure_yaml_top_level_sequence_items(finalized, "plugins", ["rubocop-rspec"])
+      finalized = ensure_yaml_top_level_sequence_items(finalized, "plugins", ["rubocop-rspec"])
+      return finalized unless facts.to_h.dig(:ci, :duel)
+
+      ensure_rubocop_duel_config(finalized)
+    end
+
+    # Duel's configuration is a dotfile, which RuboCop skips unless it is
+    # included. Merging Include, as Exclude is, keeps RuboCop's own patterns.
+    def ensure_rubocop_duel_config(content)
+      merged = ensure_yaml_child_sequence_items(
+        content,
+        "inherit_mode",
+        "merge",
+        ["Include"],
+        comment: "# Merge Include too, so .duel.rb (a dotfile) is added to the defaults"
+      )
+      ensure_yaml_child_sequence_items(
+        merged,
+        "AllCops",
+        "Include",
+        [".duel.rb"],
+        comment: "# Duel's configuration is a dotfile, which RuboCop skips unless included"
+      )
+    end
+
+    # Ensures that the block sequence at parent_key.key holds items, adding
+    # the parent mapping or the key when missing. The comment goes above the
+    # added key, or above the added items when the key exists. A flow
+    # sequence or mapping is left alone.
+    def ensure_yaml_child_sequence_items(content, parent_key, key, items, comment:)
+      document = Psych.parse_stream(content.to_s).children.first
+      root = document&.root
+      return content unless root.is_a?(Psych::Nodes::Mapping)
+
+      lines = content.to_s.lines
+      parent_key_node, parent_node = root.children.each_slice(2).find do |candidate_key, _candidate_value|
+        candidate_key.is_a?(Psych::Nodes::Scalar) && candidate_key.value.to_s == parent_key.to_s
+      end
+      unless parent_key_node
+        lines << "\n" unless lines.empty? || lines.last.strip.empty?
+        lines << "#{parent_key}:\n" << "  #{comment}\n" << "  #{key}:\n"
+        items.each { |item| lines << "    - #{item}\n" }
+        return lines.join
+      end
+      return content unless parent_node.is_a?(Psych::Nodes::Mapping) && parent_node.style == Psych::Nodes::Mapping::BLOCK
+      return content if parent_node.children.empty?
+
+      key_node, value_node = parent_node.children.each_slice(2).find do |candidate_key, _candidate_value|
+        candidate_key.is_a?(Psych::Nodes::Scalar) && candidate_key.value.to_s == key.to_s
+      end
+      unless key_node
+        indent = lines.fetch(parent_node.children.first.start_line)[/\A\s*/]
+        added = ["#{indent}#{comment}\n", "#{indent}#{key}:\n", *items.map { |item| "#{indent}  - #{item}\n" }]
+        lines.insert(parent_key_node.start_line + 1, *added)
+        return lines.join
+      end
+      return content unless value_node.is_a?(Psych::Nodes::Sequence) && value_node.style == Psych::Nodes::Sequence::BLOCK
+      return content if value_node.children.empty?
+
+      existing = value_node.children.filter_map { |child| child.value.to_s if child.is_a?(Psych::Nodes::Scalar) }
+      missing = items.map(&:to_s) - existing
+      return content if missing.empty?
+
+      last = value_node.children.last
+      indent = lines.fetch(last.start_line)[/\A\s*/]
+      lines.insert(last.end_line + 1, "#{indent}#{comment}\n", *missing.map { |item| "#{indent}- #{item}\n" })
+      lines.join
+    rescue Psych::Exception
+      content
     end
 
     def finalize_accepted_template_source(recipe, content, destination_content, facts:, project_root: nil)
@@ -6961,7 +7042,7 @@ module Kettle
       when :gemfile
         finalize_gemfile_template_source(recipe, content, destination_content, facts: facts, template_content: content)
       when :appraisals
-        merged = merge_appraisals_template_policy(content, facts: facts)
+        merged = merge_appraisals_template_policy(content, facts: facts, target_path: recipe.fetch(:target_path))
         if recipe.fetch(:target_path).to_s == "Appraisal.root.gemfile"
           normalize_appraisal_root_templating_gate(merged, facts)
         else
@@ -7642,7 +7723,7 @@ module Kettle
         if file_type == :gemfile
           return finalize_gemfile_template_source(recipe, template_content, destination_content, facts: facts, template_content: template_content)
         end
-        return merge_appraisals_template_policy(template_content, facts: facts) if file_type == :appraisals
+        return merge_appraisals_template_policy(template_content, facts: facts, target_path: recipe.fetch(:target_path)) if file_type == :appraisals
         return finalize_github_workflow_template(prune_github_workflow_matrix_by_min_ruby(template_content, facts), facts) if github_workflow_template_recipe?(recipe)
 
         return template_content
@@ -7651,7 +7732,7 @@ module Kettle
         if file_type == :gemfile
           return finalize_gemfile_template_source(recipe, destination_content, destination_content, facts: facts, template_content: template_content)
         end
-        return merge_appraisals_template_policy(destination_content, facts: facts) if file_type == :appraisals
+        return merge_appraisals_template_policy(destination_content, facts: facts, target_path: recipe.fetch(:target_path)) if file_type == :appraisals
 
         return destination_content
       end
@@ -7698,7 +7779,7 @@ module Kettle
           output = merge_gemfile_eval_bucket_entries(template_content, output, destination_content: destination_content)
           return finalize_gemfile_template_source(recipe, output, destination_content, facts: facts, template_content: template_content)
         end
-        return merge_appraisals_template_policy(output, facts: facts) if file_type == :appraisals
+        return merge_appraisals_template_policy(output, facts: facts, target_path: recipe.fetch(:target_path)) if file_type == :appraisals
 
         output = finalize_github_workflow_template(prune_github_workflow_matrix_by_min_ruby(output, facts), facts) if github_workflow_template_recipe?(recipe)
         output = normalize_simplecov_template_source(output) if recipe.fetch(:target_path).to_s == ".simplecov"
@@ -7759,6 +7840,7 @@ module Kettle
           output = preserve_destination_gemfile_source(output, destination_content)
         end
         output = inject_main_gemfile_recording_eval(output, facts)
+        output = inject_main_gemfile_duel_eval(output, facts)
         output = inject_main_gemfile_default_test_bundle(output, facts)
         output = remove_stale_main_gemfile_tree_sitter_language_pack(output, template_content)
         output = remove_stale_main_gemfile_direct_sibling_block(output, template_content)
@@ -9412,6 +9494,34 @@ module Kettle
       ensure_trailing_newline(lines.join.gsub(/\n{3,}/, "\n\n"))
     end
 
+    # Duel for local development (`rake duel`), from its modular Gemfile, which
+    # installs nothing below Ruby 3.4. CI loads it from the perf appraisal.
+    def inject_main_gemfile_duel_eval(content, facts)
+      return content unless facts.to_h.dig(:ci, :duel)
+      return content if gemfile_eval_paths(content).include?(DUEL_MAIN_GEMFILE_EVAL_PATH)
+
+      lines = content.to_s.lines
+      insert_at = main_gemfile_duel_insertion_index(content)
+      unless insert_at
+        lines << "\n" unless lines.empty? || lines.last.strip.empty?
+        insert_at = lines.length
+      end
+      lines.insert(insert_at, "# Performance regression guards (Duel requires Ruby 3.4 or later)\n", %(eval_gemfile "#{DUEL_MAIN_GEMFILE_EVAL_PATH}"\n), "\n")
+      ensure_trailing_newline(lines.join.gsub(/\n{3,}/, "\n\n"))
+    end
+
+    # After the optional dependencies, before the extracted standard library
+    # gems.
+    def main_gemfile_duel_insertion_index(content)
+      lines = content.to_s.lines
+      call = ruby_call_records(content, :eval_gemfile).find do |candidate|
+        ruby_string_argument(candidate).to_s == "gemfiles/modular/x_std_libs.gemfile"
+      end
+      return unless call
+
+      gemfile_eval_comment_start_line(lines, call.location.start_line) - 1
+    end
+
     # The root Gemfile is the local-development bundle. Appraisals and CI use
     # their own Gemfiles, so a project that needs a framework or application
     # harness locally must declare that dependency separately in test_bundle.
@@ -10507,11 +10617,12 @@ module Kettle
       version.split(".", -1).all? { |part| !part.empty? && part.each_char.all? { |char| char.between?("0", "9") } }
     end
 
-    def merge_appraisals_template_policy(content, facts:)
+    def merge_appraisals_template_policy(content, facts:, target_path: nil)
       package_name = facts.dig(:package, :name).to_s if facts
       min_ruby = minimum_ruby_token(facts.dig(:ci, :test_min_ruby) || facts.dig(:rubygems, :min_ruby)) if facts
       with_framework_appraisals = merge_framework_matrix_appraisals(content, facts)
       with_standard_appraisal_gemfiles = inject_standard_appraisal_gemfiles(with_framework_appraisals, facts)
+      with_standard_appraisal_gemfiles = inject_duel_appraisal(with_standard_appraisal_gemfiles, facts) if target_path.to_s == "Appraisals"
       pruned = prune_appraisals_recording_entries(with_standard_appraisal_gemfiles, facts)
       pruned = prune_appraisals_below_min_ruby(pruned, min_ruby)
       pruned = remove_managed_stdlib_appraisal_gems(pruned)
@@ -10664,6 +10775,26 @@ module Kettle
       ruby_call_records(block, :eval_gemfile).find do |call|
         ruby_string_argument(call).to_s.end_with?("modular/runtime_heads.gemfile")
       end
+    end
+
+    # The perf appraisal, whose generated gemfiles/perf.gemfile the Perf
+    # workflow bundles: the gemspec's dependencies and Duel. An existing perf
+    # appraisal is the project's, and is kept as it is.
+    def inject_duel_appraisal(content, facts)
+      return content unless facts.to_h.dig(:ci, :duel)
+      return content if appraisal_call_records(content).any? { |record| record.fetch(:name) == DUEL_APPRAISAL_NAME }
+
+      # (The comments are inside the block: Appraisals keeps no comment
+      # between blocks.)
+      block = <<~RUBY
+        appraise "#{DUEL_APPRAISAL_NAME}" do
+          # Performance regression guards, for .github/workflows/perf.yml
+          # (Duel requires Ruby 3.4 or later)
+          eval_gemfile "modular/duel.gemfile"
+          eval_gemfile "modular/x_std_libs.gemfile"
+        end
+      RUBY
+      ensure_trailing_newline([content.to_s.rstrip, block].reject(&:empty?).join("\n\n"))
     end
 
     def prune_appraisals_recording_entries(content, facts)
@@ -14047,7 +14178,8 @@ module Kettle
         next if opencollective_disabled && opencollective_disabled_file?(relative_path)
         next if inactive_packaged_workflow?(relative_path, config)
         next if generated_or_obsolete_github_workflow?(relative_path) &&
-          !skip_packaged_workflow_template?(relative_path, config)
+          !skip_packaged_workflow_template?(relative_path, config) &&
+          !skip_duel_template?(relative_path, config)
 
         relative_path
       end.sort
@@ -14851,6 +14983,7 @@ module Kettle
         readme_family_intro_and_backend_matrix(facts.fetch(:readme_style, {}))
       tokens["KJ|README:DEV_TEST_STACK_TABLE"] = readme_dev_test_stack_table(package.fetch(:name).to_s)
       tokens.merge!(readme_fossa_template_tokens(facts.fetch(:readme_style, {})))
+      tokens.merge!(duel_template_tokens(facts))
       tokens.merge!(rubyforum_template_tokens(facts.fetch(:rubyforum, {})))
       tokens.merge!(version_gem_template_tokens(facts))
       tokens.merge!(shim_template_tokens(facts.fetch(:shim, {})))
@@ -14940,6 +15073,41 @@ module Kettle
         "KJ|SHIMMED_REQUIRE" => shim[:replacement_require].to_s,
         "KJ|SHIM_COMPAT_REQUIRES" => Array(shim[:legacy_requires]).join(", ")
       }
+    end
+
+    # The README badge and the Rake task, for a project with Duel on. They are
+    # empty otherwise, which leaves its README and Rakefile as they were.
+    def duel_template_tokens(facts)
+      unless facts.dig(:ci, :duel)
+        return {"KJ|RAKE:DUEL_TASK" => "", "KJ|README:DUEL_BADGE" => "", "KJ|README:DUEL_REFS" => ""}
+      end
+
+      {
+        "KJ|RAKE:DUEL_TASK" => rake_duel_task_token,
+        "KJ|README:DUEL_BADGE" => README_DUEL_BADGE,
+        "KJ|README:DUEL_REFS" => [
+          "[⚔️duel]: https://github.com/sferik/duel-ruby",
+          "[⚔️duel-img]: https://raw.githubusercontent.com/sferik/duel-ruby/main/assets/badge.svg"
+        ].join("\n")
+      }
+    end
+
+    def rake_duel_task_token
+      <<~RAKE
+        ### PERFORMANCE TASKS
+        # Duel's performance regression guards: rake duel compares this tree with
+        # the main branch (see .duel.rb and duel/). Duel requires Ruby 3.4 or
+        # later, so older Rubies get a stub task.
+        begin
+          require "duel/rake_task"
+          Duel::RakeTask.new
+        rescue LoadError
+          desc("(stub) duel is unavailable")
+          task("duel") do
+            warn("NOTE: duel isn't installed, or is disabled for \#{RUBY_VERSION} in the current environment")
+          end
+        end
+      RAKE
     end
 
     def readme_fossa_template_tokens(readme_style)
@@ -19067,6 +19235,7 @@ module Kettle
       result["ruby"] = {} unless result["ruby"].is_a?(Hash)
       result["ruby"]["test_minimum"] = config_test_min_ruby(result, facts.dig(:rubygems, :min_ruby)).to_s
       result["resolved_licenses"] = license[:spdx]
+      result["resolved_duel"] = true if duel_configured?(config) && duel_template_profile?(facts[:template_profile])
       if facts[:template_profile].to_s == SHIM_TEMPLATE_PROFILE
         result["templates"] = default_template_config.merge(result["templates"].is_a?(Hash) ? result["templates"] : {})
         result["templates"]["profile"] = SHIM_TEMPLATE_PROFILE
@@ -19288,6 +19457,7 @@ module Kettle
       end
       return if source_path.to_s.empty? || target_path.to_s.empty?
       return if skip_packaged_workflow_template?(target_path, config, include_patterns: include_patterns)
+      return if skip_duel_template?(target_path, config)
       return if skip_disabled_integration_template?(target_path, config)
       return if skip_packaged_gemfile_template?(target_path, config, template_root_path: template_root.fetch(:path))
       return if skip_packaged_license_template?(target_path, config)
@@ -20027,6 +20197,27 @@ module Kettle
       workflows = {} unless workflows.is_a?(Hash)
 
       DecisionPolicy.value_to_boolean(workflows["recording"]) == true
+    end
+
+    # Whether the project opts in to Duel's performance regression guards
+    # with `workflows.duel: true`. Duel is off by default.
+    def duel_configured?(config)
+      workflows = config["workflows"]
+      workflows = {} unless workflows.is_a?(Hash)
+
+      DecisionPolicy.value_to_boolean(workflows["duel"]) == true
+    end
+
+    # Duel's templates belong to a gem's full template: the monorepo and shim
+    # profiles have no Perf workflow to compare it in.
+    def duel_template_profile?(template_profile)
+      ["", FULL_TEMPLATE_PROFILE].include?(normalize_template_profile(template_profile))
+    end
+
+    # While Duel is off, its templates are neither written nor cleaned up, so
+    # a project's own .duel.rb, perf.yml, or duel.gemfile is left as it is.
+    def skip_duel_template?(target_path, config)
+      DUEL_TEMPLATE_PATHS.include?(target_path.to_s) && config["resolved_duel"] != true
     end
 
     def project_recording_enabled?(project_root, config)
@@ -21088,6 +21279,7 @@ module Kettle
         "irongut/CodeCoverageSummary" => "irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0",
         "marocchino/sticky-pull-request-comment" => "marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5",
         "actions/upload-artifact" => "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2",
+        "actions/download-artifact" => "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2",
         "amancevice/setup-code-climate" => "amancevice/setup-code-climate@0daf2985a225e8ac15975b4d233010e94d65b76a # v2",
         "actions/dependency-review-action" => "actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0",
         "github/codeql-action/init" => "github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1",

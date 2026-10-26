@@ -22,7 +22,8 @@ Available fields are `profile`, `topology`, `ruby.min`, `engine.jruby`,
 `feature.rubyforum`, `feature.rubyforum_project_tag`,
 `feature.corporate_sponsors`, `feature.organization_logo`,
 `feature.structuredmerge_driver`, `feature.dedicated_version_gem`,
-`workflow.dep_heads`, `workflow.jruby_94`, and `version_gem.mode`. Boolean
+`workflow.dep_heads`, `workflow.jruby_94`, `workflow.duel`, and
+`version_gem.mode`. Boolean
 fields accept `true` or `false`; `ruby.min` accepts normal version comparisons;
 the other fields accept `=` or `!=`.
 
@@ -46,6 +47,10 @@ the other fields accept `=` or `!=`.
   `engines:` and has no template-managed modular home (e.g. `sqlite3` on
   `jruby`). Review each entry and pick a resolution per the project's own
   engine support needs.
+- kettle-jem-template-20261025-001 [if workflow.duel=true] - Duel performance regression guards: the
+  Perf workflow compares each pull request, each push to main, and, on a
+  schedule, the last release, and `rake duel` compares local changes, with
+  the benchmarks in `duel/`.
 
 ## Changed
 
