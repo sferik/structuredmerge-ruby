@@ -55,6 +55,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Skip the generated coverage comment step for fork-originated pull requests, where GitHub's read-only token cannot create comments.
+
 - Remove a stale `runtime_heads.gemfile` evaluation from existing `head` appraisals when the separate `dep-heads` appraisal already tests runtime dependency HEADs, avoiding conflicting duplicate requirements for extracted standard libraries.
 
 - Curated x_std_lib modular Gemfiles by the shared Ruby-series bucket ranges; obsolete matrix files are removed when the destination raises its minimum Ruby.
