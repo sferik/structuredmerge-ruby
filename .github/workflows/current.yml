@@ -147,6 +147,7 @@ jobs:
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
+          bundler: latest
           bundler-cache: false
           working-directory: ${{ matrix.gem }}
           pre-bundle-gems: |
@@ -354,6 +355,7 @@ jobs:
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
+          bundler: latest
           bundler-cache: false
           working-directory: ${{ matrix.gem }}
           pre-bundle-gems: |
@@ -423,6 +425,7 @@ jobs:
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: "4.0"
+          bundler: latest
           bundler-cache: false
           working-directory: ${{ matrix.gem }}
           pre-bundle-gems: |
@@ -566,6 +569,7 @@ jobs:
           STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
         with:
           ruby-version: ruby
+          bundler: latest
           bundler-cache: false
           main-bundle-install: false
           working-directory: gems/ast-merge-git
@@ -702,6 +706,7 @@ jobs:
           STRUCTUREDMERGE_DEV: ${{ github.workspace }}/gems
         with:
           ruby-version: ruby
+          bundler: latest
           bundler-cache: false
           main-bundle-install: false
           working-directory: gems/tree_haver
