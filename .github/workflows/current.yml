@@ -503,7 +503,7 @@ jobs:
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: ruby
-          bundler: "4.0.23"
+          bundler: latest
           bundler-cache: false
           pre-bundle-gems: |
             nomono --source https://gem.coop --source https://rubygems.org
