@@ -1535,7 +1535,7 @@ module Kettle
       thanks_dev
     ].freeze
     # Tidelift remains supported for legacy funding configuration and cleanup.
-    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + %w[paypal]).freeze
+    FUNDING_README_PLATFORMS = (FUNDING_YML_PLATFORMS + %w[paypal tidelift]).freeze
     FUNDING_DEFAULT_DISABLED_PLATFORMS = %w[issuehunt patreon polar].freeze
     README_FUNDING_BADGE_POLICIES = {
       "github" => {
@@ -1571,6 +1571,10 @@ module Kettle
           "[![Donate to my FLOSS efforts at ko-fi.com][🖇kofi-img]][🖇kofi]"
         ],
         labels: ["🖇kofi", "🖇kofi-img"]
+      },
+      "tidelift" => {
+        badges: ["[![Get help from me on Tidelift][🏙️entsup-tidelift-img]][🏙️entsup-tidelift]"],
+        labels: ["🏙️entsup-tidelift", "🏙️entsup-tidelift-img"]
       }
     }.freeze
     README_INTEGRATIONS = %w[codecov coveralls qlty codeql skywalking-eyes].freeze
@@ -7351,6 +7355,12 @@ module Kettle
       open_collective_enabled = !facts.dig(:funding, :open_collective_disabled)
       processed = apply_markdown_conditional_block(content, "OPEN_COLLECTIVE", keep: open_collective_enabled)
       processed = apply_markdown_conditional_block(processed, "NO_OPEN_COLLECTIVE", keep: !open_collective_enabled)
+      processed = apply_markdown_conditional_block(
+        processed,
+        "FUNDING_TIDELIFT",
+        keep: funding_platform_enabled?(facts.dig(:funding, :platforms), "tidelift")
+      )
+      processed = processed.gsub(/<!-- KJ:FUNDING_TIDELIFT:(?:START|END) -->\n?/, "")
       funding_platforms = facts.dig(:funding, :platforms)
       if facts.dig(:funding, :open_collective_disabled)
         processed = remove_readme_badge_and_refs(
@@ -16177,7 +16187,7 @@ module Kettle
         # Bootstrapping nomono here cannot rely on a plain `gem "nomono", ...` line.
         # Bundler records that dependency during Gemfile evaluation, but it does not
         # activate that exact version before the immediate `require "nomono/bundler"`.
-        nomono_activation_requirements = ["~> 1.1", ">= 1.1.15"]
+        nomono_activation_requirements = ["~> 1.1", ">= 1.1.16"]
         nomono_requirement = Gem::Requirement.new(nomono_activation_requirements)
         nomono_already_activated = Gem.loaded_specs["nomono"]
         nomono_lockfile = File.expand_path(#{lockfile_path.inspect}, __dir__)

@@ -503,6 +503,7 @@ jobs:
         uses: appraisal-rb/setup-ruby-flash@6f8ad36ba7488db591541483afb5464d01e8861b # v2.14
         with:
           ruby-version: ruby
+          bundler: "4.0.23"
           bundler-cache: false
           pre-bundle-gems: |
             nomono --source https://gem.coop --source https://rubygems.org
@@ -594,6 +595,7 @@ jobs:
           corpus_relative="$(ruby -ryaml -e 'puts YAML.safe_load_file(ARGV.fetch(0)).fetch("corpus")' "${lock}")"
           corpus="${GITHUB_WORKSPACE}/../benchmark-fixtures/${corpus_relative}"
           report="${PWD}/tmp/ci-benchmark/report.json"
+          raw_report="${report}.raw"
           mkdir -p "$(dirname "${report}")"
 
           set +e
@@ -601,14 +603,20 @@ jobs:
             --corpus "${corpus}" \
             --profile dev \
             --tmp-root "${PWD}/tmp/ci-benchmark/run" \
-            "${changed_path_args[@]}" > "${report}"
+            "${changed_path_args[@]}" > "${raw_report}"
           benchmark_status=$?
           set -e
 
-          test -s "${report}"
+          test -s "${raw_report}"
+          # Appraisal prints its Bundler version and command before the child's
+          # stdout. Keep the artifact as the benchmark's JSON report.
           # shellcheck disable=SC2016
           ruby -rjson -e '
-            report = JSON.parse(File.read(ARGV.fetch(0)))
+            raw = File.read(ARGV.fetch(0))
+            report_start = raw.index(%({"schema_version":"structuredmerge.benchmark.report/v1"}))
+            abort "Benchmark report JSON was not found in Appraisal output" unless report_start
+            report = JSON.parse(raw[report_start..])
+            File.write(ARGV.fetch(1), JSON.pretty_generate(report))
             selected = report.dig("selection", "selected_case_ids")
             effectiveness = report.dig("dimensions", "effectiveness")
             coverage = report.dig("dimensions", "coverage")
@@ -625,7 +633,7 @@ jobs:
               summary.puts "| --- | ---: |"
               effectiveness.each { |outcome, count| summary.puts "| `#{outcome}` | #{count} |" }
             end
-          ' "${report}"
+          ' "${raw_report}" "${report}"
 
           exit "${benchmark_status}"
       - name: Upload benchmark report

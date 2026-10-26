@@ -525,7 +525,7 @@ CHECKSUMS
   bash-merge (7.1.2)
   benchmark (0.5.0)
   binary-merge (7.1.2)
-  bundler (4.0.18) sha256=02d9a17429de1847b4e0c9f27a9ee4b20c0a74c0a641b4e77195d6019e3618ac
+  bundler (4.0.23) sha256=407ba8a1d928f412847f819aa5f8b6aef7c59fb51feb517112af8a165487287b
   citrus (3.0.2)
   citrus-toml-merge (7.1.2)
   colsole (1.0.1)
@@ -621,4 +621,4 @@ CHECKSUMS
   zip-merge (7.1.2)
 
 BUNDLED WITH
-  4.0.18
+  4.0.23
