@@ -46,7 +46,7 @@ module Kettle
     PACKAGE_NAME = "kettle-jem"
     CONTENT_RECIPE_TRANSPORT_VERSION = Ast::Merge::STRUCTURED_EDIT_TRANSPORT_VERSION
     TEMPLATE_SOURCE_APPLICATION_FINGERPRINT_VERSION = 1
-    APPRAISALS_TEMPLATE_POLICY_FINGERPRINT_VERSION = 2
+    APPRAISALS_TEMPLATE_POLICY_FINGERPRINT_VERSION = 3
     GEMSPEC_TEMPLATE_POLICY_FINGERPRINT_VERSION = 2
     SPEC_HELPER_TEMPLATE_POLICY_FINGERPRINT_VERSION = 1
     VERSION_NAMESPACE_TEMPLATE_POLICY_FINGERPRINT_VERSION = 2
@@ -10515,6 +10515,7 @@ module Kettle
       pruned = prune_appraisals_recording_entries(with_standard_appraisal_gemfiles, facts)
       pruned = prune_appraisals_below_min_ruby(pruned, min_ruby)
       pruned = remove_managed_stdlib_appraisal_gems(pruned)
+      pruned = remove_duplicate_runtime_heads_from_head_appraisal(pruned)
       pruned = migrate_legacy_byebug_appraisal_dependencies(pruned)
       pruned = remove_gemfile_dependency_lines(pruned, [package_name])
       remove_gemfile_percent_w_entries(pruned, [package_name])
@@ -10632,6 +10633,36 @@ module Kettle
     def appraisal_x_stdlib_eval_gemfile_call(block)
       ruby_call_records(block, :eval_gemfile).find do |call|
         ruby_string_argument(call).to_s.start_with?("modular/x_std_libs")
+      end
+    end
+
+    # Older generated Appraisals put runtime dependency HEADs in the `head`
+    # appraisal alongside Ruby-version-compatible extracted stdlib versions.
+    # The template tests those separately: `head` uses compatible versions,
+    # while `dep-heads` tests runtime dependency HEADs. Remove the stale eval
+    # only when the separate dependency-head appraisal is present.
+    def remove_duplicate_runtime_heads_from_head_appraisal(content)
+      parsed = appraisal_blocks(content)
+      blocks = parsed.fetch(:blocks)
+      head = blocks["head"]
+      return content unless head && appraisal_x_stdlib_eval_gemfile_call(head)
+      return content unless blocks["dep-heads"] && runtime_heads_eval_gemfile_call(blocks["dep-heads"])
+
+      call = runtime_heads_eval_gemfile_call(head)
+      return content unless call
+
+      lines = head.lines
+      first = call.location.start_line - 1
+      last = ruby_node_source_end_line(call) - 1
+      first -= 1 while first.positive? && gemfile_comment_line?(lines[first - 1])
+      head = ensure_trailing_newline(lines.each_with_index.reject { |_line, index| (first..last).cover?(index) }.map(&:first).join.gsub(/\n{3,}/, "\n\n"))
+      blocks["head"] = head
+      ensure_trailing_newline(([parsed.fetch(:prelude).to_s.rstrip] + parsed.fetch(:order).map { |name| blocks.fetch(name).rstrip }).reject(&:empty?).join("\n\n"))
+    end
+
+    def runtime_heads_eval_gemfile_call(block)
+      ruby_call_records(block, :eval_gemfile).find do |call|
+        ruby_string_argument(call).to_s.end_with?("modular/runtime_heads.gemfile")
       end
     end
 

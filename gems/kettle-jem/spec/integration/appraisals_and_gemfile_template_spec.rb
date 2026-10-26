@@ -19,6 +19,31 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
     expect(ruby_25_template).to include('gem "stringio", ">= 3.0", "< 3.0.7"')
   end
 
+  it "removes duplicate runtime HEADs from head when dep-heads tests them separately" do
+    content = <<~RUBY
+      # frozen_string_literal: true
+
+      appraise "head" do
+        eval_gemfile "modular/x_std_libs/r3/libs.gemfile"
+        # Runtime dependency HEADs
+        eval_gemfile "gemfiles/modular/runtime_heads.gemfile"
+      end
+
+      appraise "dep-heads" do
+        eval_gemfile "gemfiles/modular/runtime_heads.gemfile"
+      end
+    RUBY
+
+    result = described_class.send(:remove_duplicate_runtime_heads_from_head_appraisal, content)
+    blocks = described_class.send(:appraisal_blocks, result).fetch(:blocks)
+    head = blocks.fetch("head")
+    dep_heads = blocks.fetch("dep-heads")
+
+    expect(head).to include("modular/x_std_libs/r3/libs.gemfile")
+    expect(head).not_to include("modular/runtime_heads.gemfile", "Runtime dependency HEADs")
+    expect(dep_heads).to include("modular/runtime_heads.gemfile")
+  end
+
   it "applies Appraisals template policy with self-dependency and minimum Ruby pruning" do
     tmp_root = File.expand_path("../tmp", __dir__)
     FileUtils.mkdir_p(tmp_root)
@@ -100,7 +125,7 @@ RSpec.describe Kettle::Jem, "Appraisals and Gemfile templating" do
       expect(appraisals_content).to include("support-gem")
       expect(appraisals_content).not_to match(/^\s+example$/)
       expect(appraisals_content).to include('appraise "style"')
-      expect(fingerprint_payload).to include(appraisals_template_policy_fingerprint_version: 2)
+      expect(fingerprint_payload).to include(appraisals_template_policy_fingerprint_version: 3)
       expect(appraisals_report.dig(:report_envelope, :report, :step_reports, 0, :metadata, :ruby_template_policy)).to include(
         file_type: "appraisals",
         operations: include(

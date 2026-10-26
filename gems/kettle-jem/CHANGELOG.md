@@ -55,6 +55,8 @@ Please file a bug if you notice a violation of semantic versioning.
 
 ### Fixed
 
+- Remove a stale `runtime_heads.gemfile` evaluation from existing `head` appraisals when the separate `dep-heads` appraisal already tests runtime dependency HEADs, avoiding conflicting duplicate requirements for extracted standard libraries.
+
 - Curated x_std_lib modular Gemfiles by the shared Ruby-series bucket ranges; obsolete matrix files are removed when the destination raises its minimum Ruby.
 
 - Cap the Ruby 2.x StringIO templates at the last compatible release lines, so dependency-floor updates cannot select incompatible releases.
