@@ -617,8 +617,13 @@ jobs:
           # shellcheck disable=SC2016
           ruby -rjson -e '
             raw = File.read(ARGV.fetch(0))
-            report_start = raw.index(%({"schema_version":"structuredmerge.benchmark.report/v1"}))
-            abort "Benchmark report JSON was not found in Appraisal output" unless report_start
+            schema_marker = /"schema_version"\s*:\s*"structuredmerge\.benchmark\.report\/v1"/
+            marker_match = schema_marker.match(raw)
+            unless marker_match
+              warn "Benchmark stdout tail:\n#{raw.lines.last(30).join}"
+              abort "Benchmark report JSON was not found in Appraisal output"
+            end
+            report_start = raw.rindex("{", marker_match.begin(0))
             report = JSON.parse(raw[report_start..])
             File.write(ARGV.fetch(1), JSON.pretty_generate(report))
             selected = report.dig("selection", "selected_case_ids")
