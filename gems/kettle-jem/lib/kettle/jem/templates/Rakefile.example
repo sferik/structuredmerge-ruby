@@ -153,6 +153,7 @@ if kettle_jem_selftest_unavailable_note
   end
 end
 
+{KJ|RAKE:DUEL_TASK}
 ### RELEASE TASKS
 # Setup stone_checksums
 begin
